@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/7e282d14cd.js" crossorigin="anonymous"></script>
+    <link href='https://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet'>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link rel="stylesheet" href="tailwind.css">
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <title id="site-title">Monkey Teacher's Worksheet Generators</title>
+</head>
+<header>
+    <nav class="fixed top-0 z-10 w-full h-16 bg-gray-200 dark:bg-gray-800">
+        <div class="flex-row items-center justify-start hidden h-full pl-5 space-x-4 sm:flex">
+            <a class="px-3 py-2 text-sm font-medium text-center rounded-md hover:bg-cyan-500 dark:hover:bg-cyan-900" name="nav-item" href="#nav-top" id="nav-item-introduction"><i class="fa-regular fa-id-card"></i> Introduction</a>
+            <a class="px-3 py-2 text-sm font-medium text-center rounded-md hover:bg-cyan-500 dark:hover:bg-cyan-900" name="nav-item" href="#nav-word-search" id="nav-item-word-search"><i class="fa-solid fa-w"></i> Word Search</a>
+            <a class="px-3 py-2 text-sm font-medium text-center rounded-md hover:bg-cyan-500 dark:hover:bg-cyan-900" name="nav-item" href="#nav-crossword-puzzle" id="nav-item-crossword-puzzle"><i class="fa-regular fa-square"></i> Crossword Puzzle</a>
+            <a class="px-3 py-2 text-sm font-medium text-center rounded-md hover:bg-cyan-500 dark:hover:bg-cyan-900" name="nav-item" href="#nav-bit-maze" id="nav-item-bit-maze"><i class="fa-solid fa-robot"></i> Bit Maze</a>
+        </div>
+        <div class="flex flex-row items-center justify-start h-full pl-5 space-x-4 sm:hidden">
+            <a class="px-3 py-2 text-sm font-medium text-center rounded-md" name="nav-item" href="#nav-top" id="nav-item-introduction"><i class="fa-regular fa-id-card"></i></a>
+            <a class="px-3 py-2 text-sm font-medium text-center rounded-md" name="nav-item" href="#nav-word-search" id="nav-item-word-search"><i class="fa-regular fa-id-card"></i></a>
+            <a class="px-3 py-2 text-sm font-medium text-center rounded-md" name="nav-item" href="#nav-crossword-puzzle" id="nav-item-crossword-puzzle"><i class="fa-solid fa-diagram-project"></i></a>
+            <a class="px-3 py-2 text-sm font-medium text-center rounded-md" name="nav-item" href="#nav-bit-maze" id="nav-item-bit-maze"><i class="fa-solid fa-brain"></i></a>
+        </div>
+    </nav>
+</header>
+<body>
+    <div class="flex flex-col items-center justify-center gap-5 m-5 mt-24">
+        <div class="flex flex-col items-center justify-center gap-3 mb-10">
+            <div class="w-full text-6xl text-center scroll-m-24" id="nav-top">Monkey Teacher's Worksheet Generators</div>
+            <div class="max-w-3xl py-4 text-base text-center">Ah, dearest visitor! Thank you ever so much for gracing this humble digital domain with your esteemed presence. Crafting this website has been nothing short of a use of my time. Every pixel you see has been painstakingly curated (by an icon library and a UI framework); every line of code is the result of a virtual symphony orchestrated for your viewing pleasure. If you've enjoyed your time here and are in a generous mood, why not consider making a donation? It would motivate me to keep weaving this tapestry of ones and zeros.</div>
+            <div class="flex flex-row items-center justify-center gap-4">
+                <button type="button" class="text-gray-900 bg-[#47c4ff] hover:bg-gray-100 font-bold focus:ring-4 focus:outline-none focus:ring-gray-100 rounded-xl lg:text-xl px-2 lg:px-6 py-1 lg:py-4 text-center inline-flex items-center dark:focus:ring-gray-600 dark:text-white dark:hover:bg-gray-700 mr-2 mb-2 text-sm">
+                    <i class="mr-2 fa-solid fa-mug-hot"></i>
+                    Support me on KoFi
+                </button>
+                <button type="button" class="text-gray-900 bg-[#f76859] hover:bg-gray-100 font-bold focus:ring-4 focus:outline-none focus:ring-gray-100 rounded-xl lg:text-xl px-2 lg:px-6 py-1 lg:py-4 text-center inline-flex items-center dark:focus:ring-gray-600 dark:text-white dark:hover:bg-gray-700 mr-2 mb-2 text-sm">
+                    <i class="mr-2 fa-brands fa-patreon"></i>
+                    Become a Patreon
+                </button>
+            </div>
+        </div>
+        <span class="mobile-content">
+            <div class="hidden p-4 text-xl text-center bg-red-500 sm:block md:block lg:hidden xl:hidden 2xl:hidden rounded-xl dark:bg-red-600">My deepest apologies, but I must regretfully inform you that my capabilities do not extend to the accommodation of mobile devices at this time. <br><br> If you are using a table, please switch to the landscape orientation. <br><br> I extend my sincerest apology for causing you immeasurable disappointment and ruining your day.</div>
+        </span>
+        <div class="pt-8 pb-10 text-4xl scroll-m-24" id="nav-word-search">Word Search</div>
+        <div class="hidden w-full grid-cols-7 gap-8 lg:grid">
+            <section class="col-span-3 bg-gray-200 dark:bg-gray-900 rounded-3xl">
+                <div class="max-w-3xl px-4 py-4 mx-auto lg:py-4">
+                    <form action="#">
+                        <div class="grid grid-cols-2 gap-4 min-[1860px]:grid-cols-4">
+                            <div class="col-span-2">
+                                <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
+                                <input type="text" name="title" id="title" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Type word search title" required="">
+                            </div>
+                            <div class="col-span-1">
+                                <label for="item-weight" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Page Size</label>
+                                <div class="inline-flex rounded-md shadow-sm" role="group">
+                                    <label for="letter" id="label-letter" class="">
+                                        <input type="radio" name="page-size" class="hidden peer" id="letter" value="letter" checked/>
+                                        <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border border-gray-200 rounded-l-lg peer-checked:bg-blue-600 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
+                                            US Letter
+                                        </div>
+                                    </label>
+                                    <label for="a4" id="label-a4" class="">
+                                        <input type="radio" name="page-size" class="hidden peer" id="a4" value="a4"/>
+                                        <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border border-gray-200 peer-checked:bg-blue-600 rounded-r-md hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
+                                            A4
+                                        </div>
+                                    </label>
+                                </div>
+                            </div> 
+                            <div class="col-span-1">
+                                <label for="item-weight" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Answer Key</label>
+                                <label class="relative inline-flex items-center mb-4 cursor-pointer">
+                                    <input id="key" type="checkbox" value="" class="sr-only peer" checked>
+                                    <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                                    <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">Print Answer Key</span>
+                                </label>
+                            </div> 
+                            <div class="col-span-1">
+                                <label for="height" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Rows</label>
+                                <input type="number" name="height" id="height" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" min="5" max="25" value="10" required="">
+                            </div>
+                            <div class="col-span-1">
+                                <label for="width" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Columns</label>
+                                <input type="number" name="width" id="width" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" min="5" max="25" value="10" required="">
+                            </div>
+                            <div class="col-span-1">
+                                <label for="width" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Sections <i id="sections-help" class="fa-regular fa-circle-question"></i></label>
+                                <input type="number" name="width" id="sections" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" min="2" step="2" value="2">
+                            </div>
+                            <div class="col-span-1">
+                                <label for="item-weight" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Reveal Section <i id="reveal-sections-help" class="fa-regular fa-circle-question"></i></label>
+                                <label class="relative inline-flex items-center mb-4 cursor-pointer">
+                                    <input id="reveal-section" type="checkbox" value="" class="sr-only peer">
+                                    <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                                    <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">Reveal Section</span>
+                                </label>
+                            </div> 
+                            <div class="col-span-2">
+                                <label for="item-weight" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Word Direction </label>
+                                <div class="inline-flex rounded-md shadow-sm" role="group">
+                                    <label for="left-to-right" id="label-left-to-right" class="">
+                                        <input type="checkbox" name="word-direction" class="hidden peer" id="left-to-right" value="left-to-right" checked/>
+                                        <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border border-gray-200 rounded-l-lg peer-checked:bg-blue-600 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
+                                            <i class="fa-solid fa-arrow-right"></i>
+                                        </div>
+                                    </label>
+                                    <label for="right-to-left" id="label-right-to-left" class="">
+                                        <input type="checkbox" name="word-direction" class="hidden peer" id="right-to-left" value="right-to-left"/>
+                                        <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border-t border-b border-gray-200 peer-checked:bg-blue-600 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
+                                            <i class="fa-solid fa-arrow-left"></i>
+                                        </div>
+                                    </label>
+                                    <label for="bottom-to-top" id="label-bottom-to-top" class="">
+                                        <input type="checkbox" name="word-direction" class="hidden peer" id="bottom-to-top" value="bottom-to-top"/>
+                                        <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border-t border-b border-gray-200 peer-checked:bg-blue-600 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
+                                            <i class="fa-solid fa-arrow-up"></i>
+                                        </div>
+                                    </label>
+                                    <label for="top-to-bottom" id="label-top-to-bottom" class="">
+                                        <input type="checkbox" name="word-direction" class="hidden peer" id="top-to-bottom" value="top-to-bottom"/>
+                                        <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border-t border-b border-gray-200 peer-checked:bg-blue-600 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
+                                            <i class="fa-solid fa-arrow-down"></i>
+                                        </div>
+                                    </label>
+                                    <label for="diagonal-down-left" id="label-diagonal-down-left" class="">
+                                        <input type="checkbox" name="word-direction" class="hidden peer" id="diagonal-down-left" value="diagonal-down-left"/>
+                                        <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border-t border-b border-gray-200 peer-checked:bg-blue-600 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
+                                            <i class="rotate-45 fa-solid fa-arrow-down"></i>
+                                        </div>
+                                    </label>
+                                    <label for="diagonal-down-right" id="label-diagonal-down-right" class="">
+                                        <input type="checkbox" name="word-direction" class="hidden peer" id="diagonal-down-right" value="diagonal-down-right"/>
+                                        <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border-t border-b border-gray-200 peer-checked:bg-blue-600 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
+                                            <i class="rotate-45 fa-solid fa-arrow-right"></i>
+                                        </div>
+                                    </label>
+                                    <label for="diagonal-up-right" id="label-diagonal-up-right" class="">
+                                        <input type="checkbox" name="word-direction" class="hidden peer" id="diagonal-up-right" value="diagonal-up-right"/>
+                                        <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border-t border-b border-gray-200 peer-checked:bg-blue-600 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
+                                            <i class="rotate-45 fa-solid fa-arrow-up"></i>
+                                        </div>
+                                    </label>
+                                    <label for="diagonal-up-left" id="label-diagonal-up-left" class="">
+                                        <input type="checkbox" name="word-direction" class="hidden peer" id="diagonal-up-left" value="diagonal-up-left"/>
+                                        <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border border-gray-200 peer-checked:bg-blue-600 rounded-r-md hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
+                                            <i class="rotate-45 fa-solid fa-arrow-left"></i>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div> 
+                            <div class="col-span-1">
+                                <label for="item-weight" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Reveal Direction <i id="reveal-direction-help" class="fa-regular fa-circle-question"></i></label>
+                                <label class="relative inline-flex items-center mb-4 cursor-pointer">
+                                    <input id="reveal-direction" type="checkbox" value="" class="sr-only peer">
+                                    <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                                    <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">Reveal Direction</span>
+                                </label>
+                            </div>
+                            <div class="col-span-1">
+                                <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Letter Case</label>
+                                <div class="inline-flex rounded-md shadow-sm" role="group">
+                                    <label for="uppercase" id="label-uppercase" class="">
+                                        <input type="radio" name="letter-case" class="hidden peer" id="uppercase" value="uppercase" checked/>
+                                        <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border border-gray-200 rounded-l-lg peer-checked:bg-blue-600 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">A</div>
+                                    </label>
+                                    <label for="lowercase" id="label-lowercase" class="">
+                                        <input type="radio" name="letter-case" class="hidden peer" id="lowercase" value="lowercase"/>
+                                        <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border-t border-b border-gray-200 peer-checked:bg-blue-600 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">a</div>
+                                    </label>
+                                    <label for="random-case" id="label-random-case" class="">
+                                        <input type="radio" name="letter-case" class="hidden peer" id="random-case" value="random-case"/>
+                                        <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border border-gray-200 peer-checked:bg-blue-600 rounded-r-md hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">Aa</div>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-span-2 2xl:col-span-4">
+                                <label for="words" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Words</label>
+                                <textarea id="words" rows="8" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 h-24" placeholder="Separate words with a comma and a space, or a new line."></textarea>
+                            </div>
+                        </div>
+                        <button type="button" id="download" class="mt-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                        <i class="fa-solid fa-download"></i> Download
+                        </button>
+                        <button type="button" id="print" class="mt-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                            <i class="fa-solid fa-print"></i> Print
+                        </button>
+                        <button type="button" id="preview" class="mt-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                            <i class="fa-solid fa-eye"></i> Preview
+                        </button>
+                        <button id="open-preset" data-modal-target="save-preset-modal" data-modal-toggle="save-preset-modal" class="mt-5 text-white bg-blue-400 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-800 dark:hover:bg-blue-900 focus:outline-none dark:focus:ring-blue-900" type="button">
+                            <i class="fa-solid fa-floppy-disk"></i> Save Preset
+                        </button> 
+                        <select class="border-2 border-dashed border-blue-800 text-white bg-blue-200 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-950 dark:hover:bg-blue-700 dark:focus:ring-blue-800 w-40" id="presets-dropdown">
+                        </select>
+                        <button id="delete-preset" data-modal-target="delete-preset-modal" data-modal-toggle="delete-preset-modal" class="mt-5 text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-700 dark:hover:bg-red-900 focus:outline-none dark:focus:ring-blue-900 overflow-hidden" type="button">
+                            <i class="fa-solid fa-trash"></i>
+                        </button> 
+                    </form>
+                </div>
+            </section>
+            <div id="word-search-worksheet" class="flex flex-row col-span-4 gap-2 p-4 text-black align-middle bg-white border-gray-400 w-fit h-fit">
+                <div id="preview-word-search" class="grid grid-cols-7 gap-1 p-4 font-bold border-2 border-gray-700 rounded-lg w-fit h-fit">
+                    <div>P</div>
+                    <div>R</div>
+                    <div>E</div>
+                    <div>V</div>
+                    <div>I</div>
+                    <div>E</div>
+                    <div>W</div>
+                    <div>P</div>
+                    <div>R</div>
+                    <div>E</div>
+                    <div>V</div>
+                    <div>I</div>
+                    <div>E</div>
+                    <div>W</div>
+                    <div>P</div>
+                    <div>R</div>
+                    <div>E</div>
+                    <div>V</div>
+                    <div>I</div>
+                    <div>E</div>
+                    <div>W</div>
+                    <div>P</div>
+                    <div>R</div>
+                    <div>E</div>
+                    <div>V</div>
+                    <div>I</div>
+                    <div>E</div>
+                    <div>W</div>
+                    <div>P</div>
+                    <div>R</div>
+                    <div>E</div>
+                    <div>V</div>
+                    <div>I</div>
+                    <div>E</div>
+                    <div>W</div>
+                    <div>P</div>
+                    <div>R</div>
+                    <div>E</div>
+                    <div>V</div>
+                    <div>I</div>
+                    <div>E</div>
+                    <div>W</div>
+                    <div>P</div>
+                    <div>R</div>
+                    <div>E</div>
+                    <div>V</div>
+                    <div>I</div>
+                    <div>E</div>
+                    <div>W</div>
+                </div>
+                <div id="word-bank" class="flex flex-col flex-wrap gap-2"></div>
+            </div>
+        </div>
+        <div class="pt-48 pb-10 text-4xl scroll-m-24" id="nav-crossword-puzzle">Crossword Puzzle</div>
+        <div class="hidden w-full grid-cols-7 gap-8 lg:grid">
+            <section class="col-span-3 bg-gray-200 dark:bg-gray-900 rounded-3xl">
+                <div class="max-w-3xl px-4 py-4 mx-auto lg:py-4">
+                    <form action="#">
+                        <div class="grid grid-cols-2 gap-4 min-[1860px]:grid-cols-4">
+                            <div class="col-span-2">
+                                <label for="title-crossword" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
+                                <input type="text" name="title-crossword" id="title-crossword" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Type word search title" required="">
+                            </div>
+                            <div class="col-span-1">
+                                <label for="item-weight" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Page Size</label>
+                                <div class="inline-flex rounded-md shadow-sm" role="group">
+                                    <label for="letter-crossword" id="label-letter-crossword" class="">
+                                        <input type="radio" name="page-size-crossword" class="hidden peer" id="letter-crossword" value="letter-crossword" checked/>
+                                        <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border border-gray-200 rounded-l-lg peer-checked:bg-blue-600 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
+                                            US Letter
+                                        </div>
+                                    </label>
+                                    <label for="a4-crossword" id="label-a4-crossword" class="">
+                                        <input type="radio" name="page-size-crossword" class="hidden peer" id="a4-crossword" value="a4-crossword"/>
+                                        <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border border-gray-200 peer-checked:bg-blue-600 rounded-r-md hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
+                                            A4
+                                        </div>
+                                    </label>
+                                </div>
+                            </div> 
+                            <div class="col-span-1">
+                                <label for="item-weight" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Answer Key</label>
+                                <label class="relative inline-flex items-center mb-4 cursor-pointer">
+                                    <input id="key-crossword" type="checkbox" value="" class="sr-only peer" checked>
+                                    <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                                    <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">Print Answer Key</span>
+                                </label>
+                            </div> 
+                            <div class="col-span-1">
+                                <label for="item-weight" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Reveal First Letters</label>
+                                <label class="relative inline-flex items-center mb-4 cursor-pointer">
+                                    <input id="reveal-first-letters" type="checkbox" value="" class="sr-only peer" checked>
+                                    <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                                    <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">First Letters</span>
+                                </label>
+                            </div> 
+                            <div class="col-span-1">
+                                <label for="item-weight" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Reveal Last Letters</label>
+                                <label class="relative inline-flex items-center mb-4 cursor-pointer">
+                                    <input id="reveal-last-letters" type="checkbox" value="" class="sr-only peer" checked>
+                                    <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                                    <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">Last Letters</span>
+                                </label>
+                            </div>  
+                            <div class="col-span-2">
+                                <label for="item-weight" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tip</label>
+                                <label class="relative inline-flex items-center mb-4 cursor-pointer">
+                                    <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">Click on tiles to reveal/hide letters.</span>
+                                </label>
+                            </div>  
+                            <div class="col-span-2 2xl:col-span-4">
+                                <label for="words-and-hints" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Words and Hints</label>
+                                <textarea id="words-and-hints" rows="8" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 h-52" placeholder="Separate the word from its hint using a single space. Put new word-hint pairs on a new line."></textarea>
+                            </div>
+                        </div>
+                        <button type="button" id="download-crossword" class="mt-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                        <i class="fa-solid fa-download"></i> Download
+                        </button>
+                        <button type="button" id="print-crossword" class="mt-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                            <i class="fa-solid fa-print"></i> Print
+                        </button>
+                        <button type="button" id="preview-crossword" class="mt-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                            <i class="fa-solid fa-eye"></i> Preview
+                        </button>
+                        <button id="open-preset-crossword" data-modal-target="save-preset-modal" data-modal-toggle="save-preset-modal" class="mt-5 text-white bg-blue-400 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-800 dark:hover:bg-blue-900 focus:outline-none dark:focus:ring-blue-900" type="button">
+                            <i class="fa-solid fa-floppy-disk"></i> Save Preset
+                        </button> 
+                        <select class="border-2 border-dashed border-blue-800 text-white bg-blue-200 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-950 dark:hover:bg-blue-700 dark:focus:ring-blue-800 w-40" id="presets-dropdown-crossword">
+                        </select>
+                        <button id="delete-preset-crossword" data-modal-target="delete-preset-modal" data-modal-toggle="delete-preset-modal" class="mt-5 text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-700 dark:hover:bg-red-900 focus:outline-none dark:focus:ring-blue-900 overflow-hidden" type="button">
+                            <i class="fa-solid fa-trash"></i>
+                        </button> 
+                    </form>
+                </div>
+            </section>
+            <div id="crossword-worksheet" class="flex flex-row col-span-4 gap-2 p-4 text-black align-middle bg-white border-gray-400 w-fit h-fit">
+                <div id="preview-crossword" class="grid grid-cols-7 gap-1 p-4 font-bold border-2 border-gray-700 rounded-lg w-fit h-fit">
+                </div>
+                <div id="crossword-hints" class="flex flex-col flex-wrap gap-2"></div>
+            </div>
+        </div>
+        
+        <div class="pt-16 text-4xl scroll-m-24" id="nav-bit-maze">Bit Maze</div>
+        <div class="pb-10 text-2xl scroll-m-24" id="nav-bit-maze"><i class="fa-solid fa-helmet-safety"></i> Under Construction <i class="fa-solid fa-helmet-safety"></i></div>
+        
+    </div>
+    <div id="delete-preset-modal" tabindex="-1" class="flex items-center backdrop-blur-sm justify-center fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div class="relative w-full max-w-md max-h-full">
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="delete-preset-modal">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                    </svg>
+                    <span class="sr-only">Close modal</span>
+                </button>
+                <div class="p-6 text-center">
+                    <svg class="w-12 h-12 mx-auto mb-4 text-gray-400 dark:text-gray-200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                    </svg>
+                    <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to delete the <b id="delete-confirmation-preset">Monkey</b> preset?</h3>
+                    <button data-modal-hide="delete-preset-modal" type="button" id="confirm-delete-preset" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
+                        Yes, I'm sure
+                    </button>
+                    <button data-modal-hide="delete-preset-modal" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">No, cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Main modal -->
+    <div id="save-preset-modal" tabindex="-1" aria-hidden="true" class="flex items-center justify-center hidden backdrop-blur-sm fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div class="relative w-full max-w-md max-h-full">
+            <!-- Modal content -->
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="save-preset-modal">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                    </svg>
+                    <span class="sr-only">Close modal</span>
+                </button>
+                <div class="px-6 py-6 lg:px-8">
+                    <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Save Preset</h3>
+                    <form class="space-y-6" action="#">
+                        <div>
+                            <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Preset Name</label>
+                            <input name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required placeholder="20 or fewer characters is recommended" max="10">
+                        </div>
+                        <button type="submit" id="save-preset" class="w-full text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Save</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="overwrite-preset-modal" tabindex="-1" class="flex items-center justify-center backdrop-blur-sm fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div class="relative w-full max-w-md max-h-full">
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="overwrite-preset-modal">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                    </svg>
+                    <span class="sr-only">Close modal</span>
+                </button>
+                <div class="p-6 text-center">
+                    <svg class="w-12 h-12 mx-auto mb-4 text-gray-400 dark:text-gray-200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                    </svg>
+                    <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to update the <b id="update-preset-name"></b> preset?</h3>
+                    <button id="update-preset" data-modal-hide="overwrite-preset-modal" type="button" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
+                        Yes, I'm sure
+                    </button>
+                    <button data-modal-hide="overwrite-preset-modal" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">No, cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="app.js"></script>
+<script src="wordSearch.js"></script>
+<script src="crossword.js"></script>
+<script>
+    if (!localStorage.getItem('word-search-presets')) localStorage.setItem('word-search-presets', "[]")
+    if (!localStorage.getItem('crossword-presets')) localStorage.setItem('crossword-presets', "[]")
+</script>
+</html>

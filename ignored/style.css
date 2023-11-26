@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+    color-scheme: light dark;
+    scroll-behavior: auto;
+}
+body {
+    font-family: "quicksand", sans-serif;
+}
+@media (min-width: 768px) { /* Adjust breakpoint as needed */
+    html {
+      scroll-behavior: smooth;
+    }
+}
+@media screen and (max-width: 950px) {
+    .main-content {
+        display: none;
+    }
+    .mobile-content {
+        display: block;
+    }
+}
