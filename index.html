@@ -11,7 +11,6 @@
     <script src="https://unpkg.com/tippy.js@6"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
     <title id="site-title">Monkey Teacher's Worksheet Generators</title>
 </head>
 <header>
@@ -47,7 +46,7 @@
             </div>
         </div>
         <span class="mobile-content">
-            <div class="hidden p-4 text-xl text-center bg-red-500 sm:block md:block lg:hidden xl:hidden 2xl:hidden rounded-xl dark:bg-red-600">My deepest apologies, but I must regretfully inform you that my capabilities do not extend to the accommodation of mobile devices at this time. <br><br> If you are using a table, please switch to the landscape orientation. <br><br> I extend my sincerest apology for causing you immeasurable disappointment and ruining your day.</div>
+            <div class="hidden p-4 text-xl text-center bg-red-500 sm:block md:block lg:hidden xl:hidden 2xl:hidden rounded-xl dark:bg-red-600">My deepest apologies, but I must regretfully inform you that my capabilities do not extend to the accommodation of mobile devices at this time. <br><br> If you are using a tablet, please switch to the landscape orientation. <br><br> I extend my sincerest apology for causing you immeasurable disappointment and ruining your day.</div>
         </span>
         <div class="pt-8 pb-10 text-4xl scroll-m-24" id="nav-word-search">Word Search</div>
         <div class="hidden w-full grid-cols-7 gap-8 lg:grid">
@@ -184,7 +183,8 @@
                             </div>
                             <div class="col-span-2 2xl:col-span-4">
                                 <label for="words" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Words</label>
-                                <textarea id="words" rows="8" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 h-24" placeholder="Separate words with a comma and a space, or a new line."></textarea>
+                                <!-- <div class="block mb-2 ml-4 text-sm font-medium text-gray-900 text-opacity-50 dark:text-white dark:text-opacity-50">Each word must be separated by a comma and a space (, ), or put each word on a new line.</div> -->
+                                <textarea id="words" rows="8" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 h-24" placeholder="Each word must be separated by a comma and a space (, ), or put each word on a new line."></textarea>
                             </div>
                         </div>
                         <button type="button" id="download" class="mt-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
@@ -208,6 +208,7 @@
                 </div>
             </section>
             <div id="word-search-worksheet" class="flex flex-row col-span-4 gap-2 p-4 text-black align-middle bg-white border-gray-400 w-fit h-fit">
+                <div id="word-search-title">Untitled</div>
                 <div id="preview-word-search" class="grid grid-cols-7 gap-1 p-4 font-bold border-2 border-gray-700 rounded-lg w-fit h-fit">
                     <div>P</div>
                     <div>R</div>
@@ -424,9 +425,9 @@
         </div>
     </div>
 </body>
-<script src="app.js"></script>
-<script src="wordSearch.js"></script>
-<script src="crossword.js"></script>
+<script src="js/app.js"></script>
+<script src="js/wordSearch.js"></script>
+<script src="js/crossword.js"></script>
 <script>
     if (!localStorage.getItem('word-search-presets')) localStorage.setItem('word-search-presets', "[]")
     if (!localStorage.getItem('crossword-presets')) localStorage.setItem('crossword-presets', "[]")
