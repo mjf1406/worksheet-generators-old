@@ -48,7 +48,7 @@
         <span class="mobile-content">
             <div class="hidden p-4 text-xl text-center bg-red-500 sm:block md:block lg:hidden xl:hidden 2xl:hidden rounded-xl dark:bg-red-600">My deepest apologies, but I must regretfully inform you that my capabilities do not extend to the accommodation of mobile devices at this time. <br><br> If you are using a tablet, please switch to the landscape orientation. <br><br> I extend my sincerest apology for causing you immeasurable disappointment and ruining your day.</div>
         </span>
-        <div class="pt-8 pb-10 text-4xl scroll-m-24" id="nav-word-search">Word Search</div>
+        <div class="pt-8 pb-4 text-4xl scroll-m-24" id="nav-word-search">Word Search</div>
         <div class="hidden w-full grid-cols-7 gap-8 lg:grid">
             <section class="col-span-3 bg-gray-200 dark:bg-gray-900 rounded-3xl">
                 <div class="max-w-3xl px-4 py-4 mx-auto lg:py-4">
@@ -207,63 +207,54 @@
                     </form>
                 </div>
             </section>
-            <div id="word-search-worksheet" class="flex flex-row col-span-4 gap-2 p-4 text-black align-middle bg-white border-gray-400 w-fit h-fit">
-                <div id="word-search-title">Untitled</div>
-                <div id="preview-word-search" class="grid grid-cols-7 gap-1 p-4 font-bold border-2 border-gray-700 rounded-lg w-fit h-fit">
-                    <div>P</div>
-                    <div>R</div>
-                    <div>E</div>
-                    <div>V</div>
-                    <div>I</div>
-                    <div>E</div>
-                    <div>W</div>
-                    <div>P</div>
-                    <div>R</div>
-                    <div>E</div>
-                    <div>V</div>
-                    <div>I</div>
-                    <div>E</div>
-                    <div>W</div>
-                    <div>P</div>
-                    <div>R</div>
-                    <div>E</div>
-                    <div>V</div>
-                    <div>I</div>
-                    <div>E</div>
-                    <div>W</div>
-                    <div>P</div>
-                    <div>R</div>
-                    <div>E</div>
-                    <div>V</div>
-                    <div>I</div>
-                    <div>E</div>
-                    <div>W</div>
-                    <div>P</div>
-                    <div>R</div>
-                    <div>E</div>
-                    <div>V</div>
-                    <div>I</div>
-                    <div>E</div>
-                    <div>W</div>
-                    <div>P</div>
-                    <div>R</div>
-                    <div>E</div>
-                    <div>V</div>
-                    <div>I</div>
-                    <div>E</div>
-                    <div>W</div>
-                    <div>P</div>
-                    <div>R</div>
-                    <div>E</div>
-                    <div>V</div>
-                    <div>I</div>
-                    <div>E</div>
-                    <div>W</div>
+            <div id="word-search-worksheet" class="flex flex-col col-span-4 gap-2 p-4 text-black align-middle bg-white w-fit h-fit" style="width: 612px; height: 792px">
+                <div class="grid w-full grid-cols-2">
+                    <div id="current-date" class="text-xs opacity-40 self-left">2023/12/5</div>
+                    <div class="self-end mb-1 text-base font-bold text-right align-middle opacity-50">Name: _______________</div>
                 </div>
-                <div id="word-bank" class="flex flex-col flex-wrap gap-2"></div>
+                <div id="word-search-title" class="self-center mb-5 text-4xl font-bold align-middle">Untitled</div>
+                <div id="word-search-puzzle" class="self-center align-middle">
+                    <!-- <div id="section-labels" class="grid justify-center grid-cols-2 text-center text-black text-opacity-25 align-middle text-9xl">
+                        <div class="border-b-8 border-r-8 border-dashed border-opacity-5">1</div>
+                        <div class="border-b-8 border-opacity-100 border-dashed">2</div>
+                        <div class="border-r-8 border-opacity-100 border-dashed">3</div>
+                        <div>4</div>
+                    </div> -->
+                    <div id="preview-word-search" class="grid self-center grid-cols-7 gap-1 p-4 text-xs font-bold align-middle border-4 border-black rounded-lg w-fit h-fit">
+                        <div>P</div>
+                        <div>R</div>
+                        <div>E</div>
+                        <div>V</div>
+                        <div>I</div>
+                        <div>E</div>
+                        <div>W</div>
+                        <div>P</div>
+                        <div>R</div>
+                        <div>E</div>
+                        <div>V</div>
+                        <div>I</div>
+                        <div>E</div>
+                        <div>W</div>
+                        <div>P</div>
+                        <div>R</div>
+                        <div>E</div>
+                        <div>V</div>
+                        <div>I</div>
+                        <div>E</div>
+                        <div>W</div>
+                        <div>P</div>
+                        <div>R</div>
+                        <div>E</div>
+                        <div>V</div>
+                        <div>I</div>
+                        <div>E</div>
+                        <div>W</div>
+                    </div>
+                </div>
+                <div id="word-bank" class="flex flex-col flex-wrap gap-2 gap-x-8 max-h-[180px] text-center"></div>
             </div>
         </div>
-        <div class="pt-48 pb-10 text-4xl scroll-m-24" id="nav-crossword-puzzle">Crossword Puzzle</div>
+        <div class="pt-48 pb-4 text-4xl scroll-m-24" id="nav-crossword-puzzle">Crossword Puzzle</div>
         <div class="hidden w-full grid-cols-7 gap-8 lg:grid">
             <section class="col-span-3 bg-gray-200 dark:bg-gray-900 rounded-3xl">
                 <div class="max-w-3xl px-4 py-4 mx-auto lg:py-4">
@@ -352,7 +343,7 @@
             </div>
         </div>
         
-        <div class="pt-16 text-4xl scroll-m-24" id="nav-bit-maze">Bit Maze</div>
+        <div class="pt-16 pb-4 text-4xl scroll-m-24" id="nav-bit-maze">Bit Maze</div>
         <div class="pb-10 text-2xl scroll-m-24" id="nav-bit-maze"><i class="fa-solid fa-helmet-safety"></i> Under Construction <i class="fa-solid fa-helmet-safety"></i></div>
         
     </div>

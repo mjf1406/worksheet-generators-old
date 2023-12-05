@@ -3,16 +3,38 @@
 ## Generators
 
 ### Word Search
+- Inputs
+    - (?) Copies -- Should this be added so it can be printed in one fell swoop?
+    - Word Direction
+        - Needs a select all
+        - (?) Double click one to select all
+        - (?) Right click to select one
+    - Words
+        - Add longest word and number of characters
+            - automatically adjust rows and columns based on this
+        - Average length
+        - number of words
+    - Sections
+        - Update preview on change
+    - Reveal Sections  
+        - Update preview on toggle
+    - Reveal Direction
+        - Update preview on toggle
+    - Letter Case
+        - Update preview on change
 - Algo
     - Sections
-- Output
-    - [html2pdf.js](https://github.com/eKoopmans/html2pdf.js)
+- Output, Worksheet
+    - [x] Name input for student
+    - [ ] Date -- Need to make it auto-update
+    - [x] Word Search
+    - [x] Word Bank
+- Output, Answer Key
     - Name
     - Date
     - Word Search
     - Word Bank
-    - Pretty this up, the colors might be the wrong idea
-        - use outlines maybe?
+    - Need to change the way the answers are revealed, colors are ugly
 - Test
     - muntjac, kangaroo, hippopotamus, tenrec, monkey, elk, giraffe, hummingbird, mouse, rat, bat, flamingo, beaver, blackbuck, boar, bear, snake, spider, grasshoper, mantis
 

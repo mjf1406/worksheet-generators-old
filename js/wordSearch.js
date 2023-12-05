@@ -128,12 +128,15 @@ download.addEventListener('click', function(){
     const title = document.getElementById('title').value ? document.getElementById('title').value : "No Title"
     const worksheet = document.getElementById('word-search-worksheet')
 
+    const width = (page === 'a4') ? 595 : 612 // DPI = 72
+    const height = (page === 'a4') ? 842 : 792 // DPI = 72
+
     var opt = {
         margin:       [1, 1, 1, 1], // top, right, bottom, left
         filename:     'myfile.pdf',
         image:        { type: 'jpeg', quality: 1 },
-        html2canvas:  { scale: 2, scrollX: 0, scrollY: 0 },
-        jsPDF:        { unit: unit, format: page, orientation: 'landscape' }
+        html2canvas:  { scale: 4, scrollX: 0, scrollY: 0, width: width, height: height },
+        jsPDF:        { unit: unit, format: page, orientation: 'portrait' }
     };
     html2pdf().set(opt).from(worksheet).save(`[Word Search] ${title}.pdf`)
 })
@@ -394,11 +397,10 @@ function generateWordSearch(params){
             grid[x][y] = randomLetter // Get a random letter and place it
         }
     }
-    wordData = determineSections(wordData, height, width, sections)
+    // wordData = determineSections(wordData, height, width, sections) // TODO: Do this
     params.wordData = wordData
     params.grid = grid
     params.key = answerKey
-    console.log("🚀 ~ file: wordSearch.js:381 ~ generateWordSearch ~ params:", params)
     return params
 }
 
@@ -416,6 +418,7 @@ function updateWordSearchPreview(wordSearchData){
 
     titleElement.innerText = title
     preview.style.gridTemplateColumns = `repeat(${width}, minmax(0, 1fr))`
+    preview.classList.remove('grid-cols-7')
 
     for (let x = 0; x < width; x++) {
         for (let y = 0; y < height; y++) {
@@ -427,6 +430,7 @@ function updateWordSearchPreview(wordSearchData){
             div.classList.add('text-center')
             div.classList.add('w-7')
             div.classList.add('h-7')
+            div.classList.add('text-sm')
             if (isWordCoord) { 
                 div.classList.add('text-black')
                 div.innerText = answerKey[x][y]
@@ -434,6 +438,7 @@ function updateWordSearchPreview(wordSearchData){
             preview.appendChild(div)
         }
     }
+    // Reveal Answers
     for (let index = 0; index < wordData.length; index++) {
         const element = wordData[index]
         let coords = element.coords
@@ -442,7 +447,7 @@ function updateWordSearchPreview(wordSearchData){
             for (let index = 0; index < coords.length; index++) {
                 const element = coords[index];
                 let div = document.getElementById(`${element.x}-${element.y}`)
-                div.style.background = color
+                // div.style.background = color
                 // div.classList.add(`bg-[${color}]`)
             }
         }
@@ -468,7 +473,7 @@ function updateWordBank(wordSearchData){
         div.classList.add('flex')
         div.classList.add('flex-row')
         div.classList.add('gap-2')
-        div.classList.add('text-sm')
+        div.classList.add('text-xs')
 
         // sectionDiv.innerHTML = `<b>${section}</b>`
         directionDiv.innerHTML = DIRECTION_ICONS[direction]
