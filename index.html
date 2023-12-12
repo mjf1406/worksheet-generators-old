@@ -48,9 +48,9 @@
         <span class="mobile-content">
             <div class="hidden p-4 text-xl text-center bg-red-500 sm:block md:block lg:hidden xl:hidden 2xl:hidden rounded-xl dark:bg-red-600">My deepest apologies, but I must regretfully inform you that my capabilities do not extend to the accommodation of mobile devices at this time. <br><br> If you are using a tablet, please switch to the landscape orientation. <br><br> I extend my sincerest apology for causing you immeasurable disappointment and ruining your day.</div>
         </span>
-        <div class="pt-8 pb-4 text-4xl scroll-m-24" id="nav-word-search">Word Search</div>
+        <div class="pt-8 pb-4 text-4xl scroll-m-8" id="nav-word-search">Word Search</div>
         <div class="hidden w-full grid-cols-7 gap-8 lg:grid">
-            <section class="col-span-3 bg-gray-200 dark:bg-gray-900 rounded-3xl">
+            <section class="col-span-3 bg-gray-200 dark:bg-gray-900 rounded-3xl h-fit w-fit">
                 <div class="max-w-3xl px-4 py-4 mx-auto lg:py-4">
                     <form action="#">
                         <div class="grid grid-cols-2 gap-4 min-[1860px]:grid-cols-4">
@@ -104,7 +104,11 @@
                                 </label>
                             </div> 
                             <div class="col-span-2">
-                                <label for="item-weight" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Word Direction </label>
+                                <label for="item-weight" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Word Direction 
+                                    <span>
+                                        <button id="select-all-directions" class="px-3 py-1 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-800 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">All</button>
+                                    </span>
+                                </label>
                                 <div class="inline-flex rounded-md shadow-sm" role="group">
                                     <label for="left-to-right" id="label-left-to-right" class="">
                                         <input type="checkbox" name="word-direction" class="hidden peer" id="left-to-right" value="left-to-right" checked/>
@@ -181,16 +185,23 @@
                                     </label>
                                 </div>
                             </div>
-                            <div class="col-span-2 2xl:col-span-4">
+                            <div class="col-span-1 2xl:col-span-3">
                                 <label for="words" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Words</label>
                                 <!-- <div class="block mb-2 ml-4 text-sm font-medium text-gray-900 text-opacity-50 dark:text-white dark:text-opacity-50">Each word must be separated by a comma and a space (, ), or put each word on a new line.</div> -->
                                 <textarea id="words" rows="8" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 h-24" placeholder="Each word must be separated by a comma and a space (, ), or put each word on a new line."></textarea>
                             </div>
+                            <div class="col-span-1 2xl:col-span-1">
+                                <label for="words" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Word Stats</label>
+                                <div class="text-xs">Longest: <span id="longest-word" class="font-bold"></span></div>
+                                <div class="text-xs">Shortest: <span id="shortest-word" class="font-bold"></span></div>
+                                <div class="text-xs">Count: <span id="word-count" class="font-bold"></span></div>
+                                <div class="text-xs">Avg. Length: <span id="avg-word-length" class="font-bold"></span></div>
+                            </div>
                         </div>
                         <button type="button" id="download" class="mt-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                        <i class="fa-solid fa-download"></i> Download
+                            <i class="fa-solid fa-download"></i> Download
                         </button>
-                        <button type="button" id="print" class="mt-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                        <button type="button" disabled id="print" class="disabled:cursor-not-allowed disabled:bg-blue-800 disabled:text-gray-500 mt-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
                             <i class="fa-solid fa-print"></i> Print
                         </button>
                         <button type="button" id="preview" class="mt-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
@@ -207,12 +218,12 @@
                     </form>
                 </div>
             </section>
-            <div id="word-search-worksheet" class="flex flex-col col-span-4 gap-2 p-4 text-black align-middle bg-white w-fit h-fit" style="width: 612px; height: 792px">
+            <div id="word-search-worksheet" class="flex flex-col self-start col-span-4 gap-2 p-4 text-black align-top bg-white w-fit h-fit" style="width: 580px; height: 850px; transform: scale(0.70); -webkit-transform-origin: left top; -moz-transform-origin: left top;">
                 <div class="grid w-full grid-cols-2">
                     <div id="current-date" class="text-xs opacity-40 self-left">2023/12/5</div>
                     <div class="self-end mb-1 text-base font-bold text-right align-middle opacity-50">Name: _______________</div>
                 </div>
-                <div id="word-search-title" class="self-center mb-5 text-4xl font-bold align-middle">Untitled</div>
+                <div id="word-search-title" class="self-center mb-5 text-4xl font-bold text-center align-middle">Untitled</div>
                 <div id="word-search-puzzle" class="self-center align-middle">
                     <!-- <div id="section-labels" class="grid justify-center grid-cols-2 text-center text-black text-opacity-25 align-middle text-9xl">
                         <div class="border-b-8 border-r-8 border-dashed border-opacity-5">1</div>
@@ -422,5 +433,6 @@
 <script>
     if (!localStorage.getItem('word-search-presets')) localStorage.setItem('word-search-presets', "[]")
     if (!localStorage.getItem('crossword-presets')) localStorage.setItem('crossword-presets', "[]")
+    document.getElementById('current-date').innerText = new Date().toLocaleDateString()
 </script>
 </html>

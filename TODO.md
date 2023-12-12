@@ -1,5 +1,12 @@
 # Monkey Teacher's Worksheet Generators
 
+## Change Log
+- 2023/12/12
+    - Added select all and deselect all button for Word Directions
+    - Added Word Stats
+    - Disabled Print button, will figure out later
+    - Set scale of preview to 70% and got it downloading correctly
+
 ## Generators
 
 ### Word Search
@@ -9,11 +16,6 @@
         - Needs a select all
         - (?) Double click one to select all
         - (?) Right click to select one
-    - Words
-        - Add longest word and number of characters
-            - automatically adjust rows and columns based on this
-        - Average length
-        - number of words
     - Sections
         - Update preview on change
     - Reveal Sections  
@@ -24,11 +26,6 @@
         - Update preview on change
 - Algo
     - Sections
-- Output, Worksheet
-    - [x] Name input for student
-    - [ ] Date -- Need to make it auto-update
-    - [x] Word Search
-    - [x] Word Bank
 - Output, Answer Key
     - Name
     - Date

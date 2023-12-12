@@ -72,6 +72,9 @@ tippy('#reveal-direction-help', {
     content: `Displays the direction of each word in the word bank using arrows.`,
     allowHTML: true
 })
+
+
+
 let title = document.getElementById('title')
 let height = document.getElementById('height')
 let width = document.getElementById('width')
@@ -79,6 +82,8 @@ let sections = document.getElementById('sections')
 let revealSections = document.getElementById('reveal-section')
 let letterCase = getSelectedValueFromRadioGroup('letter-case')
 let wordDirections = document.getElementsByName('word-direction')
+let wordDirectionAllButton = document.getElementById('select-all-directions')
+let wordsInput = document.getElementById('words')
 let directions = []
 for (let index = 0; index < wordDirections.length; index++) {
     const element = wordDirections[index];
@@ -94,8 +99,23 @@ let deletePreset = document.getElementById('delete-preset')
 let presetsDropdown = document.getElementById('presets-dropdown')
 let updatePreset = document.getElementById('update-preset')
 let wordBank = document.getElementById('word-bank')
-let download = document.getElementById('download')
+const downloadButton = document.getElementById('download')
+const printButton = document.getElementById('print')
 const radios = document.querySelectorAll(`input[type="radio"]`)
+
+
+
+
+wordDirectionAllButton.addEventListener('click', function(){
+    const directionButtons = document.getElementsByName('word-direction')
+    let allDirectionsChecked = (localStorage.getItem('all-directions')) ?? false 
+    directionButtons.forEach(element => {
+        if (allDirectionsChecked === 'false') element.checked = true
+        else element.checked = false
+    })
+    if (allDirectionsChecked === 'false') localStorage.setItem('all-directions', true)
+    else localStorage.setItem('all-directions', false)
+})
 previewButton.addEventListener('click', function(){
     let start = new Date().getTime(); 
     let params = getWordSearchParams()
@@ -107,6 +127,7 @@ previewButton.addEventListener('click', function(){
         let end = new Date().getTime(); 
         makeToast(`Word Search generated in ${formatMillisecondsToReadable(end - start)}`, 'success')
     }
+    updateWordStats()
 })
 savePreset.addEventListener('click', function(){
     localStorage.setItem('clicked-preset','word-search-presets')
@@ -121,25 +142,112 @@ presetsDropdown.addEventListener('change', function(){
     populateOptionsFromPreset(preset)
     makeToast(`<b>${selectedPreset}</b> loaded successfully!`, 'success')
 })
-download.addEventListener('click', function(){
+wordsInput.addEventListener('input', updateWordStats)
+downloadButton.addEventListener('click', function(){
     const wordSearchData = JSON.parse(localStorage.getItem('word-search-data'))
-    const page = wordSearchData.page
-    const unit = (page === 'a4') ? 'mm' : 'in' 
     const title = document.getElementById('title').value ? document.getElementById('title').value : "No Title"
     const worksheet = document.getElementById('word-search-worksheet')
+    const opt = getPdfOptions(wordSearchData)
+    html2pdf().set(opt).from(worksheet).save(`[Word Search] ${title}.pdf`)
+    updateWordStats()
+})
+printButton.addEventListener('click', function(){
+    const wordSearchData = JSON.parse(localStorage.getItem('word-search-data'));
+    const title = document.getElementById('title').value ? document.getElementById('title').value : "No Title";
+    const worksheet = document.getElementById('word-search-worksheet');
+    const opt = getPdfOptions(wordSearchData);
 
-    const width = (page === 'a4') ? 595 : 612 // DPI = 72
-    const height = (page === 'a4') ? 842 : 792 // DPI = 72
+    html2pdf().from(worksheet).toPdf().get('pdf').then(function (doc) {
+        doc.autoPrint();
 
-    var opt = {
+        const hiddenFrame = document.createElement('iframe');
+        hiddenFrame.style.position = 'fixed';
+        // "visibility: hidden" would trigger safety rules in some browsers like safari，
+        // in which the iframe display in a pretty small size instead of hidden.
+        // here is some little hack ~
+        hiddenFrame.style.width = '1px';
+        hiddenFrame.style.height = '1px';
+        hiddenFrame.style.opacity = '0.01';
+        const isSafari = /^((?!chrome|android).)*safari/i.test(window.navigator.userAgent);
+        if (isSafari) {
+        // fallback in safari
+        hiddenFrame.onload = () => {
+            try {
+            hiddenFrame.contentWindow.document.execCommand('print', false, null);
+            } catch (e) {
+            hiddenFrame.contentWindow.print();
+            }
+        };
+        }
+        hiddenFrame.src = doc.output('bloburl');
+        document.body.appendChild(hiddenFrame);
+    });
+});
+
+
+
+
+function computeWordStatistics(wordsArray){
+    let cleanedWordsArray = wordsArray.map(word => {
+        return word.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
+    });
+    const avgLength = computeAverageLength(cleanedWordsArray)
+    const longestWord = findLongestElement(cleanedWordsArray)
+    const shortestWord = findShortestElement(cleanedWordsArray)
+    const wordCount = wordsArray.length
+    return {avgLength: avgLength, longestWord: longestWord, wordCount: wordCount, shortestWord: shortestWord}
+}
+function computeAverageLength(array) {
+    if (array.length === 0) {
+        return 0; // Avoid division by zero
+    }
+
+    let totalLength = array.reduce((sum, element) => {
+        return sum + element.length;
+    }, 0);
+
+    let averageLength = totalLength / array.length;
+    return Math.round(averageLength)
+}
+function findLongestElement(array) {
+    if (array.length === 0) return null; // Return null for an empty array
+    let longestElement = array[0];
+    array.forEach(element => {
+        if (element.length > longestElement.length) longestElement = element;
+    });
+    return {element: longestElement, length: longestElement.length}
+}
+function findShortestElement(array) {
+    if (array.length === 0) return null; // Return null for an empty array
+    let longestElement = array[0];
+    array.forEach(element => {
+        if (element.length < longestElement.length) longestElement = element;
+    });
+    return {element: longestElement, length: longestElement.length}
+}
+function updateWordStats(){
+    const text = document.getElementById('words').value
+    const words = (text.includes(", ")) ? text.split(", ") : text.split("\n")
+    const stats = computeWordStatistics(words)
+    document.getElementById('longest-word').innerText = `${stats.longestWord.length} - ${stats.longestWord.element}`
+    document.getElementById('shortest-word').innerText = `${stats.shortestWord.length} - ${stats.shortestWord.element}`
+    document.getElementById('word-count').innerText = stats.wordCount
+    document.getElementById('avg-word-length').innerText = stats.avgLength
+}
+function getPdfOptions(wordSearchData){
+    const page = wordSearchData.page
+    const unit = (page === 'a4') ? 'mm' : 'in' 
+    let width = (page === 'a4') ? 595 : 612 // DPI = 72
+    let height = (page === 'a4') ? 842 : 792 // DPI = 72
+    width = width * 0.7
+    height = height * 0.7
+    return {
         margin:       [1, 1, 1, 1], // top, right, bottom, left
-        filename:     'myfile.pdf',
         image:        { type: 'jpeg', quality: 1 },
-        html2canvas:  { scale: 4, scrollX: 0, scrollY: 0, width: width, height: height },
+        html2canvas:  { scale: 8, scrollX: 0, scrollY: 0, width: width, height: height, logging: false },
         jsPDF:        { unit: unit, format: page, orientation: 'portrait' }
     };
-    html2pdf().set(opt).from(worksheet).save(`[Word Search] ${title}.pdf`)
-})
+}
 function getWordSearchParams(){
     let title = document.getElementById('title').value
     let height = document.getElementById('height').value
@@ -428,8 +536,8 @@ function updateWordSearchPreview(wordSearchData){
             div.innerText = grid[x][y]
             div.id = `${x}-${y}`
             div.classList.add('text-center')
-            div.classList.add('w-7')
-            div.classList.add('h-7')
+            div.classList.add('w-4')
+            div.classList.add('h-4')
             div.classList.add('text-sm')
             if (isWordCoord) { 
                 div.classList.add('text-black')
