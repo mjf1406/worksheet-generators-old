@@ -21,6 +21,28 @@ const DIRECTION_ICONS = {
     'diagonal-up-right': '<i class="rotate-45 fa-solid fa-arrow-up"></i>',
     'diagonal-up-left': '<i class="rotate-45 fa-solid fa-arrow-left"></i>'
 }
+const SECTIONS = {
+    "four": {
+        rows: 2,
+        cols: 2,
+        num: 4
+    },
+    "nine": {
+        rows: 3,
+        cols: 3,
+        num: 9
+    },
+    "twelve": {
+        rows: 3,
+        cols: 4,
+        num: 12
+    },
+    "sixteen": {
+        rows: 4,
+        cols: 4,
+        num: 16
+    }
+}
 if(!localStorage.getItem('word-search-data')) {
     const params = {
         title: "Title", // Any alphanumeric string
@@ -106,7 +128,9 @@ const radios = document.querySelectorAll(`input[type="radio"]`)
 
 
 
-wordDirectionAllButton.addEventListener('click', function(){
+wordDirectionAllButton.addEventListener('click', function(event){
+    const wordSearchForm = document.getElementById('word-search-form')
+    event.preventDefault()
     const directionButtons = document.getElementsByName('word-direction')
     let allDirectionsChecked = (localStorage.getItem('all-directions')) ?? false 
     directionButtons.forEach(element => {
@@ -117,7 +141,9 @@ wordDirectionAllButton.addEventListener('click', function(){
     else localStorage.setItem('all-directions', false)
 })
 previewButton.addEventListener('click', function(){
-    let start = new Date().getTime(); 
+    let start = new Date().getTime()
+    const sections = getSelectedValueFromRadioGroup('sections')
+    // if (sections % 2 != 0) return makeToast(`Sections must be an even number.`, 'warning') 
     let params = getWordSearchParams()
     if (params.words.length === 0) return makeToast("Please add some words!", 'warning')
     let wordSearchData = generateWordSearch(params)
@@ -125,9 +151,9 @@ previewButton.addEventListener('click', function(){
         updateWordSearchPreview(wordSearchData)
         updateWordBank(wordSearchData)
         let end = new Date().getTime(); 
+        updateWordStats()
         makeToast(`Word Search generated in ${formatMillisecondsToReadable(end - start)}`, 'success')
     }
-    updateWordStats()
 })
 savePreset.addEventListener('click', function(){
     localStorage.setItem('clicked-preset','word-search-presets')
@@ -187,44 +213,6 @@ printButton.addEventListener('click', function(){
 
 
 
-function computeWordStatistics(wordsArray){
-    let cleanedWordsArray = wordsArray.map(word => {
-        return word.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
-    });
-    const avgLength = computeAverageLength(cleanedWordsArray)
-    const longestWord = findLongestElement(cleanedWordsArray)
-    const shortestWord = findShortestElement(cleanedWordsArray)
-    const wordCount = wordsArray.length
-    return {avgLength: avgLength, longestWord: longestWord, wordCount: wordCount, shortestWord: shortestWord}
-}
-function computeAverageLength(array) {
-    if (array.length === 0) {
-        return 0; // Avoid division by zero
-    }
-
-    let totalLength = array.reduce((sum, element) => {
-        return sum + element.length;
-    }, 0);
-
-    let averageLength = totalLength / array.length;
-    return Math.round(averageLength)
-}
-function findLongestElement(array) {
-    if (array.length === 0) return null; // Return null for an empty array
-    let longestElement = array[0];
-    array.forEach(element => {
-        if (element.length > longestElement.length) longestElement = element;
-    });
-    return {element: longestElement, length: longestElement.length}
-}
-function findShortestElement(array) {
-    if (array.length === 0) return null; // Return null for an empty array
-    let longestElement = array[0];
-    array.forEach(element => {
-        if (element.length < longestElement.length) longestElement = element;
-    });
-    return {element: longestElement, length: longestElement.length}
-}
 function updateWordStats(){
     const text = document.getElementById('words').value
     const words = (text.includes(", ")) ? text.split(", ") : text.split("\n")
@@ -252,7 +240,7 @@ function getWordSearchParams(){
     let title = document.getElementById('title').value
     let height = document.getElementById('height').value
     let width = document.getElementById('width').value
-    let sections = document.getElementById('sections').value
+    let sections = getSelectedValueFromRadioGroup('sections')
     let revealSections = document.getElementById('reveal-section').checked
     let letterCase = getSelectedValueFromRadioGroup('letter-case')
     let wordDirections = document.getElementsByName('word-direction')
@@ -275,7 +263,8 @@ function getWordSearchParams(){
         directions: directions, // orthogonal, diagonal, orthogonal-diagonal
         page: page, // a4, letter,
         key: key, // Boolean
-        sections: sections,
+        numberOfSections: sections,
+        sections: [],
         revealSections: revealSections,
         revealDirection, revealDirection,
         words: words
@@ -356,24 +345,51 @@ function adjustCase(wordData, letterCase){
     }
     return wordData
 }
-function determineSections(wordData, height, width, sections){
-    // TODO: determineSections
-    let sectionWidth = Math.floor(width / sections)
-    let sectionHeight = Math.floor(height / sections)
+// TODO: determineSections
+function determineSections(params){
+    const height = params.height
+    const width = params.width
+    const wordData = params.wordData
+    const sections = params.sections
+    const numberOfSectionsWord = params.numberOfSections
+    const cols = SECTIONS[numberOfSectionsWord].cols
+    const rows = SECTIONS[numberOfSectionsWord].rows
+    const numberOfSections = SECTIONS[numberOfSectionsWord].num
+    
+    // Section Dimensions
+    let sectionId = 0
+    for (let rowIdx = 0; rowIdx < rows; rowIdx++) {
+        for (let colIdx = 0; colIdx < cols; colIdx++) {
+            let xStart = 0
+            let xEnd = 0
+            let yStart = 0
+            let yEnd = 0
 
-    for (let index = 0; index < wordData.length; index++) {
-        let element = wordData[index];
-        let coords = element.coords
-        let sections = []
-        for (let index = 0; index < coords.length; index++) {
-            let coord = coords[index];
-            let x = coord.x
-            let y = coord.y
-            sections.push(x + 1 % sectionWidth)
-            sections.push(y + 1 % sectionHeight)
-        }
-        wordData[index].sections = sections
+            sections.push({
+                id: sectionId,
+                xStart: xStart,
+                xEnd: xEnd,
+                yStart: yStart,
+                yEnd: yEnd
+            })
+            sectionId++
+        }        
     }
+    console.log("🚀 ~ file: wordSearch.js:377 ~ determineSections ~ sections:", sections)
+    params.sections = sections
+    // for (let index = 0; index < wordData.length; index++) {
+    //     let element = wordData[index];
+    //     let coords = element.coords
+    //     let sections = []
+    //     for (let index = 0; index < coords.length; index++) {
+    //         let coord = coords[index];
+    //         let x = coord.x
+    //         let y = coord.y
+    //         sections.push(x + 1 % sectionWidth)
+    //         sections.push(y + 1 % sectionHeight)
+    //     }
+    //     wordData[index].sections = sections
+    // }
 
     // Paint borders
     // for (let index = 0; index < height; index += sectionHeight) {
@@ -387,7 +403,7 @@ function determineSections(wordData, height, width, sections){
     //     }
     // }
 
-    return wordData
+    return params
 }
 // Takes a JSON as its one argument
 const params = {
@@ -398,16 +414,18 @@ const params = {
     direction: "forward", // forward, backward, forward-backward
     page: "a4", // a4, letter,
     key: true, // Boolean
+    numberOfSections: 0, // Any even positive integer
+    sections: [], // Array of {index: 0, xStart: 0, yStart: 0, xEnd: 10, yEnd: 10}
     words: [] // Array of the words
 }
 function generateWordSearch(params){
+    const revealSections = document.getElementById('reveal-section').checked
     let height = parseInt(params.height)
     let width = parseInt(params.width)
     const MAX_ATTEMPTS = height * width
     let letterCase = params.letterCase
     let directions = params.directions
     let words = params.words
-    let sections = parseInt(params.sections)
     let wordData = words.map(word => { return { word: word } })
     // Error Handling
     let invalidWordLength = false
@@ -499,19 +517,18 @@ function generateWordSearch(params){
             let randomLetter = LETTERS[Math.floor(Math.random() * LETTERS.length)]
             if (letterCase === 'uppercase') randomLetter = randomLetter.toUpperCase()
             else if (letterCase === 'random-case') {
-        let roll = getRndInteger(0,1)
-        if (roll === 0) randomLetter = randomLetter.toUpperCase()
-    }
+                let roll = getRndInteger(0,1)
+                if (roll === 0) randomLetter = randomLetter.toUpperCase()
+            }
             grid[x][y] = randomLetter // Get a random letter and place it
         }
     }
-    // wordData = determineSections(wordData, height, width, sections) // TODO: Do this
     params.wordData = wordData
     params.grid = grid
     params.key = answerKey
+    if (revealSections) params = determineSections(params)
     return params
 }
-
 function updateWordSearchPreview(wordSearchData){
     const titleElement = document.getElementById('word-search-title')
     const preview = document.getElementById('preview-word-search')

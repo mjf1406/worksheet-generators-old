@@ -52,7 +52,7 @@
         <div class="hidden w-full grid-cols-7 gap-8 lg:grid">
             <section class="col-span-3 bg-gray-200 dark:bg-gray-900 rounded-3xl h-fit w-fit">
                 <div class="max-w-3xl px-4 py-4 mx-auto lg:py-4">
-                    <form action="#">
+                    <form id="word-search-form" action="#">
                         <div class="grid grid-cols-2 gap-4 min-[1860px]:grid-cols-4">
                             <div class="col-span-2">
                                 <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
@@ -92,8 +92,25 @@
                                 <input type="number" name="width" id="width" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" min="5" max="25" value="10" required="">
                             </div>
                             <div class="col-span-1">
-                                <label for="width" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Sections <i id="sections-help" class="fa-regular fa-circle-question"></i></label>
-                                <input type="number" name="width" id="sections" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" min="2" step="2" value="2">
+                                <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Sections</label>
+                                <div class="inline-flex rounded-md shadow-sm" role="group">
+                                    <label for="four" id="label-four" class="">
+                                        <input type="radio" name="sections" class="hidden peer" id="four" value="four" checked/>
+                                        <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border border-gray-200 rounded-l-lg peer-checked:bg-blue-600 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">4</div>
+                                    </label>
+                                    <label for="nine" id="label-nine" class="">
+                                        <input type="radio" name="sections" class="hidden peer" id="nine" value="nine"/>
+                                        <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border-t border-b border-gray-200 peer-checked:bg-blue-600 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">9</div>
+                                    </label>
+                                    <label for="twelve" id="label-twelve" class="">
+                                        <input type="radio" name="sections" class="hidden peer" id="twelve" value="twelve"/>
+                                        <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border-t border-b border-gray-200 peer-checked:bg-blue-600 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">12</div>
+                                    </label>
+                                    <label for="sixteen" id="label-sixteen" class="">
+                                        <input type="radio" name="sections" class="hidden peer" id="sixteen" value="sixteen"/>
+                                        <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border border-gray-200 peer-checked:bg-blue-600 rounded-r-md hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">16</div>
+                                    </label>
+                                </div>
                             </div>
                             <div class="col-span-1">
                                 <label for="item-weight" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Reveal Section <i id="reveal-sections-help" class="fa-regular fa-circle-question"></i></label>
@@ -430,6 +447,7 @@
 <script src="js/app.js"></script>
 <script src="js/wordSearch.js"></script>
 <script src="js/crossword.js"></script>
+<script src="js/math.js"></script>
 <script>
     if (!localStorage.getItem('word-search-presets')) localStorage.setItem('word-search-presets', "[]")
     if (!localStorage.getItem('crossword-presets')) localStorage.setItem('crossword-presets', "[]")

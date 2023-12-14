@@ -1,6 +1,9 @@
 # Monkey Teacher's Worksheet Generators
 
 ## Change Log
+- 2023/12/14
+    - Prevented default on form action when `All` button is clicked.
+    - Changed sections from number input to radiogroup: 4, 9, 12, 16. 
 - 2023/12/12
     - Added select all and deselect all button for Word Directions
     - Added Word Stats
