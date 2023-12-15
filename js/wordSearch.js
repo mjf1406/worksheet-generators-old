@@ -142,16 +142,16 @@ wordDirectionAllButton.addEventListener('click', function(event){
 })
 previewButton.addEventListener('click', function(){
     let start = new Date().getTime()
-    const sections = getSelectedValueFromRadioGroup('sections')
-    // if (sections % 2 != 0) return makeToast(`Sections must be an even number.`, 'warning') 
+    let revealSections = document.getElementById('reveal-section').checked
     let params = getWordSearchParams()
     if (params.words.length === 0) return makeToast("Please add some words!", 'warning')
     let wordSearchData = generateWordSearch(params)
     if (typeof wordSearchData === 'object' || wordSearchData instanceof Object) { 
         updateWordSearchPreview(wordSearchData)
         updateWordBank(wordSearchData)
-        let end = new Date().getTime(); 
         updateWordStats()
+        if (revealSections) paintSections(wordSearchData.sections)
+        let end = new Date().getTime(); 
         makeToast(`Word Search generated in ${formatMillisecondsToReadable(end - start)}`, 'success')
     }
 })
@@ -168,7 +168,22 @@ presetsDropdown.addEventListener('change', function(){
     populateOptionsFromPreset(preset)
     makeToast(`<b>${selectedPreset}</b> loaded successfully!`, 'success')
 })
-wordsInput.addEventListener('input', updateWordStats)
+wordsInput.addEventListener('input', function(){
+    const rowsInput = document.getElementById('height')
+    const colsInput = document.getElementById('width')
+    const height = parseInt(rowsInput.value)
+    const width = parseInt(colsInput.value)
+    const longestLength = updateWordStats()
+    if (rowsInput.value < longestLength) {
+        rowsInput.value = longestLength
+        makeToast(`Rows set to ${longestLength}`, `warning`)
+    }
+    if (colsInput.value < longestLength) {
+        colsInput.value = longestLength
+        makeToast(`Columns set to ${longestLength}`, `warning`)
+
+    }
+})
 downloadButton.addEventListener('click', function(){
     const wordSearchData = JSON.parse(localStorage.getItem('word-search-data'))
     const title = document.getElementById('title').value ? document.getElementById('title').value : "No Title"
@@ -221,6 +236,7 @@ function updateWordStats(){
     document.getElementById('shortest-word').innerText = `${stats.shortestWord.length} - ${stats.shortestWord.element}`
     document.getElementById('word-count').innerText = stats.wordCount
     document.getElementById('avg-word-length').innerText = stats.avgLength
+    return stats.longestWord.length
 }
 function getPdfOptions(wordSearchData){
     const page = wordSearchData.page
@@ -345,8 +361,7 @@ function adjustCase(wordData, letterCase){
     }
     return wordData
 }
-// TODO: determineSections
-function determineSections(params){
+function computeSectionDimensions(params){
     const height = params.height
     const width = params.width
     const wordData = params.wordData
@@ -355,68 +370,95 @@ function determineSections(params){
     const cols = SECTIONS[numberOfSectionsWord].cols
     const rows = SECTIONS[numberOfSectionsWord].rows
     const numberOfSections = SECTIONS[numberOfSectionsWord].num
-    
+    const sectionWidth = Math.floor(width / cols)
+    const sectionHeight = Math.floor(height / rows)
+
     // Section Dimensions
-    let sectionId = 0
     for (let rowIdx = 0; rowIdx < rows; rowIdx++) {
         for (let colIdx = 0; colIdx < cols; colIdx++) {
-            let xStart = 0
-            let xEnd = 0
-            let yStart = 0
-            let yEnd = 0
-
+            let xStart = sectionHeight * colIdx
+            let xEnd = xStart + (sectionHeight - 1)
+            let yStart = sectionWidth * rowIdx
+            let yEnd = yStart + (sectionWidth - 1) 
+            // The last column
+            if (colIdx === cols - 1){
+                xEnd = width - 1
+            }
+            // The last row
+            if (rowIdx === rows - 1){
+                yEnd = height - 1
+            }
             sections.push({
-                id: sectionId,
-                xStart: xStart,
-                xEnd: xEnd,
-                yStart: yStart,
-                yEnd: yEnd
+                start: `${xStart}-${yStart}`,
+                end: `${xEnd}-${yEnd}`,
             })
-            sectionId++
         }        
     }
-    console.log("🚀 ~ file: wordSearch.js:377 ~ determineSections ~ sections:", sections)
     params.sections = sections
-    // for (let index = 0; index < wordData.length; index++) {
-    //     let element = wordData[index];
-    //     let coords = element.coords
-    //     let sections = []
-    //     for (let index = 0; index < coords.length; index++) {
-    //         let coord = coords[index];
-    //         let x = coord.x
-    //         let y = coord.y
-    //         sections.push(x + 1 % sectionWidth)
-    //         sections.push(y + 1 % sectionHeight)
-    //     }
-    //     wordData[index].sections = sections
-    // }
-
-    // Paint borders
-    // for (let index = 0; index < height; index += sectionHeight) {
-    //     for (let x = 0; x < width; x++) {
-    //         let div = document.getElementById('')      
-    //     }
-    // }
-    // for (let x = 0; x < width; x += sectionWidth) {
-    //     for (let y = 0; y < height; y++) {
-    //         let div = document.getElementById('') 
-    //     }
-    // }
-
     return params
 }
-// Takes a JSON as its one argument
-const params = {
-    title: "a", // Any alphanumeric string
-    height: 10, // Any positive integer
-    width: 10,  // Any positive integer
-    letterCase: "upper", // uppercase, lowercase, upper-lower-case
-    direction: "forward", // forward, backward, forward-backward
-    page: "a4", // a4, letter,
-    key: true, // Boolean
-    numberOfSections: 0, // Any even positive integer
-    sections: [], // Array of {index: 0, xStart: 0, yStart: 0, xEnd: 10, yEnd: 10}
-    words: [] // Array of the words
+function paintSections(sections){
+    console.log("Painting Sections...")
+    const BG_GRAY = 'bg-gray-300'
+    const BG_WHITE = 'bg-white'
+    const SECTION_COLORS_FOUR = [BG_GRAY,BG_WHITE,BG_WHITE,BG_GRAY]
+    const SECTION_COLORS_NINE = [BG_GRAY,BG_WHITE,BG_GRAY, BG_WHITE,BG_GRAY,BG_WHITE, BG_GRAY,BG_WHITE,BG_GRAY]
+    const SECTION_COLORS_TWELVE = [BG_GRAY,BG_WHITE,BG_GRAY,BG_WHITE, BG_WHITE,BG_GRAY,BG_WHITE,BG_GRAY, BG_GRAY,BG_WHITE,BG_GRAY,BG_WHITE]
+    const SECTION_COLORS_SIXTEEN = [BG_GRAY,BG_WHITE,BG_GRAY,BG_WHITE, BG_WHITE,BG_GRAY,BG_WHITE,BG_GRAY, BG_GRAY,BG_WHITE,BG_GRAY,BG_WHITE, BG_WHITE,BG_GRAY,BG_WHITE,BG_GRAY]
+    const sectionDigit = sections.length
+    const sectionWord = sectionDigitToSectionWord(sectionDigit).toUpperCase()
+    const letters = document.getElementsByName('letter')
+
+    for (let sectionIdx = 0; sectionIdx < sections.length; sectionIdx++) {
+        const section = sections[sectionIdx];
+        const start = section.start.split("-")
+        const xStart = parseInt(start[0])
+        const yStart = parseInt(start[1])
+        const end = section.end.split("-")
+        const xEnd = parseInt(end[0])
+        const yEnd = parseInt(end[1])
+
+        for (let index = 0; index < letters.length; index++) {
+            const letter = letters[index];
+            const coords = letter.id.split("-")
+            const x = parseInt(coords[0])
+            const y = parseInt(coords[1])
+            if (x >= xStart
+                && y >= yStart 
+                && x <= xEnd 
+                && y <= yEnd) {
+                    letter.classList.add(eval(`SECTION_COLORS_${sectionWord}`)[sectionIdx])
+                }
+        }
+    }
+    console.log("Sections painted successfully!")
+}
+function determineWordSections(params){
+    console.log("Determining each word's section(s)...")
+    const words = params.words
+    const sections = params.sections
+    for (let index = 0; index < sections.length; index++) {
+        const section = sections[index];
+        const start = section.start.split("-")
+        const xStart = start[0]
+        const yStart = start[1]
+        const end = section.end.split("-")
+        const xEnd = end[0]
+        const yEnd = end[1]
+
+        for (let index = 0; index < words.length; index++) {
+            const element = words[index];
+            
+        }
+    }
+    console.log("Each word's section has been determined successfully!")
+    return params
+}
+function sectionDigitToSectionWord(digit){
+    if (digit === 4) return "four"
+    if (digit === 9) return "nine"
+    if (digit === 12) return "twelve"
+    if (digit === 16) return "sixteen"
 }
 function generateWordSearch(params){
     const revealSections = document.getElementById('reveal-section').checked
@@ -526,7 +568,10 @@ function generateWordSearch(params){
     params.wordData = wordData
     params.grid = grid
     params.key = answerKey
-    if (revealSections) params = determineSections(params)
+    if (revealSections) { 
+        params = computeSectionDimensions(params)
+        params = determineWordSections(params)
+    }
     return params
 }
 function updateWordSearchPreview(wordSearchData){
@@ -552,6 +597,7 @@ function updateWordSearchPreview(wordSearchData){
             let div = document.createElement('div')
             div.innerText = grid[x][y]
             div.id = `${x}-${y}`
+            div.setAttribute('name', 'letter')
             div.classList.add('text-center')
             div.classList.add('w-4')
             div.classList.add('h-4')
