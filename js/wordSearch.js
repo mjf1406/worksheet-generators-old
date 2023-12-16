@@ -1,8 +1,11 @@
 const LETTERS = 'abcdefghijklmnopqrstuvwxyz'
 const WORD_RE = /^[a-z]+$/
+const PREVIEW_SCALE = 0.7
 const COLORS = ['#f87171','#fde047','#4ade80','#60a5fa','#c084fc','#f472b6','#f43f5e','#0d9488','#fb923c']
-const WORD_SEARCH_MAX_SIZE = 24
-const WORD_SEARCH_MIN_SIZE = 4
+const WORD_SEARCH_MAX_ROW_SIZE = 24
+const WORD_SEARCH_MIN_ROW_SIZE = 4
+const WORD_SEARCH_MAX_COL_SIZE = 32
+const WORD_SEARCH_MIN_COL_SIZE = 4
 const DELTAS = {
     'left-to-right': [0, 1],
     'right-to-left': [0, -1],
@@ -28,24 +31,41 @@ const SECTIONS = {
         rows: 2,
         cols: 2,
         num: 4,
-        fontSize: 'text-7xl',
-        fontOpacity: '0.15'
+        fontOpacity: '0.2',
+        fontSize: 0.18
     },
     "nine": {
         rows: 3,
         cols: 3,
         num: 9,
-        fontSize: 'text-5xl',
-        fontOpacity: '0.20'
+        fontOpacity: '0.25',
+        fontSize: 0.12
     },
     "sixteen": {
         rows: 4,
         cols: 4,
         num: 16,
-        fontSize: 'text-3xl',
-        fontOpacity: '0.20'
+        fontOpacity: '0.25',
+        fontSize: 0.09
     }
 }
+const BG_GRAY = 'bg-gray-200'
+const BG_WHITE = 'bg-white'
+const SECTION_COLORS_FOUR = [
+    BG_GRAY,BG_WHITE,
+    BG_WHITE,BG_GRAY
+]
+const SECTION_COLORS_NINE = [
+    BG_GRAY,BG_WHITE,BG_GRAY, 
+    BG_WHITE,BG_GRAY,BG_WHITE, 
+    BG_GRAY,BG_WHITE,BG_GRAY
+]
+const SECTION_COLORS_SIXTEEN = [
+    BG_GRAY,BG_WHITE,BG_GRAY,BG_WHITE, 
+    BG_WHITE,BG_GRAY,BG_WHITE,BG_GRAY, 
+    BG_GRAY,BG_WHITE,BG_GRAY,BG_WHITE, 
+    BG_WHITE,BG_GRAY,BG_WHITE,BG_GRAY
+]
 if(!localStorage.getItem('word-search-data')) {
     const params = {
         title: "Title", // Any alphanumeric string
@@ -239,7 +259,7 @@ wordsInput.addEventListener('input', function(){
 downloadButton.addEventListener('click', function(){
     const wordSearchData = JSON.parse(localStorage.getItem('word-search-data'))
     const title = document.getElementById('title').value ? document.getElementById('title').value : "No Title"
-    const worksheet = document.getElementById('word-search-worksheet')
+    const worksheet = document.getElementById('worksheet').cloneNode(true)
     const opt = getPdfOptions(wordSearchData)
     html2pdf().set(opt).from(worksheet).save(`[Word Search] ${title}.pdf`)
     updateWordStats()
@@ -348,18 +368,16 @@ revealSections.addEventListener('change', function(){
 
     wordSearchData.revealSections = revealSections
     wordSearchData.numberOfSections = numberOfSections
-
-    let sections = wordSearchData.sections
+    
     if (revealSections == false) { 
-        paintSections(sections, 'BG_WHITE')
+        paintSections(wordSearchData.sections, 'BG_WHITE')
     } else if (revealSections == true) {
-        if (sections.length == 0) {
+        if (wordSearchData.sections.length < 1) {
             wordSearchData = computeSectionDimensions(wordSearchData)
             wordSearchData = determineWordSections(wordSearchData)
         }
         paintSections(wordSearchData.sections, null)
     } 
-    wordSearchData.sections = sections
     updateWordBank(wordSearchData)
     localStorage.setItem('word-search-data', JSON.stringify(wordSearchData))
 })
@@ -399,8 +417,8 @@ function getPdfOptions(wordSearchData){
     const unit = (page === 'a4') ? 'mm' : 'in' 
     let width = (page === 'a4') ? 595 : 612 // DPI = 72
     let height = (page === 'a4') ? 842 : 792 // DPI = 72
-    width = width * 0.7
-    height = height * 0.7
+    width = width * PREVIEW_SCALE
+    height = height * PREVIEW_SCALE
     return {
         margin:       [1, 1, 1, 1], // top, right, bottom, left
         image:        { type: 'jpeg', quality: 1 },
@@ -537,11 +555,11 @@ function computeSectionDimensions(params){
             let yEnd = yStart + (sectionWidth - 1) 
             // The last column
             if (colIdx === cols - 1){
-                xEnd = width - 1
+                xEnd = height - 1
             }
             // The last row
             if (rowIdx === rows - 1){
-                yEnd = height - 1
+                yEnd = width - 1
             }
             sections.push({
                 id: sectionId,
@@ -552,21 +570,22 @@ function computeSectionDimensions(params){
         }        
     }
     params.sections = sections
-    console.log("🚀 ~ file: wordSearch.js:554 ~ computeSectionDimensions ~ sections:", sections)
     return params
 }
 function paintSections(sections, color){
-    console.log("🚀 ~ file: wordSearch.js:558 ~ paintSections ~ sections:", sections)
     sections.sort(function(a, b) { return a.id - b.id })
     const sectionDigit = sections.length
-    const sectionWord = sectionDigitToSectionWord(sectionDigit).toUpperCase()
-    const sectionData = SECTIONS[sectionWord.toLowerCase()]
+    const height = document.getElementById('word-search-puzzle').offsetHeight 
+    console.log("🚀 ~ file: wordSearch.js:576 ~ paintSections ~ height:", height)
+    if (!color) var sectionWord = sectionDigitToSectionWord(sectionDigit).toUpperCase()
+    if (!color) var sectionData = SECTIONS[sectionWord.toLowerCase()]
     const sectionNumbersOld = document.getElementById('section-number-display')
     if (sectionNumbersOld) document.getElementById('section-number-display').remove()
     const wordSearchPreview = document.getElementById('preview-word-search')
     const sectionNumberDisplay = wordSearchPreview.cloneNode(true)
 
     if (!color) {
+        // worksheet.appendChild(sectionNumberDisplay);
         document.body.appendChild(sectionNumberDisplay);
         const rect = wordSearchPreview.getBoundingClientRect();
     
@@ -580,14 +599,15 @@ function paintSections(sections, color){
     
         sectionNumberDisplay.className = ''
         sectionNumberDisplay.classList.add('grid')
-        sectionNumberDisplay.classList.add('gap-1')
-        sectionNumberDisplay.classList.add(sectionData.fontSize)
+        // sectionNumberDisplay.classList.add('gap-1')
+        sectionNumberDisplay.style.fontSize = `${height * sectionData.fontSize}px`
         sectionNumberDisplay.classList.add('justify-center')
+        console.log("🚀 ~ file: wordSearch.js:601 ~ paintSections ~ height * sectionData.fontSize:", height * sectionData.fontSize)
         sectionNumberDisplay.classList.add('align-middle')
         sectionNumberDisplay.classList.add('text-black')
         sectionNumberDisplay.style.opacity = sectionData.fontOpacity
         sectionNumberDisplay.classList.add('p-4')
-        sectionNumberDisplay.classList.add('border-4')
+        sectionNumberDisplay.classList.add('border-2')
         sectionNumberDisplay.classList.add('rounded-lg')
         // sectionNumberDisplay.classList.add()
         // sectionNumberDisplay.classList.add()
@@ -596,44 +616,26 @@ function paintSections(sections, color){
         sectionNumberDisplay.style.gridTemplateColumns = `repeat(${sectionData.cols}, minmax(0, 1fr))`
     }
 
-    const BG_GRAY = 'bg-gray-200'
-    const BG_WHITE = 'bg-white'
-    const SECTION_COLORS_FOUR = [
-        BG_GRAY,BG_WHITE,
-        BG_WHITE,BG_GRAY
-    ]
-    const SECTION_COLORS_NINE = [
-        BG_GRAY,BG_WHITE,BG_GRAY, 
-        BG_WHITE,BG_GRAY,BG_WHITE, 
-        BG_GRAY,BG_WHITE,BG_GRAY
-    ]
-    const SECTION_COLORS_SIXTEEN = [
-        BG_GRAY,BG_WHITE,BG_GRAY,BG_WHITE, 
-        BG_WHITE,BG_GRAY,BG_WHITE,BG_GRAY, 
-        BG_GRAY,BG_WHITE,BG_GRAY,BG_WHITE, 
-        BG_WHITE,BG_GRAY,BG_WHITE,BG_GRAY
-    ]
     const letters = document.getElementsByName('letter')
 
-    for (let sectionIdx = 0; sectionIdx < sections.length; sectionIdx++) {
-        const section = sections[sectionIdx];
-        const id = section.id
-        const start = section.start.split("-")
-        const xStart = parseInt(start[0])
-        const yStart = parseInt(start[1])
-        const end = section.end.split("-")
-        const xEnd = parseInt(end[0])
-        const yEnd = parseInt(end[1])
-
-        for (let index = 0; index < letters.length; index++) {
-            const letter = letters[index];
-            const coords = letter.id.split("-")
-            const x = parseInt(coords[0])
-            const y = parseInt(coords[1])
-            if (x >= xStart
-                && y >= yStart 
-                && x <= xEnd 
-                && y <= yEnd) {
+    for (let index = 0; index < letters.length; index++) {
+        const letter = letters[index];
+        const coords = letter.id.split("-")
+        const x = parseInt(coords[0])
+        const y = parseInt(coords[1])
+        for (let sectionIdx = 0; sectionIdx < sections.length; sectionIdx++) {
+            const section = sections[sectionIdx];
+            const id = section.id
+            const start = section.start.split("-")
+            const xStart = parseInt(start[0])
+            const yStart = parseInt(start[1])
+            const end = section.end.split("-")
+            const xEnd = parseInt(end[0])
+            const yEnd = parseInt(end[1])
+            if (x >= xStart &&
+                y >= yStart &&
+                x <= xEnd &&
+                y <= yEnd) {
                     if (color) { 
                         letter.classList.remove(BG_WHITE)
                         letter.classList.remove(BG_GRAY)
@@ -644,16 +646,19 @@ function paintSections(sections, color){
                         letter.classList.add(eval(`SECTION_COLORS_${sectionWord}`)[id])
                     }
                 }
-        }
-        if (!color){
-            const div = document.createElement('div')
-            div.classList.add('text-center')
-            div.classList.add('align-middle')
-            div.classList.add('z-10')
-            div.classList.add('bg-transparent')
-            div.innerHTML = `<b>${id + 1}</b>`
-    
-            sectionNumberDisplay.appendChild(div)
+            if (!color){
+                const sectionElement = document.getElementById(`section-${id + 1}`)
+                if (sectionElement) continue
+                const div = document.createElement('div')
+                div.id = `section-${id + 1}`
+                div.classList.add('text-center')
+                div.classList.add('align-middle')
+                div.classList.add('z-10')
+                div.classList.add('bg-transparent')
+                div.innerHTML = `<b>${id + 1}</b>`
+        
+                sectionNumberDisplay.appendChild(div)
+            }
         }
     }
 }
@@ -692,7 +697,6 @@ function determineWordSections(params){
             }
         }
     }
-    console.log(`Processed ${placedWords.length} of ${wordData.length} words!`)
     return params
 }
 function sectionDigitToSectionWord(digit){
@@ -723,14 +727,14 @@ function generateWordSearch(params){
     }
     if (invalidWordLength) return "Error: Invalid word length"
     // Answer Key
-    let answerKey = new Array(width)
+    let answerKey = new Array(height)
     for (let index = 0; index < answerKey.length; index++) {
-        answerKey[index] = new Array(height)        
+        answerKey[index] = new Array(width)        
     }
     // Grid
-    let grid = new Array(width)
+    let grid = new Array(height)
     for (let index = 0; index < grid.length; index++) {
-        grid[index] = new Array(height)        
+        grid[index] = new Array(width)        
     }
     // Modify Words
     wordData = adjustCase(wordData, letterCase)
@@ -799,7 +803,7 @@ function generateWordSearch(params){
     // Add filler characters
     for (let x = 0; x < width; x++) {
         for (let y = 0; y < height; y++) {
-            let charAtCoord = grid[x][y] != undefined ? true : false // Check to see if there is a character at these coords
+            let charAtCoord = grid[y][x] != undefined ? true : false // Check to see if there is a character at these coords
             if (charAtCoord) continue // Skip these coords because there's a character 
             let randomLetter = LETTERS[Math.floor(Math.random() * LETTERS.length)]
             if (letterCase === 'uppercase') randomLetter = randomLetter.toUpperCase()
@@ -807,7 +811,7 @@ function generateWordSearch(params){
                 let roll = getRndInteger(0,1)
                 if (roll === 0) randomLetter = randomLetter.toUpperCase()
             }
-            grid[x][y] = randomLetter // Get a random letter and place it
+            grid[y][x] = randomLetter // Get a random letter and place it
         }
     }
     params.wordData = wordData
@@ -836,19 +840,18 @@ function updateWordSearchPreview(wordSearchData){
     preview.style.gridTemplateColumns = `repeat(${width}, minmax(0, 1fr))`
     preview.classList.remove('grid-cols-7')
 
-    for (let x = 0; x < width; x++) {
-        for (let y = 0; y < height; y++) {
-            // let isWordCoord = answerKey[x][y] === 1 ? true : false
+    for (let x = 0; x < height; x++) {
+        for (let y = 0; y < width; y++) {
             let isWordCoord = answerKey[x][y] ? true : false
             let div = document.createElement('div')
             div.innerText = grid[x][y]
             div.id = `${x}-${y}`
             div.setAttribute('name', 'letter')
             div.classList.add('text-center')
-            div.classList.add('align-middle')
-            div.classList.add('w-4')
-            div.classList.add('h-4')
             div.classList.add('text-sm')
+            div.classList.add('p-px')
+            div.classList.add('w-5')
+            div.classList.add('h-5')
             if (isWordCoord) { 
                 div.classList.add('text-black')
                 div.innerText = answerKey[x][y]
@@ -865,8 +868,8 @@ function updateWordSearchPreview(wordSearchData){
             for (let index = 0; index < coords.length; index++) {
                 const element = coords[index];
                 let div = document.getElementById(`${element.x}-${element.y}`)
-                div.style.background = color
-                div.classList.add(`bg-[${color}]`)
+                // div.style.background = color
+                // div.classList.add(`bg-[${color}]`)
             }
         }
     }
@@ -876,10 +879,10 @@ function updateWordBank(wordSearchData){
     const wordSearchPuzzle = document.getElementById('word-search-puzzle')
     const wordBank = document.getElementById('word-bank')
 
-    const worksheetHeight = worksheet.clientHeight * 0.7
-    const otherElementsHeight = wordSearchPuzzle.offsetHeight; // Add the offsetHeight of other elements if they exist
+    const worksheetHeight = worksheet.clientHeight * PREVIEW_SCALE
+    const otherElementsHeight = wordSearchPuzzle.offsetHeight * PREVIEW_SCALE; // Add the offsetHeight of other elements if they exist
     const wordBankHeight = worksheetHeight - otherElementsHeight;
-    wordBank.style.height = wordBankHeight * 1.5 + 'px';
+    wordBank.style.height = wordBankHeight - (wordBankHeight * 0.3) + 'px';
 
     wordBank.innerHTML = ''
     let wordData = wordSearchData.wordData

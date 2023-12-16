@@ -16,15 +16,62 @@ function getRndInteger(min, max) {
     return parseInt(Math.floor(Math.random() * (max + 1 - min)) + min);
 }
 // Function to make a toast using Toastify (https://github.com/apvarun/toastify-js/blob/master/README.md)
-function makeToast(content, type){
-    let backgroundColor
-    if (type === 'success') backgroundColor = '#166534' 
-    else if (type === 'warning') backgroundColor = '#fde047'
-    else if (type === 'error') backgroundColor = '#b91c1c'
-    let color 
-    if (type === 'success') color = '#fff' 
-    else if (type === 'warning') color = '#000'
-    else if (type === 'error') color = '#fff'
+// function makeToast(content, type){
+//     let backgroundColor
+//     if (type === 'success') backgroundColor = '#166534' 
+//     else if (type === 'warning') backgroundColor = '#fde047'
+//     else if (type === 'error') backgroundColor = '#b91c1c'
+//     let color 
+//     if (type === 'success') color = '#fff' 
+//     else if (type === 'warning') color = '#000'
+//     else if (type === 'error') color = '#fff'
+//     Toastify({
+//         text: content,
+//         offset: {
+//             x: 10,
+//             y: 10
+//         },
+//         gravity: "bottom",
+//         position: "left",
+//         style: {
+//             background: backgroundColor,
+//             color: color,
+//             zIndex: 1000
+//         },
+//         escapeMarkup: false,
+//     }).showToast()
+// }
+let lastToastTime = 0;
+const toastDebounceDelay = 3000; // 2 seconds, adjust as needed
+
+function makeToast(content, type) {
+    const now = Date.now();
+
+    if (now - lastToastTime > toastDebounceDelay || lastToastTime === 0) {
+        // If it's the first toast or enough time has passed since the last toast
+        lastToastTime = now;
+        showToast(content, type);
+    } else {
+        // If the toast is triggered too soon, delay it
+        clearTimeout(toastDebounceTimer);
+        toastDebounceTimer = setTimeout(() => {
+            lastToastTime = Date.now();
+            showToast(content, type);
+        }, toastDebounceDelay - (now - lastToastTime));
+    }
+}
+
+function showToast(content, type) {
+    let backgroundColor;
+    if (type === 'success') backgroundColor = '#166534';
+    else if (type === 'warning') backgroundColor = '#fde047';
+    else if (type === 'error') backgroundColor = '#b91c1c';
+
+    let color;
+    if (type === 'success') color = '#fff';
+    else if (type === 'warning') color = '#000';
+    else if (type === 'error') color = '#fff';
+
     Toastify({
         text: content,
         offset: {
@@ -39,8 +86,9 @@ function makeToast(content, type){
             zIndex: 1000
         },
         escapeMarkup: false,
-    }).showToast()
+    }).showToast();
 }
+
 // Function to format milliseconds into 0h 0m 0s
 function formatMillisecondsToReadable(milliseconds){
     if (milliseconds < 1000) return `${milliseconds}ms`
@@ -81,18 +129,24 @@ function getRandomArrayElement(array){
 function decrement(e) {
     e.preventDefault() // Prevent the form from doing its thing
     const btn = e.target.parentNode.parentElement.querySelector('button[data-action="decrement"]');
+    let targetSize
+    if (btn.name == 'width') targetSize = WORD_SEARCH_MIN_COL_SIZE
+    else if (btn.name == 'height') targetSize = WORD_SEARCH_MIN_ROW_SIZE
     const target = btn.nextElementSibling;
     let value = Number(target.value);
-    if (value - 1 < WORD_SEARCH_MIN_SIZE) return makeToast(`Number cannot be less than ${WORD_SEARCH_MIN_SIZE}!`, `error`)
+    if (value - 1 < targetSize) return makeToast(`Cannot be less than ${targetSize}!`, `error`)
     value--;
     target.value = value;
 }
 function increment(e) {
     e.preventDefault() // Prevent the form from doing its thing
     const btn = e.target.parentNode.parentElement.querySelector('button[data-action="decrement"]');
+    let targetSize
+    if (btn.name == 'width') targetSize = WORD_SEARCH_MAX_COL_SIZE
+    else if (btn.name == 'height') targetSize = WORD_SEARCH_MAX_ROW_SIZE
     const target = btn.nextElementSibling;
     let value = Number(target.value);
-    if (value + 1 > WORD_SEARCH_MAX_SIZE) return makeToast(`Number cannot be greater than ${WORD_SEARCH_MAX_SIZE}!`, `error`)
+    if (value + 1 > targetSize) return makeToast(`Cannot be greater than ${targetSize}!`, `error`)
     value++;
     target.value = value;
 }

@@ -46,7 +46,7 @@
             </div>
         </div>
         <span class="mobile-content">
-            <div class="hidden p-4 text-xl text-center bg-red-500 sm:block md:block lg:hidden xl:hidden 2xl:hidden rounded-xl dark:bg-red-600">My deepest apologies, but I must regretfully inform you that my capabilities do not extend to the accommodation of mobile devices at this time. <br><br> If you are using a tablet, please switch to the landscape orientation. <br><br> I extend my sincerest apology for causing you immeasurable disappointment and ruining your day.</div>
+            <div class="hidden p-4 text-xl text-center bg-red-500 sm:block md:block lg:hidden xl:hidden 2xl:hidden rounded-xl dark:bg-red-600">My deepest apologies, but I must regretfully inform you that my capabilities do not extend to the accommodation of mobile devices at this time. <br><br> If you are using a tablet, please switch to landscape. If you are on a computer, try hitting <i>Ctrl + -</i> (the control key and the hyphen key) to zoom out.<br><br> I extend my sincerest apology for causing you immeasurable disappointment and ruining your day.</div>
         </span>
         <div class="pt-8 pb-4 text-4xl scroll-m-8" id="nav-word-search">Word Search</div>
         <div class="hidden w-full grid-cols-7 gap-8 lg:grid">
@@ -62,13 +62,13 @@
                                 <label for="item-weight" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Page Size</label>
                                 <div class="inline-flex rounded-md shadow-sm" role="group">
                                     <label for="letter" id="label-letter" class="">
-                                        <input type="radio" name="page-size" class="hidden peer" id="letter" value="letter" checked/>
+                                        <input type="radio" name="page-size" class="hidden peer" id="letter" value="letter"/>
                                         <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border border-gray-200 rounded-l-lg peer-checked:bg-blue-600 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
                                             US Letter
                                         </div>
                                     </label>
                                     <label for="a4" id="label-a4" class="">
-                                        <input type="radio" name="page-size" class="hidden peer" id="a4" value="a4"/>
+                                        <input type="radio" name="page-size" class="hidden peer" id="a4" value="a4" checked/>
                                         <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border border-gray-200 peer-checked:bg-blue-600 rounded-r-md hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
                                             A4
                                         </div>
@@ -86,11 +86,11 @@
                             <div class="col-span-1">
                                 <label for="height" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Rows <i id="rows-warning" class="fa-solid fa-triangle-exclamation"></i></label>
                                 <div class="flex flex-row" name="number-input-group">
-                                    <button name="decrement" data-action="decrement" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-l-lg text-sm px-4 py-2.5 dark:bg-blue-400 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                                    <button name="height" data-action="decrement" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-l-lg text-sm px-4 py-2.5 dark:bg-blue-400 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
                                         <i class="fa-solid fa-minus"></i>
                                     </button>
-                                    <input type="number" name="height" id="height" class="w-11 bg-gray-50 border border-gray-300 text-center text-gray-900 text-sm focus:ring-primary-600 focus:border-primary-600 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" min="5" max="24" value="10" required="">
-                                    <button name="increment" data-action="increment" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-r-lg text-sm px-4 py-2.5 dark:bg-blue-400 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                                    <input type="number" name="height" id="height" class="w-11 bg-gray-50 border border-gray-300 text-center text-gray-900 text-sm focus:ring-primary-600 focus:border-primary-600 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" min="4" max="24" value="10" required="">
+                                    <button name="height" data-action="increment" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-r-lg text-sm px-4 py-2.5 dark:bg-blue-400 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
                                         <i class="fa-solid fa-plus"></i>
                                     </button>
                                 </div>
@@ -98,11 +98,11 @@
                             <div class="col-span-1">
                                 <label for="width" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Columns <i id="cols-warning" class="fa-solid fa-triangle-exclamation"></i></label>
                                 <div class="flex flex-row" name="number-input-group">
-                                    <button name="decrement" data-action="decrement" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-l-lg text-sm px-4 py-2.5 dark:bg-blue-400 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                                    <button name="width" data-action="decrement" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-l-lg text-sm px-4 py-2.5 dark:bg-blue-400 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
                                         <i class="fa-solid fa-minus"></i>
                                     </button>
-                                    <input type="number" name="width" id="width" class="w-11 bg-gray-50 border text-center border-gray-300 text-gray-900 text-sm focus:ring-primary-600 focus:border-primary-600 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" min="5" max="24" value="10" required="">
-                                    <button name="increment" data-action="increment" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-r-lg text-sm px-4 py-2.5 dark:bg-blue-400 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                                    <input type="number" name="width" id="width" class="w-11 bg-gray-50 border text-center border-gray-300 text-gray-900 text-sm focus:ring-primary-600 focus:border-primary-600 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" min="4" max="32" value="10" required="">
+                                    <button name="width" data-action="increment" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-r-lg text-sm px-4 py-2.5 dark:bg-blue-400 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
                                         <i class="fa-solid fa-plus"></i>
                                     </button>
                                 </div>
@@ -247,51 +247,47 @@
                     </form>
                 </div>
             </section>
-            <div id="word-search-worksheet" class="flex flex-col self-start col-span-4 gap-2 p-4 text-black align-top bg-white w-fit h-fit" style="width: 580px; height: 850px; transform: scale(0.70); -webkit-transform-origin: left top; -moz-transform-origin: left top;">
-                <div class="grid w-full grid-cols-2">
-                    <div id="current-date" class="text-xs opacity-40 self-left">2023/12/5</div>
-                    <div class="self-end mb-1 text-base font-bold text-right align-middle opacity-50">Name: _______________</div>
-                </div>
-                <div id="word-search-title" class="self-center mb-5 text-3xl font-bold text-center align-middle">Untitled</div>
-                <div id="word-search-puzzle" class="self-center align-middle">
-                    <!-- <div id="section-labels" class="grid justify-center grid-cols-2 text-center text-black text-opacity-25 align-middle text-9xl">
-                        <div class="border-b-8 border-r-8 border-dashed border-opacity-5">1</div>
-                        <div class="border-b-8 border-opacity-100 border-dashed">2</div>
-                        <div class="border-r-8 border-opacity-100 border-dashed">3</div>
-                        <div>4</div>
-                    </div> -->
-                    <div id="preview-word-search" class="grid self-center grid-cols-7 gap-1 p-4 text-xs font-bold align-middle border-4 border-black rounded-lg w-fit h-fit">
-                        <div>P</div>
-                        <div>R</div>
-                        <div>E</div>
-                        <div>V</div>
-                        <div>I</div>
-                        <div>E</div>
-                        <div>W</div>
-                        <div>P</div>
-                        <div>R</div>
-                        <div>E</div>
-                        <div>V</div>
-                        <div>I</div>
-                        <div>E</div>
-                        <div>W</div>
-                        <div>P</div>
-                        <div>R</div>
-                        <div>E</div>
-                        <div>V</div>
-                        <div>I</div>
-                        <div>E</div>
-                        <div>W</div>
-                        <div>P</div>
-                        <div>R</div>
-                        <div>E</div>
-                        <div>V</div>
-                        <div>I</div>
-                        <div>E</div>
-                        <div>W</div>
+            <div id="worksheet">
+                <div id="word-search-worksheet" class="flex flex-col self-start col-span-4 gap-2 p-4 text-black align-top bg-white w-fit h-fit" style="width: 580px; height: 850px; transform: scale(0.70); -webkit-transform-origin: left top; -moz-transform-origin: left top;">
+                    <div class="grid w-full grid-cols-2">
+                        <div id="current-date" class="text-xs opacity-40 self-left">2023/12/5</div>
+                        <div class="self-end mb-1 text-base font-bold text-right align-middle opacity-50">Name: _______________</div>
                     </div>
+                    <div id="word-search-title" class="self-center mb-5 text-3xl font-bold text-center align-middle">Untitled</div>
+                    <div id="word-search-puzzle" class="self-center align-middle">
+                        <div id="preview-word-search" class="grid self-center justify-center grid-cols-7 p-4 text-xs font-bold text-center align-middle border-2 border-black rounded-lg w-fit h-fit">
+                            <div>P</div>
+                            <div>R</div>
+                            <div>E</div>
+                            <div>V</div>
+                            <div>I</div>
+                            <div>E</div>
+                            <div>W</div>
+                            <div>P</div>
+                            <div>R</div>
+                            <div>E</div>
+                            <div>V</div>
+                            <div>I</div>
+                            <div>E</div>
+                            <div>W</div>
+                            <div>P</div>
+                            <div>R</div>
+                            <div>E</div>
+                            <div>V</div>
+                            <div>I</div>
+                            <div>E</div>
+                            <div>W</div>
+                            <div>P</div>
+                            <div>R</div>
+                            <div>E</div>
+                            <div>V</div>
+                            <div>I</div>
+                            <div>E</div>
+                            <div>W</div>
+                        </div>
+                    </div>
+                    <div id="word-bank" class="mt-5 flex flex-col flex-wrap gap-2 gap-x-8 max-h-[300px] text-2xs text-center"></div>
                 </div>
-                <div id="word-bank" class="mt-5 flex flex-col flex-wrap gap-2 gap-x-8 max-h-[300px] text-2xs text-center"></div>
             </div>
         </div>
         <div class="pt-48 pb-4 text-4xl scroll-m-24" id="nav-crossword-puzzle">Crossword Puzzle</div>
@@ -456,8 +452,9 @@
         </div>
     </div>
     <div class="hidden w-4 h-4 bg-gray-300"></div>
-    <div class="hidden text-5xl bg-transparent"></div>
+    <div class="hidden text-5xl bg-gray-400"></div>
     <div class="hidden bg-transparent text-7xl"></div>
+    <div class="hidden p-px bg-gray-200 text-7xl"></div>
 </body>
 <script src="js/app.js"></script>
 <script src="js/wordSearch.js"></script>

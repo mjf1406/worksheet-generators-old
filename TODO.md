@@ -3,15 +3,21 @@
 ## Change Log
 - 2023/12/xx
     - [ ] Hint Pages
-        - that reveals Sections
+        - that reveals Sections and teaches students how to make the sections themselves
+            - (?) a step-by-step guide for each arithmetic operation
+            - (?) a step-by-step guide with no arithmetic required
         - that reveals Directions
         - that reveals Sections and Directions
     - [ ] Answer Page
-    - [ ] make page size function
-    - [ ] make the sections pretty
+    - [ ] Fixed: US Letter now has properly scaled PDF output. Before it was too small.
+    - [ ] Fixed: Section numbers now are properly displayed in the output PDF.
+    - [ ] Fixed: made Light Theme colors better, less 'jarring'/contrasting
 - 2023/12/16
-    - [ ] Sections breaks down when column and row are not the same
-    - [ ] the section number now displays in the word search if revealSections is checked, word bank is updated, too
+    - implemented debouncing on increment buttons, decrement buttons, and the words input
+    - make the sections pretty
+    - changed section numbers to be relative to height of the word search
+    - Sections breaks down when column and row are not the same
+    - the section number now displays in the word search if revealSections is checked, word bank is updated, too
     - each word's section is not determined in `determineWordSections()` and properly displayed in the word bank based on revealSections
     - Larger buttons were added to increment and decrement Rows and Columns
     - words that were not placed are now tracked and the user is alerted to those words via a toast

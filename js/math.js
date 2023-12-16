@@ -57,3 +57,12 @@ function findDuplicates(array) {
     }
     return duplicates;
 }
+function debounce(func, delay) {
+    let debounceTimer;
+    return function() {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => {
+            func.apply(this, arguments);
+        }, delay);
+    };
+}
