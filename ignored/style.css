@@ -22,3 +22,23 @@ body {
         display: block;
     }
 }
+.text-2xs {
+    font-size: 0.6rem; /* 10px */
+    line-height: 0.9rem; /* 14px */
+}
+.text-3xs {
+    font-size: 0.5rem; /* 8px */
+    line-height: 0.6rem; /* 10px */
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}

@@ -46,3 +46,14 @@ function findShortestElement(array) {
     });
     return {element: longestElement, length: longestElement.length}
 }
+function findDuplicates(array) {
+    let elementCount = {};
+    let duplicates = [];
+    array.forEach(element => {
+        elementCount[element] = (elementCount[element] || 0) + 1;
+    });
+    for (let element in elementCount) {
+        if (elementCount[element] > 1) duplicates.push(element);
+    }
+    return duplicates;
+}

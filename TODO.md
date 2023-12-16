@@ -7,15 +7,19 @@
         - that reveals Directions
         - that reveals Sections and Directions
     - [ ] Answer Page
-- 2023/12/xx
-    - [ ] word bank height automatically adjusts based on remaining space on sheet now
-    - [ ] add larger buttons to increase and decrease Rows and Columns
-    - [ ] redraw word search on
-        - Letter Case change
-        - Reveal Section change
-    - [ ] redraw word bank on
-        - Reveal Section change
-        - Reveal Direction change
+    - [ ] make page size function
+    - [ ] make the sections pretty
+- 2023/12/16
+    - [ ] Sections breaks down when column and row are not the same
+    - [ ] the section number now displays in the word search if revealSections is checked, word bank is updated, too
+    - each word's section is not determined in `determineWordSections()` and properly displayed in the word bank based on revealSections
+    - Larger buttons were added to increment and decrement Rows and Columns
+    - words that were not placed are now tracked and the user is alerted to those words via a toast
+    - word bank height automatically adjusts based on remaining space on sheet now
+    - word search is now redrawn on Letter Case change and reveal Section change
+    - Work bank is now redrawn on reveal Section change, reveal Direction change, and Letter Case change
+    - the title is now redrawn on user input
+    - added warning icons to Rows, Columns, and Word Direction to inform the user that a new word search must be generated for these changes to take effect
 - 2023/12/15
     - Rows and Columns now are updated to the longest word's length if they are less than the longest word's length
     - Basic implementation of sections complete
@@ -32,9 +36,6 @@
 ## Generators
 
 ### Word Search
-- Bugs
-   - [ ] Need to remove words that were not placed from the word bank and inform the user of the words that were not placed
-   - [ ] Sections breaks down when column and row are not the same
 - Test
     - muntjac, kangaroo, hippopotamus, tenrec, monkey, elk, giraffe, hummingbird, mouse, rat, bat, flamingo, beaver, blackbuck, boar, bear, snake, spider, grasshopper, mantis
 - Inputs

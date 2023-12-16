@@ -1,6 +1,8 @@
 const LETTERS = 'abcdefghijklmnopqrstuvwxyz'
 const WORD_RE = /^[a-z]+$/
 const COLORS = ['#f87171','#fde047','#4ade80','#60a5fa','#c084fc','#f472b6','#f43f5e','#0d9488','#fb923c']
+const WORD_SEARCH_MAX_SIZE = 24
+const WORD_SEARCH_MIN_SIZE = 4
 const DELTAS = {
     'left-to-right': [0, 1],
     'right-to-left': [0, -1],
@@ -25,22 +27,23 @@ const SECTIONS = {
     "four": {
         rows: 2,
         cols: 2,
-        num: 4
+        num: 4,
+        fontSize: 'text-7xl',
+        fontOpacity: '0.15'
     },
     "nine": {
         rows: 3,
         cols: 3,
-        num: 9
-    },
-    "twelve": {
-        rows: 3,
-        cols: 4,
-        num: 12
+        num: 9,
+        fontSize: 'text-5xl',
+        fontOpacity: '0.20'
     },
     "sixteen": {
         rows: 4,
         cols: 4,
-        num: 16
+        num: 16,
+        fontSize: 'text-3xl',
+        fontOpacity: '0.20'
     }
 }
 if(!localStorage.getItem('word-search-data')) {
@@ -65,7 +68,10 @@ if (JSON.parse(localStorage.getItem('word-search-presets'))) {
     option.value = 'load'
     presetsDropdown.appendChild(option)
 }
-// Tooltips
+
+
+
+
 tippy('#label-backward', {
     content: "Backward"
 })
@@ -94,15 +100,50 @@ tippy('#reveal-direction-help', {
     content: `Displays the direction of each word in the word bank using arrows.`,
     allowHTML: true
 })
+tippy('#download', {
+    content: `Download as PDF`,
+    allowHTML: true
+})
+tippy('#print', {
+    content: `Print the word search`,
+    allowHTML: true
+})
+tippy('#preview', {
+    content: `Generate word search`,
+    allowHTML: true
+})
+tippy('#open-preset', {
+    content: `Save the settings above as a preset`,
+    allowHTML: true
+})
+tippy('#delete-preset', {
+    content: `Delete the selected preset`,
+    allowHTML: true
+})
+tippy('#rows-warning', {
+    content: `A new new word search must be generated for changes to take effect.`
+})
+tippy('#cols-warning', {
+    content: `A new new word search must be generated for changes to take effect.`
+})
+tippy('#direction-warning', {
+    content: `A new new word search must be generated for changes to take effect.`
+})
+tippy('#words-warning', {
+    content: `A new new word search must be generated for changes to take effect.`
+})
+
 
 
 
 let title = document.getElementById('title')
 let height = document.getElementById('height')
 let width = document.getElementById('width')
-let sections = document.getElementById('sections')
+let sectionsRadios = document.getElementsByName('sections')
+let sections = getSelectedValueFromRadioGroup('sections')
 let revealSections = document.getElementById('reveal-section')
 let letterCase = getSelectedValueFromRadioGroup('letter-case')
+let letterCaseRadios = document.getElementsByName('letter-case')
 let wordDirections = document.getElementsByName('word-direction')
 let wordDirectionAllButton = document.getElementById('select-all-directions')
 let wordsInput = document.getElementById('words')
@@ -112,6 +153,7 @@ for (let index = 0; index < wordDirections.length; index++) {
     if (element.checked) directions.push(element.id)
 }
 let revealDirection = document.getElementById('reveal-direction')
+let directionsRadios = document.getElementsByName('word-direction')
 let page = getSelectedValueFromRadioGroup('page-size')
 let key = document.getElementById('key')
 let words = document.getElementById('words')
@@ -146,6 +188,7 @@ previewButton.addEventListener('click', function(){
     let params = getWordSearchParams()
     if (params.words.length === 0) return makeToast("Please add some words!", 'warning')
     let wordSearchData = generateWordSearch(params)
+    localStorage.setItem('word-search-data', JSON.stringify(wordSearchData))
     if (typeof wordSearchData === 'object' || wordSearchData instanceof Object) { 
         updateWordSearchPreview(wordSearchData)
         updateWordBank(wordSearchData)
@@ -153,6 +196,8 @@ previewButton.addEventListener('click', function(){
         if (revealSections) paintSections(wordSearchData.sections)
         let end = new Date().getTime(); 
         makeToast(`Word Search generated in ${formatMillisecondsToReadable(end - start)}`, 'success')
+        const wordsNotPlaced = wordSearchData.wordsNotPlaced
+        if (wordsNotPlaced.length > 0) makeToast(`Failed to placed ${wordsNotPlaced.length} word(s): ${wordsNotPlaced.join(", ").toLowerCase()}`, 'error')
     }
 })
 savePreset.addEventListener('click', function(){
@@ -169,6 +214,11 @@ presetsDropdown.addEventListener('change', function(){
     makeToast(`<b>${selectedPreset}</b> loaded successfully!`, 'success')
 })
 wordsInput.addEventListener('input', function(){
+    let words = this.value
+    if (words.includes(",")) words = words.split(", ")
+    else if (words.includes("\n")) words = words.split("\n")
+
+    const duplicates = findDuplicates(words)
     const rowsInput = document.getElementById('height')
     const colsInput = document.getElementById('width')
     const height = parseInt(rowsInput.value)
@@ -183,6 +233,8 @@ wordsInput.addEventListener('input', function(){
         makeToast(`Columns set to ${longestLength}`, `warning`)
 
     }
+    if (duplicates.length > 0) makeToast(`There are ${duplicates.length} duplicate words present!`, `warning`)
+
 })
 downloadButton.addEventListener('click', function(){
     const wordSearchData = JSON.parse(localStorage.getItem('word-search-data'))
@@ -224,6 +276,110 @@ printButton.addEventListener('click', function(){
         document.body.appendChild(hiddenFrame);
     });
 });
+
+
+
+
+sectionsRadios.forEach(element => {
+    element.addEventListener('change', function(){
+        let wordSearchData = JSON.parse(localStorage.getItem('word-search-data'))
+        const revealSections = document.getElementById('reveal-section').checked
+        const numberOfSections = getSelectedValueFromRadioGroup('sections')
+        wordSearchData.revealSections = revealSections
+        wordSearchData.numberOfSections = numberOfSections
+        wordSearchData = computeSectionDimensions(wordSearchData)
+        if (revealSections === true) {
+            wordSearchData = determineWordSections(wordSearchData)
+            paintSections(wordSearchData.sections, null)
+            updateWordBank(wordSearchData)
+        }
+        localStorage.setItem('word-search-data', JSON.stringify(wordSearchData))
+    })
+});
+letterCaseRadios.forEach(element => {
+    element.addEventListener('change', function(){
+        let revealSections = document.getElementById('reveal-section').checked
+        const wordSearchData = JSON.parse(localStorage.getItem('word-search-data'))
+        let letterCase = wordSearchData.letterCase
+        const key = wordSearchData.key
+        const grid = wordSearchData.grid
+        const width = wordSearchData.width
+        const height = wordSearchData.height
+
+        letterCase = getSelectedValueFromRadioGroup('letter-case')
+        let wordData = wordSearchData.wordData
+        wordData = adjustCase(wordSearchData.wordData, letterCase)
+        for (let x = 0; x < width; x++) {
+            for (let y = 0; y < height; y++) {                
+                if (letterCase == 'uppercase') {
+                    grid[x][y] = grid[x][y].toUpperCase()
+                    if (key[x][y] != null) key[x][y] = key[x][y].toUpperCase()
+                } else if (letterCase == 'lowercase') {
+                    grid[x][y] = grid[x][y].toLowerCase()
+                    if (key[x][y] != null) key[x][y] = key[x][y].toLowerCase()
+                } else if (letterCase == 'random-case') {    
+                    let rand = getRndInteger(0, 1)
+                    if (rand === 0) {
+                        grid[x][y] = grid[x][y].toUpperCase()
+                        if (key[x][y] != null) key[x][y] = key[x][y].toUpperCase()
+                    } else if (rand === 1) {
+                        grid[x][y] = grid[x][y].toLowerCase()
+                        if (key[x][y] != null) key[x][y] = key[x][y].toLowerCase()
+                    }
+                }
+            }
+        }
+
+        wordSearchData.letterCase = letterCase
+        wordSearchData.wordData = wordData
+        wordSearchData.key = key
+        wordSearchData.grid = grid
+
+        updateWordSearchPreview(wordSearchData)
+        if (revealSections) paintSections(wordSearchData.sections)
+        updateWordBank(wordSearchData)
+        localStorage.setItem('word-search-data', JSON.stringify(wordSearchData))
+    })
+});
+revealSections.addEventListener('change', function(){
+    let wordSearchData = JSON.parse(localStorage.getItem('word-search-data'))
+    const revealSections = document.getElementById('reveal-section').checked
+    const numberOfSections = getSelectedValueFromRadioGroup('sections')
+
+    wordSearchData.revealSections = revealSections
+    wordSearchData.numberOfSections = numberOfSections
+
+    let sections = wordSearchData.sections
+    if (revealSections == false) { 
+        paintSections(sections, 'BG_WHITE')
+    } else if (revealSections == true) {
+        if (sections.length == 0) {
+            wordSearchData = computeSectionDimensions(wordSearchData)
+            wordSearchData = determineWordSections(wordSearchData)
+        }
+        paintSections(wordSearchData.sections, null)
+    } 
+    wordSearchData.sections = sections
+    updateWordBank(wordSearchData)
+    localStorage.setItem('word-search-data', JSON.stringify(wordSearchData))
+})
+revealDirection.addEventListener('change', function(){
+    let wordSearchData = JSON.parse(localStorage.getItem('word-search-data'))
+    const revealDirection = document.getElementById('reveal-direction').checked
+    const directions = wordSearchData.directions
+    const wordBank = document.getElementById('word-bank')
+    wordSearchData.revealDirection = revealDirection
+    wordBank.innerHTML = ''
+    updateWordBank(wordSearchData)
+})
+title.addEventListener('input', function(){
+    const wordSearchData = JSON.parse(localStorage.getItem('word-search-data'))
+    const wordSearchTitle = document.getElementById('word-search-title')
+    wordSearchData.title = wordSearchTitle
+    wordSearchTitle.innerText = this.value
+    paintSections(wordSearchData.sections)
+    localStorage.setItem('word-search-data', JSON.stringify(wordSearchData))
+})
 
 
 
@@ -287,7 +443,6 @@ function getWordSearchParams(){
     }
     return params
 }
-// Update Preset Dropdown
 function refreshPresetDropdown(){
     let presets = JSON.parse(localStorage.getItem('word-search-presets'))
     let presetsDropdown = document.getElementById('presets-dropdown')
@@ -332,7 +487,6 @@ function populateOptionsFromPreset(presetOptions){
     if (presetOptions.key) key.checked = true
     else key.checked = false
 }
-// radios.forEach(radio => { radio.addEventListener('change', saveWordSearch) });
 function adjustCase(wordData, letterCase){
     if (letterCase === "lowercase") {
         for (let index = 0; index < wordData.length; index++) {
@@ -365,17 +519,18 @@ function computeSectionDimensions(params){
     const height = params.height
     const width = params.width
     const wordData = params.wordData
-    const sections = params.sections
+    // const sections = params.sections
+    const sections = []
     const numberOfSectionsWord = params.numberOfSections
     const cols = SECTIONS[numberOfSectionsWord].cols
     const rows = SECTIONS[numberOfSectionsWord].rows
     const numberOfSections = SECTIONS[numberOfSectionsWord].num
     const sectionWidth = Math.floor(width / cols)
     const sectionHeight = Math.floor(height / rows)
-
+    let sectionId = 0
     // Section Dimensions
-    for (let rowIdx = 0; rowIdx < rows; rowIdx++) {
-        for (let colIdx = 0; colIdx < cols; colIdx++) {
+    for (let colIdx = 0; colIdx < cols; colIdx++) {
+        for (let rowIdx = 0; rowIdx < rows; rowIdx++) {
             let xStart = sectionHeight * colIdx
             let xEnd = xStart + (sectionHeight - 1)
             let yStart = sectionWidth * rowIdx
@@ -389,28 +544,80 @@ function computeSectionDimensions(params){
                 yEnd = height - 1
             }
             sections.push({
+                id: sectionId,
                 start: `${xStart}-${yStart}`,
                 end: `${xEnd}-${yEnd}`,
             })
+            sectionId++
         }        
     }
     params.sections = sections
+    console.log("🚀 ~ file: wordSearch.js:554 ~ computeSectionDimensions ~ sections:", sections)
     return params
 }
-function paintSections(sections){
-    console.log("Painting Sections...")
-    const BG_GRAY = 'bg-gray-300'
-    const BG_WHITE = 'bg-white'
-    const SECTION_COLORS_FOUR = [BG_GRAY,BG_WHITE,BG_WHITE,BG_GRAY]
-    const SECTION_COLORS_NINE = [BG_GRAY,BG_WHITE,BG_GRAY, BG_WHITE,BG_GRAY,BG_WHITE, BG_GRAY,BG_WHITE,BG_GRAY]
-    const SECTION_COLORS_TWELVE = [BG_GRAY,BG_WHITE,BG_GRAY,BG_WHITE, BG_WHITE,BG_GRAY,BG_WHITE,BG_GRAY, BG_GRAY,BG_WHITE,BG_GRAY,BG_WHITE]
-    const SECTION_COLORS_SIXTEEN = [BG_GRAY,BG_WHITE,BG_GRAY,BG_WHITE, BG_WHITE,BG_GRAY,BG_WHITE,BG_GRAY, BG_GRAY,BG_WHITE,BG_GRAY,BG_WHITE, BG_WHITE,BG_GRAY,BG_WHITE,BG_GRAY]
+function paintSections(sections, color){
+    console.log("🚀 ~ file: wordSearch.js:558 ~ paintSections ~ sections:", sections)
+    sections.sort(function(a, b) { return a.id - b.id })
     const sectionDigit = sections.length
     const sectionWord = sectionDigitToSectionWord(sectionDigit).toUpperCase()
+    const sectionData = SECTIONS[sectionWord.toLowerCase()]
+    const sectionNumbersOld = document.getElementById('section-number-display')
+    if (sectionNumbersOld) document.getElementById('section-number-display').remove()
+    const wordSearchPreview = document.getElementById('preview-word-search')
+    const sectionNumberDisplay = wordSearchPreview.cloneNode(true)
+
+    if (!color) {
+        document.body.appendChild(sectionNumberDisplay);
+        const rect = wordSearchPreview.getBoundingClientRect();
+    
+        sectionNumberDisplay.id = 'section-number-display'
+        sectionNumberDisplay.innerHTML = ''
+        sectionNumberDisplay.style.position = 'fixed';
+        sectionNumberDisplay.style.top = `${rect.top}px`;
+        sectionNumberDisplay.style.left = `${rect.left}px`;
+        sectionNumberDisplay.style.width = `${rect.width}px`;  // Optional: to maintain the same width
+        sectionNumberDisplay.style.height = `${rect.height}px`; // Optional: to maintain the same height
+    
+        sectionNumberDisplay.className = ''
+        sectionNumberDisplay.classList.add('grid')
+        sectionNumberDisplay.classList.add('gap-1')
+        sectionNumberDisplay.classList.add(sectionData.fontSize)
+        sectionNumberDisplay.classList.add('justify-center')
+        sectionNumberDisplay.classList.add('align-middle')
+        sectionNumberDisplay.classList.add('text-black')
+        sectionNumberDisplay.style.opacity = sectionData.fontOpacity
+        sectionNumberDisplay.classList.add('p-4')
+        sectionNumberDisplay.classList.add('border-4')
+        sectionNumberDisplay.classList.add('rounded-lg')
+        // sectionNumberDisplay.classList.add()
+        // sectionNumberDisplay.classList.add()
+        // p-4 text-xs font-bold align-middle border-4 border-black rounded-lg w-fit h-fit
+    
+        sectionNumberDisplay.style.gridTemplateColumns = `repeat(${sectionData.cols}, minmax(0, 1fr))`
+    }
+
+    const BG_GRAY = 'bg-gray-200'
+    const BG_WHITE = 'bg-white'
+    const SECTION_COLORS_FOUR = [
+        BG_GRAY,BG_WHITE,
+        BG_WHITE,BG_GRAY
+    ]
+    const SECTION_COLORS_NINE = [
+        BG_GRAY,BG_WHITE,BG_GRAY, 
+        BG_WHITE,BG_GRAY,BG_WHITE, 
+        BG_GRAY,BG_WHITE,BG_GRAY
+    ]
+    const SECTION_COLORS_SIXTEEN = [
+        BG_GRAY,BG_WHITE,BG_GRAY,BG_WHITE, 
+        BG_WHITE,BG_GRAY,BG_WHITE,BG_GRAY, 
+        BG_GRAY,BG_WHITE,BG_GRAY,BG_WHITE, 
+        BG_WHITE,BG_GRAY,BG_WHITE,BG_GRAY
+    ]
     const letters = document.getElementsByName('letter')
 
     for (let sectionIdx = 0; sectionIdx < sections.length; sectionIdx++) {
         const section = sections[sectionIdx];
+        const id = section.id
         const start = section.start.split("-")
         const xStart = parseInt(start[0])
         const yStart = parseInt(start[1])
@@ -427,31 +634,65 @@ function paintSections(sections){
                 && y >= yStart 
                 && x <= xEnd 
                 && y <= yEnd) {
-                    letter.classList.add(eval(`SECTION_COLORS_${sectionWord}`)[sectionIdx])
+                    if (color) { 
+                        letter.classList.remove(BG_WHITE)
+                        letter.classList.remove(BG_GRAY)
+                        letter.classList.add(eval(color))
+                    } else { 
+                        letter.classList.remove(BG_WHITE)
+                        letter.classList.remove(BG_GRAY)
+                        letter.classList.add(eval(`SECTION_COLORS_${sectionWord}`)[id])
+                    }
                 }
         }
-    }
-    console.log("Sections painted successfully!")
-}
-function determineWordSections(params){
-    console.log("Determining each word's section(s)...")
-    const words = params.words
-    const sections = params.sections
-    for (let index = 0; index < sections.length; index++) {
-        const section = sections[index];
-        const start = section.start.split("-")
-        const xStart = start[0]
-        const yStart = start[1]
-        const end = section.end.split("-")
-        const xEnd = end[0]
-        const yEnd = end[1]
-
-        for (let index = 0; index < words.length; index++) {
-            const element = words[index];
-            
+        if (!color){
+            const div = document.createElement('div')
+            div.classList.add('text-center')
+            div.classList.add('align-middle')
+            div.classList.add('z-10')
+            div.classList.add('bg-transparent')
+            div.innerHTML = `<b>${id + 1}</b>`
+    
+            sectionNumberDisplay.appendChild(div)
         }
     }
-    console.log("Each word's section has been determined successfully!")
+}
+function determineWordSections(params){
+    const wordData = params.wordData
+    const sections = params.sections
+    sections.sort(function(a, b) { return a.id - b.id })
+    let placedWords = []
+    for (let wordDataIdx = 0; wordDataIdx < wordData.length; wordDataIdx++) {
+        const element = wordData[wordDataIdx];
+        const wordCoords = element.coords
+        element.sections = []
+        if (!wordCoords) continue // Word was not placed
+        if(!placedWords.includes(element.word)) placedWords.push(element.word)
+        for (let wordCoordIdx = 0; wordCoordIdx < wordCoords.length; wordCoordIdx++) {
+            const letterCoords = wordCoords[wordCoordIdx];
+            const letter = element.word[wordCoordIdx]
+            const x = letterCoords.x
+            const y = letterCoords.y
+            for (let sectionIdx = 0; sectionIdx < sections.length; sectionIdx++) {
+                const section = sections[sectionIdx];
+                const id = section.id
+                const start = section.start.split("-")
+                const xStart = start[0]
+                const yStart = start[1]
+                const end = section.end.split("-")
+                const xEnd = end[0]
+                const yEnd = end[1]
+                if (x >= xStart && 
+                    y >= yStart &&
+                    x <= xEnd &&
+                    y <= yEnd) {
+                        if(!element.sections.includes(id + 1)) element.sections.push(id + 1)
+                        break // A letter cannot be in more than one section
+                    }
+            }
+        }
+    }
+    console.log(`Processed ${placedWords.length} of ${wordData.length} words!`)
     return params
 }
 function sectionDigitToSectionWord(digit){
@@ -469,6 +710,7 @@ function generateWordSearch(params){
     let directions = params.directions
     let words = params.words
     let wordData = words.map(word => { return { word: word } })
+    const wordsNotPlaced = []
     // Error Handling
     let invalidWordLength = false
     for (let index = 0; index < words.length; index++) {
@@ -550,6 +792,9 @@ function generateWordSearch(params){
             }
             attempt += 1
         }
+        if (wordPlaced == false) {
+            wordsNotPlaced.push(word)
+        }
     }
     // Add filler characters
     for (let x = 0; x < width; x++) {
@@ -568,6 +813,7 @@ function generateWordSearch(params){
     params.wordData = wordData
     params.grid = grid
     params.key = answerKey
+    params.wordsNotPlaced = wordsNotPlaced
     if (revealSections) { 
         params = computeSectionDimensions(params)
         params = determineWordSections(params)
@@ -599,6 +845,7 @@ function updateWordSearchPreview(wordSearchData){
             div.id = `${x}-${y}`
             div.setAttribute('name', 'letter')
             div.classList.add('text-center')
+            div.classList.add('align-middle')
             div.classList.add('w-4')
             div.classList.add('h-4')
             div.classList.add('text-sm')
@@ -618,13 +865,22 @@ function updateWordSearchPreview(wordSearchData){
             for (let index = 0; index < coords.length; index++) {
                 const element = coords[index];
                 let div = document.getElementById(`${element.x}-${element.y}`)
-                // div.style.background = color
-                // div.classList.add(`bg-[${color}]`)
+                div.style.background = color
+                div.classList.add(`bg-[${color}]`)
             }
         }
     }
 }
 function updateWordBank(wordSearchData){
+    const worksheet = document.getElementById('word-search-worksheet')
+    const wordSearchPuzzle = document.getElementById('word-search-puzzle')
+    const wordBank = document.getElementById('word-bank')
+
+    const worksheetHeight = worksheet.clientHeight * 0.7
+    const otherElementsHeight = wordSearchPuzzle.offsetHeight; // Add the offsetHeight of other elements if they exist
+    const wordBankHeight = worksheetHeight - otherElementsHeight;
+    wordBank.style.height = wordBankHeight * 1.5 + 'px';
+
     wordBank.innerHTML = ''
     let wordData = wordSearchData.wordData
     wordData = wordData.sort((a, b) => a.word.localeCompare(b.word));
@@ -632,9 +888,10 @@ function updateWordBank(wordSearchData){
     let revealSections = wordSearchData.revealSections
     for (let index = 0; index < wordData.length; index++) {
         let element = wordData[index]
+        if (!element.coords || element.coords.length < 0) continue // Skip words that were not placed
         let word = element.word
         let direction = element.direction
-        // let section = element.section
+        let sections = element.sections ?? []
 
         let div = document.createElement('div')
         let sectionDiv = document.createElement('div')
@@ -643,16 +900,16 @@ function updateWordBank(wordSearchData){
 
         div.classList.add('flex')
         div.classList.add('flex-row')
-        div.classList.add('gap-2')
-        div.classList.add('text-xs')
+        div.classList.add('gap-1')
 
         // sectionDiv.innerHTML = `<b>${section}</b>`
         directionDiv.innerHTML = DIRECTION_ICONS[direction]
         wordDiv.innerHTML = `<b>${word}</b>`
+        sectionDiv.innerHTML = (sections.length > 0) ? `[${sections.join(", ")}]` : ""
 
-        if(revealSections) div.appendChild(sectionDiv)
         if(revealDirection) div.appendChild(directionDiv)
         div.appendChild(wordDiv)
+        if(revealSections) div.appendChild(sectionDiv)
         wordBank.appendChild(div)
     }
 }

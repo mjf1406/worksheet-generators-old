@@ -79,29 +79,25 @@ function getRandomArrayElement(array){
 }
 // Increment and Decrement Buttons
 function decrement(e) {
-    const btn = e.target.parentNode.parentElement.querySelector(
-      'button[data-action="decrement"]'
-    );
+    e.preventDefault() // Prevent the form from doing its thing
+    const btn = e.target.parentNode.parentElement.querySelector('button[data-action="decrement"]');
     const target = btn.nextElementSibling;
     let value = Number(target.value);
+    if (value - 1 < WORD_SEARCH_MIN_SIZE) return makeToast(`Number cannot be less than ${WORD_SEARCH_MIN_SIZE}!`, `error`)
     value--;
     target.value = value;
 }
 function increment(e) {
-    const btn = e.target.parentNode.parentElement.querySelector(
-      'button[data-action="decrement"]'
-    );
+    e.preventDefault() // Prevent the form from doing its thing
+    const btn = e.target.parentNode.parentElement.querySelector('button[data-action="decrement"]');
     const target = btn.nextElementSibling;
     let value = Number(target.value);
+    if (value + 1 > WORD_SEARCH_MAX_SIZE) return makeToast(`Number cannot be greater than ${WORD_SEARCH_MAX_SIZE}!`, `error`)
     value++;
     target.value = value;
 }
-const decrementButtons = document.querySelectorAll(
-    `button[data-action="decrement"]`
-);
-const incrementButtons = document.querySelectorAll(
-    `button[data-action="increment"]`
-);
+const decrementButtons = document.querySelectorAll(`button[data-action="decrement"]`);
+const incrementButtons = document.querySelectorAll(`button[data-action="increment"]`);
 decrementButtons.forEach(btn => {
     btn.addEventListener("click", decrement);
 });

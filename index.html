@@ -84,12 +84,28 @@
                                 </label>
                             </div> 
                             <div class="col-span-1">
-                                <label for="height" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Rows</label>
-                                <input type="number" name="height" id="height" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" min="5" max="25" value="10" required="">
+                                <label for="height" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Rows <i id="rows-warning" class="fa-solid fa-triangle-exclamation"></i></label>
+                                <div class="flex flex-row" name="number-input-group">
+                                    <button name="decrement" data-action="decrement" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-l-lg text-sm px-4 py-2.5 dark:bg-blue-400 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                                        <i class="fa-solid fa-minus"></i>
+                                    </button>
+                                    <input type="number" name="height" id="height" class="w-11 bg-gray-50 border border-gray-300 text-center text-gray-900 text-sm focus:ring-primary-600 focus:border-primary-600 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" min="5" max="24" value="10" required="">
+                                    <button name="increment" data-action="increment" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-r-lg text-sm px-4 py-2.5 dark:bg-blue-400 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                                        <i class="fa-solid fa-plus"></i>
+                                    </button>
+                                </div>
                             </div>
                             <div class="col-span-1">
-                                <label for="width" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Columns</label>
-                                <input type="number" name="width" id="width" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" min="5" max="25" value="10" required="">
+                                <label for="width" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Columns <i id="cols-warning" class="fa-solid fa-triangle-exclamation"></i></label>
+                                <div class="flex flex-row" name="number-input-group">
+                                    <button name="decrement" data-action="decrement" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-l-lg text-sm px-4 py-2.5 dark:bg-blue-400 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                                        <i class="fa-solid fa-minus"></i>
+                                    </button>
+                                    <input type="number" name="width" id="width" class="w-11 bg-gray-50 border text-center border-gray-300 text-gray-900 text-sm focus:ring-primary-600 focus:border-primary-600 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" min="5" max="24" value="10" required="">
+                                    <button name="increment" data-action="increment" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-r-lg text-sm px-4 py-2.5 dark:bg-blue-400 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                                        <i class="fa-solid fa-plus"></i>
+                                    </button>
+                                </div>
                             </div>
                             <div class="col-span-1">
                                 <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Sections</label>
@@ -117,7 +133,7 @@
                                 </label>
                             </div> 
                             <div class="col-span-2">
-                                <label for="item-weight" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Word Direction 
+                                <label for="item-weight" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Word Direction <i id="direction-warning" class="fa-solid fa-triangle-exclamation"></i>
                                     <span>
                                         <button id="select-all-directions" class="px-3 py-1 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-800 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">All</button>
                                     </span>
@@ -199,9 +215,9 @@
                                 </div>
                             </div>
                             <div class="col-span-1 2xl:col-span-3">
-                                <label for="words" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Words</label>
+                                <label for="words" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Words <i id="words-warning" class="fa-solid fa-triangle-exclamation"></i></label>
                                 <!-- <div class="block mb-2 ml-4 text-sm font-medium text-gray-900 text-opacity-50 dark:text-white dark:text-opacity-50">Each word must be separated by a comma and a space (, ), or put each word on a new line.</div> -->
-                                <textarea id="words" rows="8" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 h-24" placeholder="Each word must be separated by a comma and a space (, ), or put each word on a new line."></textarea>
+                                <textarea id="words" rows="8" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 h-24" placeholder="Each word must be separated by a comma and a space (, ), or put each word on a new line. Max 24 words."></textarea>
                             </div>
                             <div class="col-span-1 2xl:col-span-1">
                                 <label for="words" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Word Stats</label>
@@ -212,16 +228,16 @@
                             </div>
                         </div>
                         <button type="button" id="download" class="mt-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                            <i class="fa-solid fa-download"></i> Download
+                            <i class="fa-solid fa-download"></i>
                         </button>
                         <button type="button" disabled id="print" class="disabled:cursor-not-allowed disabled:bg-blue-800 disabled:text-gray-500 mt-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                            <i class="fa-solid fa-print"></i> Print
+                            <i class="fa-solid fa-print"></i>
                         </button>
                         <button type="button" id="preview" class="mt-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                            <i class="fa-solid fa-eye"></i> Preview
+                            <i class="fa-solid fa-dice"></i>
                         </button>
                         <button id="open-preset" data-modal-target="save-preset-modal" data-modal-toggle="save-preset-modal" class="mt-5 text-white bg-blue-400 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-800 dark:hover:bg-blue-900 focus:outline-none dark:focus:ring-blue-900" type="button">
-                            <i class="fa-solid fa-floppy-disk"></i> Save Preset
+                            <i class="fa-solid fa-floppy-disk"></i>
                         </button> 
                         <select class="border-2 border-dashed border-blue-800 text-white bg-blue-200 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-950 dark:hover:bg-blue-700 dark:focus:ring-blue-800 w-40" id="presets-dropdown">
                         </select>
@@ -236,7 +252,7 @@
                     <div id="current-date" class="text-xs opacity-40 self-left">2023/12/5</div>
                     <div class="self-end mb-1 text-base font-bold text-right align-middle opacity-50">Name: _______________</div>
                 </div>
-                <div id="word-search-title" class="self-center mb-5 text-4xl font-bold text-center align-middle">Untitled</div>
+                <div id="word-search-title" class="self-center mb-5 text-3xl font-bold text-center align-middle">Untitled</div>
                 <div id="word-search-puzzle" class="self-center align-middle">
                     <!-- <div id="section-labels" class="grid justify-center grid-cols-2 text-center text-black text-opacity-25 align-middle text-9xl">
                         <div class="border-b-8 border-r-8 border-dashed border-opacity-5">1</div>
@@ -275,7 +291,7 @@
                         <div>W</div>
                     </div>
                 </div>
-                <div id="word-bank" class="flex flex-col flex-wrap gap-2 gap-x-8 max-h-[180px] text-center"></div>
+                <div id="word-bank" class="mt-5 flex flex-col flex-wrap gap-2 gap-x-8 max-h-[300px] text-2xs text-center"></div>
             </div>
         </div>
         <div class="pt-48 pb-4 text-4xl scroll-m-24" id="nav-crossword-puzzle">Crossword Puzzle</div>
@@ -439,6 +455,9 @@
             </div>
         </div>
     </div>
+    <div class="hidden w-4 h-4 bg-gray-300"></div>
+    <div class="hidden text-5xl bg-transparent"></div>
+    <div class="hidden bg-transparent text-7xl"></div>
 </body>
 <script src="js/app.js"></script>
 <script src="js/wordSearch.js"></script>
