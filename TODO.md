@@ -12,6 +12,8 @@
     - [ ] Fixed: US Letter now has properly scaled PDF output. Before it was too small.
     - [ ] Fixed: Section numbers now are properly displayed in the output PDF.
     - [ ] Fixed: made Light Theme colors better, less 'jarring'/contrasting
+- 2023/12/17
+    - Fixed: Letter Case not updating the Word Search and Word Bank
 - 2023/12/16
     - implemented debouncing on increment buttons, decrement buttons, and the words input
     - make the sections pretty

@@ -332,19 +332,19 @@ letterCaseRadios.forEach(element => {
         for (let x = 0; x < width; x++) {
             for (let y = 0; y < height; y++) {                
                 if (letterCase == 'uppercase') {
-                    grid[x][y] = grid[x][y].toUpperCase()
-                    if (key[x][y] != null) key[x][y] = key[x][y].toUpperCase()
+                    grid[y][x] = grid[y][x].toUpperCase()
+                    if (key[y][x] != null) key[y][x] = key[y][x].toUpperCase()
                 } else if (letterCase == 'lowercase') {
-                    grid[x][y] = grid[x][y].toLowerCase()
-                    if (key[x][y] != null) key[x][y] = key[x][y].toLowerCase()
+                    grid[y][x] = grid[y][x].toLowerCase()
+                    if (key[y][x] != null) key[y][x] = key[y][x].toLowerCase()
                 } else if (letterCase == 'random-case') {    
                     let rand = getRndInteger(0, 1)
                     if (rand === 0) {
-                        grid[x][y] = grid[x][y].toUpperCase()
-                        if (key[x][y] != null) key[x][y] = key[x][y].toUpperCase()
+                        grid[y][x] = grid[y][x].toUpperCase()
+                        if (key[y][x] != null) key[y][x] = key[y][x].toUpperCase()
                     } else if (rand === 1) {
-                        grid[x][y] = grid[x][y].toLowerCase()
-                        if (key[x][y] != null) key[x][y] = key[x][y].toLowerCase()
+                        grid[y][x] = grid[y][x].toLowerCase()
+                        if (key[y][x] != null) key[y][x] = key[y][x].toLowerCase()
                     }
                 }
             }
