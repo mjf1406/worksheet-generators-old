@@ -31,21 +31,21 @@ const SECTIONS = {
         rows: 2,
         cols: 2,
         num: 4,
-        fontOpacity: '0.2',
+        fontOpacity: '0.15',
         fontSize: 0.18
     },
     "nine": {
         rows: 3,
         cols: 3,
         num: 9,
-        fontOpacity: '0.25',
+        fontOpacity: '0.20',
         fontSize: 0.12
     },
     "sixteen": {
         rows: 4,
         cols: 4,
         num: 16,
-        fontOpacity: '0.25',
+        fontOpacity: '0.20',
         fontSize: 0.09
     }
 }
