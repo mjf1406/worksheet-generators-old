@@ -2,46 +2,46 @@
 
 ## Change Log
 - 2023/12/xx
-    - [ ] Hint Pages
-        - that reveals Sections and teaches students how to make the sections themselves
-            - (?) a step-by-step guide for each arithmetic operation
-            - (?) a step-by-step guide with no arithmetic required
-        - that reveals Directions
-        - that reveals Sections and Directions
-    - [ ] Answer Page
-    - [ ] Fixed: US Letter now has properly scaled PDF output. Before it was too small.
-    - [ ] Fixed: Section numbers now are properly displayed in the output PDF.
-    - [ ] Fixed: made Light Theme colors better, less 'jarring'/contrasting
+    - [ ] (Word Search) Hint Pages
+        - (Word Search) that reveals Sections and teaches students how to make the sections themselves
+            - (Word Search) (?) a step-by-step guide for each arithmetic operation
+            - (Word Search) (?) a step-by-step guide with no arithmetic required
+        - (Word Search) that reveals Directions
+        - (Word Search) that reveals Sections and Directions
+    - [ ] (Word Search) Answer Page
+    - [ ] (Word Search) Fixed: US Letter now has properly scaled PDF output. Before it was too small.
+    - [ ] (Word Search) Fixed: Section numbers now are properly displayed in the output PDF.
+    - [ ] (Word Search) Fixed: made Light Theme colors better, less 'jarring'/contrasting
 - 2023/12/17
-    - Fixed: Letter Case now updates the Word Search and Word Bank.
-    - Fixed: Reveal Sections no longer removes the Directions in the Word Bank.
-    - Reduced the opacity of the section labels
+    - (Word Search) Fixed: Letter Case now updates the Word Search and Word Bank.
+    - (Word Search) Fixed: Reveal Sections no longer removes the Directions in the Word Bank.
+    - (Word Search) Reduced the opacity of the section labels
 - 2023/12/16
-    - implemented debouncing on increment buttons, decrement buttons, and the words input
-    - make the sections pretty
-    - changed section numbers to be relative to height of the word search
-    - Sections breaks down when column and row are not the same
-    - the section number now displays in the word search if revealSections is checked, word bank is updated, too
-    - each word's section is not determined in `determineWordSections()` and properly displayed in the word bank based on revealSections
-    - Larger buttons were added to increment and decrement Rows and Columns
-    - words that were not placed are now tracked and the user is alerted to those words via a toast
-    - word bank height automatically adjusts based on remaining space on sheet now
-    - word search is now redrawn on Letter Case change and reveal Section change
-    - Work bank is now redrawn on reveal Section change, reveal Direction change, and Letter Case change
-    - the title is now redrawn on user input
-    - added warning icons to Rows, Columns, and Word Direction to inform the user that a new word search must be generated for these changes to take effect
+    - (Word Search) implemented debouncing on increment buttons, decrement buttons, and the words input
+    - (Word Search) make the sections pretty
+    - (Word Search) changed section numbers to be relative to height of the word search
+    - (Word Search) Sections breaks down when column and row are not the same
+    - (Word Search) the section number now displays in the word search if revealSections is checked, word bank is updated, too
+    - (Word Search) each word's section is not determined in `determineWordSections()` and properly displayed in the word bank based on revealSections
+    - (Word Search) Larger buttons were added to increment and decrement Rows and Columns
+    - (Word Search) words that were not placed are now tracked and the user is alerted to those words via a toast
+    - (Word Search) word bank height automatically adjusts based on remaining space on sheet now
+    - (Word Search) word search is now redrawn on Letter Case change and reveal Section change
+    - (Word Search) Work bank is now redrawn on reveal Section change, reveal Direction change, and Letter Case change
+    - (Word Search) the title is now redrawn on user input
+    - (Word Search) added warning icons to Rows, Columns, and Word Direction to inform the user that a new word search must be generated for these changes to take effect
 - 2023/12/15
-    - Rows and Columns now are updated to the longest word's length if they are less than the longest word's length
-    - Basic implementation of sections complete
-    - Removed 12 sections as it was all kinds of broken
+    - (Word Search) Rows and Columns now are updated to the longest word's length if they are less than the longest word's length
+    - (Word Search) Basic implementation of sections complete
+    - (Word Search) Removed 12 sections as it was all kinds of broken
 - 2023/12/14
-    - Prevented default on form action when `All` button is clicked.
-    - Changed sections from number input to radiogroup: 4, 9, 12, 16. 
+    - (Word Search) Prevented default on form action when `All` button is clicked.
+    - (Word Search) Changed sections from number input to radiogroup: 4, 9, 12, 16. 
 - 2023/12/12
-    - Added select all and deselect all button for Word Directions
-    - Added Word Stats
-    - Disabled Print button, will figure out later
-    - Set scale of preview to 70% and got it downloading correctly
+    - (Word Search) Added select all and deselect all button for Word Directions
+    - (Word Search) Added Word Stats
+    - (Word Search) Disabled Print button, will figure out later
+    - (Word Search) Set scale of preview to 70% and got it downloading correctly
 
 ## Generators
 
