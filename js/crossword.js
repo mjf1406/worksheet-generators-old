@@ -211,14 +211,14 @@ function generateCrossword(params){
         const wordsWithMutualLetters = element.wordsWithMutualLetters
         let coords = []
         let isPlaced = element.isPlaced
-        if (isPlaced == true) continue // Skip this word because it is already on the grid
+        if (isPlaced == true) continue // Skip 'word' because it is already on the grid
         for (let idx = 0; idx < wordsWithMutualLetters.length; idx++) {
             const element = wordsWithMutualLetters[idx]
             const mutualWord = element.word // This is the word that we're looking for on the grid
             const wordWithMutualLettersData = wordData.find(x => x.word == mutualWord)
             const mutualWordLetters = element.letters 
             const isPlaced = wordWithMutualLettersData.isPlaced
-            if (isPlaced == false) continue // Skip this mutualWordWithLetters because it's not on the grid, therefore cannot place word
+            if (isPlaced == false) continue // Skip 'mutualWordWithLetters' because it's not on the grid, therefore cannot place 'word'
             /*
                 FIGURE OUT WHAT TO DO HERE
                     Need to make this recursive because if no mutualWord is on the grid, then the word will not get placed. The loop
