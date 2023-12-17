@@ -13,7 +13,9 @@
     - [ ] Fixed: Section numbers now are properly displayed in the output PDF.
     - [ ] Fixed: made Light Theme colors better, less 'jarring'/contrasting
 - 2023/12/17
-    - Fixed: Letter Case not updating the Word Search and Word Bank
+    - Fixed: Letter Case now updates the Word Search and Word Bank.
+    - Fixed: Reveal Sections no longer removes the Directions in the Word Bank.
+    - Reduced the opacity of the section labels
 - 2023/12/16
     - implemented debouncing on increment buttons, decrement buttons, and the words input
     - make the sections pretty

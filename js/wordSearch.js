@@ -31,21 +31,21 @@ const SECTIONS = {
         rows: 2,
         cols: 2,
         num: 4,
-        fontOpacity: '0.15',
+        fontOpacity: '0.1',
         fontSize: 0.18
     },
     "nine": {
         rows: 3,
         cols: 3,
         num: 9,
-        fontOpacity: '0.20',
+        fontOpacity: '0.1',
         fontSize: 0.12
     },
     "sixteen": {
         rows: 4,
         cols: 4,
         num: 16,
-        fontOpacity: '0.20',
+        fontOpacity: '0.1',
         fontSize: 0.09
     }
 }
@@ -387,6 +387,7 @@ revealDirection.addEventListener('change', function(){
     const directions = wordSearchData.directions
     const wordBank = document.getElementById('word-bank')
     wordSearchData.revealDirection = revealDirection
+    localStorage.setItem('word-search-data', JSON.stringify(wordSearchData))
     wordBank.innerHTML = ''
     updateWordBank(wordSearchData)
 })
@@ -576,7 +577,6 @@ function paintSections(sections, color){
     sections.sort(function(a, b) { return a.id - b.id })
     const sectionDigit = sections.length
     const height = document.getElementById('word-search-puzzle').offsetHeight 
-    console.log("🚀 ~ file: wordSearch.js:576 ~ paintSections ~ height:", height)
     if (!color) var sectionWord = sectionDigitToSectionWord(sectionDigit).toUpperCase()
     if (!color) var sectionData = SECTIONS[sectionWord.toLowerCase()]
     const sectionNumbersOld = document.getElementById('section-number-display')
@@ -602,7 +602,6 @@ function paintSections(sections, color){
         // sectionNumberDisplay.classList.add('gap-1')
         sectionNumberDisplay.style.fontSize = `${height * sectionData.fontSize}px`
         sectionNumberDisplay.classList.add('justify-center')
-        console.log("🚀 ~ file: wordSearch.js:601 ~ paintSections ~ height * sectionData.fontSize:", height * sectionData.fontSize)
         sectionNumberDisplay.classList.add('align-middle')
         sectionNumberDisplay.classList.add('text-black')
         sectionNumberDisplay.style.opacity = sectionData.fontOpacity
