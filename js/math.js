@@ -57,12 +57,6 @@ function findDuplicates(array) {
     }
     return duplicates;
 }
-function debounce(func, delay) {
-    let debounceTimer;
-    return function() {
-        clearTimeout(debounceTimer);
-        debounceTimer = setTimeout(() => {
-            func.apply(this, arguments);
-        }, delay);
-    };
+function getRndInteger(min, max) {
+    return parseInt(Math.floor(Math.random() * (max + 1 - min)) + min);
 }

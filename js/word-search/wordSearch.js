@@ -92,70 +92,6 @@ if (JSON.parse(localStorage.getItem('word-search-presets'))) {
 
 
 
-tippy('#label-backward', {
-    content: "Backward"
-})
-tippy('#label-forward', {
-    content: "Forward"
-})
-tippy('#label-forward-backward', {
-    content: "Forward & Backward"
-})
-tippy('#label-uppercase', {
-    content: "UPPERCASE"
-})
-tippy('#label-lowercase', {
-    content: "lowercase"
-})
-tippy('#label-random-case', {
-    content: "RAnDom cASe"
-})
-tippy('#sections-help', {
-    content: "Splits the word search into equal sized sections."
-})
-tippy('#reveal-sections-help', {
-    content: "Displays the section number of each word in the word bank."
-})
-tippy('#reveal-direction-help', {
-    content: `Displays the direction of each word in the word bank using arrows.`,
-    allowHTML: true
-})
-tippy('#download', {
-    content: `Download as PDF`,
-    allowHTML: true
-})
-tippy('#print', {
-    content: `Print the word search`,
-    allowHTML: true
-})
-tippy('#preview', {
-    content: `Generate word search`,
-    allowHTML: true
-})
-tippy('#open-preset', {
-    content: `Save the settings above as a preset`,
-    allowHTML: true
-})
-tippy('#delete-preset', {
-    content: `Delete the selected preset`,
-    allowHTML: true
-})
-tippy('#rows-warning', {
-    content: `A new new word search must be generated for changes to take effect.`
-})
-tippy('#cols-warning', {
-    content: `A new new word search must be generated for changes to take effect.`
-})
-tippy('#direction-warning', {
-    content: `A new new word search must be generated for changes to take effect.`
-})
-tippy('#words-warning', {
-    content: `A new new word search must be generated for changes to take effect.`
-})
-
-
-
-
 let title = document.getElementById('title')
 let height = document.getElementById('height')
 let width = document.getElementById('width')
@@ -210,7 +146,7 @@ previewButton.addEventListener('click', function(){
     let wordSearchData = generateWordSearch(params)
     localStorage.setItem('word-search-data', JSON.stringify(wordSearchData))
     if (typeof wordSearchData === 'object' || wordSearchData instanceof Object) { 
-        updateWordSearchPreview(wordSearchData)
+        updatePreview(wordSearchData, 'preview-word-search')
         updateWordBank(wordSearchData)
         updateWordStats()
         if (revealSections) paintSections(wordSearchData.sections)
@@ -355,7 +291,7 @@ letterCaseRadios.forEach(element => {
         wordSearchData.key = key
         wordSearchData.grid = grid
 
-        updateWordSearchPreview(wordSearchData)
+        updatePreview(wordSearchData, 'preview-word-search')
         if (revealSections) paintSections(wordSearchData.sections)
         updateWordBank(wordSearchData)
         localStorage.setItem('word-search-data', JSON.stringify(wordSearchData))
@@ -822,56 +758,6 @@ function generateWordSearch(params){
         params = determineWordSections(params)
     }
     return params
-}
-function updateWordSearchPreview(wordSearchData){
-    const titleElement = document.getElementById('word-search-title')
-    const preview = document.getElementById('preview-word-search')
-    preview.innerHTML = ''
-    
-    let height = wordSearchData.height
-    let width = wordSearchData.width
-    let grid = wordSearchData.grid
-    let answerKey = wordSearchData.key
-    let wordData = wordSearchData.wordData
-    let title = wordSearchData.title
-
-    titleElement.innerText = title
-    preview.style.gridTemplateColumns = `repeat(${width}, minmax(0, 1fr))`
-    preview.classList.remove('grid-cols-7')
-
-    for (let x = 0; x < height; x++) {
-        for (let y = 0; y < width; y++) {
-            let isWordCoord = answerKey[x][y] ? true : false
-            let div = document.createElement('div')
-            div.innerText = grid[x][y]
-            div.id = `${x}-${y}`
-            div.setAttribute('name', 'letter')
-            div.classList.add('text-center')
-            div.classList.add('text-sm')
-            div.classList.add('p-px')
-            div.classList.add('w-5')
-            div.classList.add('h-5')
-            if (isWordCoord) { 
-                div.classList.add('text-black')
-                div.innerText = answerKey[x][y]
-            }
-            preview.appendChild(div)
-        }
-    }
-    // Reveal Answers
-    for (let index = 0; index < wordData.length; index++) {
-        const element = wordData[index]
-        let coords = element.coords
-        let color = COLORS[Math.floor(Math.random() * COLORS.length)]
-        if (coords) {
-            for (let index = 0; index < coords.length; index++) {
-                const element = coords[index];
-                let div = document.getElementById(`${element.x}-${element.y}`)
-                // div.style.background = color
-                // div.classList.add(`bg-[${color}]`)
-            }
-        }
-    }
 }
 function updateWordBank(wordSearchData){
     const worksheet = document.getElementById('word-search-worksheet')

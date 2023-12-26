@@ -4,7 +4,9 @@ module.exports = {
     // darkMode: 'class',
     content: [
       '../index.html',
-      '../wordSearch.js'
+      '../html/bit-maze.html',
+      '../html/word-search.html',
+      '../html/crossword.html'
     ],
     theme: {
       extend: {

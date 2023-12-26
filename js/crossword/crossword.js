@@ -17,7 +17,7 @@ const DIRECTIONS = [ 'left-to-right','top-to-bottom' ]
 
 let downloadCrossword = document.getElementById('download-crossword')
 let printCrossword = document.getElementById('print-crossword')
-let previewButtonCrossword = document.getElementById('preview-crossword')
+let previewButtonCrossword = document.getElementById('preview-crossword-button')
 let presetDropdown = document.getElementById('presets-dropdown-crossword')
 let savePresetCrossword = document.getElementById('open-preset-crossword')
 let deletePresetCrossword = document.getElementById('delete-preset-crossword')
@@ -39,7 +39,7 @@ previewButtonCrossword.addEventListener('click', function(){
     if (params.words.length === 0) return makeToast("Please add some words!", 'warning')
     let crosswordData = generateCrossword(params)
     if (typeof crosswordData === 'object' || crosswordData instanceof Object) { 
-        // TODO: updateCrosswordPreview(crosswordData)
+        updatePreview(crosswordData, 'preview-crossword')
         // TODO: updateCrosswordWordClueBank(crosswordData)
         let end = new Date().getTime(); 
         makeToast(`Crossword Puzzle generated in ${formatMillisecondsToReadable(end - start)}`, 'success')
@@ -82,7 +82,6 @@ let wordsClues = document.getElementById('words-and-clues')
 let crossword = document.getElementById('preview-crossword')
 let displayClues = document.getElementById('crossword-clues')
 let printKey = document.getElementById('key-crossword')
-
 
 // -------- CROSSWORD -------- //
 
@@ -183,6 +182,36 @@ function setupGrid(width, height){
     }
     return grid
 }
+function placeFirstWord(firstWordData, params){
+    const width = params.width
+    const height = params.height
+    const word = firstWordData.word
+    const grid = params.grid
+    const coords = []
+
+    const direction = DIRECTIONS.random()
+    const deltas = DELTAS[direction]
+    let x = Math.round(getRndInteger(0, width / 2))
+    let y = Math.round(getRndInteger(0, height / 2))
+
+
+    for (let index = 0; index < word.length; index++) {
+        const letter = word[index];
+        y = y + deltas[1]
+        x = x + deltas[0]
+        coords.push({
+            letter: letter,
+            x: x,
+            y: y
+        })
+        grid[y][x] = letter
+    }
+
+    params.words[0].isPlaced = true
+    params.words[0].coords = coords
+    params.grid = grid
+    return params
+}
 function generateCrossword(params){
     let words = params.words
     let wordsLengthDescending = words.sort((a, b) => b.word.length - a.word.length)
@@ -201,9 +230,20 @@ function generateCrossword(params){
     let height = Math.ceil(longestWord.length * ((getRndInteger(1,5) / 10) + 2)) // Random number between 1.1 and 1.5
 
     let grid = setupGrid(width, height)
+    params.height = height
+    params.width = width
+    params.grid = grid
+
     let wordData = determineWordsWithMutualLetters(wordsFiltered)
     console.log("🚀 ~ file: crossword.js:182 ~ generateCrossword ~ wordData:", wordData)
-    wordData = placeFirstWord(wordData)
+
+    // Place the first word
+    const firstWord = wordData[0]
+    params.words = wordData
+    params = placeFirstWord(firstWord, params)
+    grid = params.grid
+    wordData = params.words
+
     // Place the rest of the words
     for (let index = 0; index < wordData.length; index++) {
         const element = wordData[index]
@@ -219,6 +259,7 @@ function generateCrossword(params){
             const mutualWordLetters = element.letters 
             const isPlaced = wordWithMutualLettersData.isPlaced
             if (isPlaced == false) continue // Skip 'mutualWordWithLetters' because it's not on the grid, therefore cannot place 'word'
+            console.log("We can place the word!")
             /*
                 FIGURE OUT WHAT TO DO HERE
                     Need to make this recursive because if no mutualWord is on the grid, then the word will not get placed. The loop
@@ -228,9 +269,17 @@ function generateCrossword(params){
         element.coords = coords
         element.isPlaced = isPlaced
     }
+    // Blank out the remaining cells
+    for (let y = 0; y < grid.length; y++) {
+        const column = grid[y];
+        for (let x = 0; x < column.length; x++) {
+            if (grid[y][x] == undefined) grid[y][x] = " "            
+        }
+    }
     
     params.words = wordData
     params.grid = grid
+    console.log("🚀 ~ file: crossword.js:279 ~ generateCrossword ~ params:", params)
     return params
 }
 
