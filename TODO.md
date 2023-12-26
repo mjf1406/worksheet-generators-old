@@ -17,6 +17,7 @@
     - reorganized the file structure, now each generator is its own page
     - crossword is not dismayed correctly in the preview so that I can visualize the output of the algo
     - `updatePreview()` now works for both crosswords and word searches
+    - started organizing Ozobot Maze inputs
 - 2023/12/17
     - (Word Search) Fixed: Letter Case now updates the Word Search and Word Bank.
     - (Word Search) Fixed: Reveal Sections no longer removes the Directions in the Word Bank.
@@ -67,7 +68,7 @@ spicy flavored with or fragrant with spice.
 asteroid a small rocky body orbiting the sun. Large numbers of these, ranging enormously in size, are found between the orbits of Mars and Jupiter, though some have more eccentric orbits.
 comet a celestial object consisting of a nucleus of ice and dust and, when near the sun, a ‘tail’ of gas and dust particles pointing away from the sun.
 
-### Osmo Bit Maze
+### Osmo Ozobot Maze
 - Generation
     - Eller's algo
     - Recursive Backtracking

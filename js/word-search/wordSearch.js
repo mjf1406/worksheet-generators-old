@@ -6,16 +6,6 @@ const WORD_SEARCH_MAX_ROW_SIZE = 24
 const WORD_SEARCH_MIN_ROW_SIZE = 4
 const WORD_SEARCH_MAX_COL_SIZE = 32
 const WORD_SEARCH_MIN_COL_SIZE = 4
-const DELTAS = {
-    'left-to-right': [0, 1],
-    'right-to-left': [0, -1],
-    'bottom-to-top': [-1, 0],
-    'top-to-bottom': [1, 0],
-    'diagonal-down-left': [1, -1],
-    'diagonal-down-right': [1, 1],
-    'diagonal-up-right': [-1, 1],
-    'diagonal-up-left': [-1, -1]
-}
 const DIRECTION_ICONS = {
     'left-to-right': '<i class="fa-solid fa-arrow-right"></i>',
     'right-to-left': '<i class="fa-solid fa-arrow-left"></i>',

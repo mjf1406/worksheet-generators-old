@@ -39,7 +39,7 @@ previewButtonCrossword.addEventListener('click', function(){
     if (params.words.length === 0) return makeToast("Please add some words!", 'warning')
     let crosswordData = generateCrossword(params)
     if (typeof crosswordData === 'object' || crosswordData instanceof Object) { 
-        updatePreview(crosswordData, 'preview-crossword')
+        updatePreview(crosswordData, 'crossword-preview')
         // TODO: updateCrosswordWordClueBank(crosswordData)
         let end = new Date().getTime(); 
         makeToast(`Crossword Puzzle generated in ${formatMillisecondsToReadable(end - start)}`, 'success')

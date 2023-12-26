@@ -1,36 +1,13 @@
-// Increment and Decrement Buttons
-function decrement(e) {
-    e.preventDefault() // Prevent the form from doing its thing
-    const btn = e.target.parentNode.parentElement.querySelector('button[data-action="decrement"]');
-    let targetSize
-    if (btn.name == 'width') targetSize = WORD_SEARCH_MIN_COL_SIZE
-    else if (btn.name == 'height') targetSize = WORD_SEARCH_MIN_ROW_SIZE
-    const target = btn.nextElementSibling;
-    let value = Number(target.value);
-    if (value - 1 < targetSize) return makeToast(`Cannot be less than ${targetSize}!`, `error`)
-    value--;
-    target.value = value;
+const DELTAS = {
+    'left-to-right': [0, 1],
+    'right-to-left': [0, -1],
+    'bottom-to-top': [-1, 0],
+    'top-to-bottom': [1, 0],
+    'diagonal-down-left': [1, -1],
+    'diagonal-down-right': [1, 1],
+    'diagonal-up-right': [-1, 1],
+    'diagonal-up-left': [-1, -1]
 }
-function increment(e) {
-    e.preventDefault() // Prevent the form from doing its thing
-    const btn = e.target.parentNode.parentElement.querySelector('button[data-action="decrement"]');
-    let targetSize
-    if (btn.name == 'width') targetSize = WORD_SEARCH_MAX_COL_SIZE
-    else if (btn.name == 'height') targetSize = WORD_SEARCH_MAX_ROW_SIZE
-    const target = btn.nextElementSibling;
-    let value = Number(target.value);
-    if (value + 1 > targetSize) return makeToast(`Cannot be greater than ${targetSize}!`, `error`)
-    value++;
-    target.value = value;
-}
-const decrementButtons = document.querySelectorAll(`button[data-action="decrement"]`);
-const incrementButtons = document.querySelectorAll(`button[data-action="increment"]`);
-decrementButtons.forEach(btn => {
-    btn.addEventListener("click", decrement);
-});
-incrementButtons.forEach(btn => {
-    btn.addEventListener("click", increment);
-});
 document.addEventListener("DOMContentLoaded", function () {
     // Toggle Modal
     const toggleButtons = document.querySelectorAll("[data-modal-toggle]");
@@ -151,7 +128,7 @@ document.addEventListener("DOMContentLoaded", function () {
     })
 });
 function updatePreview(data, previewElementId){
-    const titleElement = document.getElementById('word-search-title')
+    const titleElement = document.getElementById('worksheet-title')
     const preview = document.getElementById(previewElementId)
     preview.innerHTML = ''
     

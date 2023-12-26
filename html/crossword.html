@@ -19,7 +19,7 @@
             <a class="px-3 py-2 text-sm font-medium text-center rounded-md hover:bg-cyan-500 dark:hover:bg-cyan-900" name="nav-item" href="../index.html" id="nav-item-introduction"><i class="fa-regular fa-id-card"></i> Introduction</a>
             <a class="px-3 py-2 text-sm font-medium text-center rounded-md hover:bg-cyan-500 dark:hover:bg-cyan-900" name="nav-item" href="word-search.html" id="nav-item-word-search"><i class="fa-solid fa-w"></i> Word Search</a>
             <a class="px-3 py-2 text-sm font-medium text-center rounded-md active hover:bg-cyan-500 dark:hover:bg-cyan-900" name="nav-item" href="#" id="nav-item-crossword-puzzle"><i class="fa-regular fa-square"></i> Crossword Puzzle</a>
-            <a class="px-3 py-2 text-sm font-medium text-center rounded-md hover:bg-cyan-500 dark:hover:bg-cyan-900" name="nav-item" href="bit-maze.html" id="nav-item-bit-maze"><i class="fa-solid fa-robot"></i> Bit Maze</a>
+            <a class="px-3 py-2 text-sm font-medium text-center rounded-md hover:bg-cyan-500 dark:hover:bg-cyan-900" name="nav-item" href="bit-maze.html" id="nav-item-bit-maze"><i class="fa-solid fa-robot"></i> Ozobot Maze</a>
         </div>
         <div class="flex flex-row items-center justify-start h-full pl-5 space-x-4 sm:hidden">
             <a class="px-3 py-2 text-sm font-medium text-center rounded-md" name="nav-item" href="#../index.html" id="nav-item-introduction"><i class="fa-regular fa-id-card"></i></a>
@@ -32,6 +32,7 @@
 <body>
     <div class="flex flex-col items-center justify-center gap-5 m-5 mt-24">
         <div class="pb-4 text-4xl scroll-m-24" id="nav-crossword-puzzle">Crossword Puzzle</div>
+        <div class="mb-10 text-2xl scroll-m-24" id="nav-bit-maze"><i class="fa-solid fa-helmet-safety"></i> Under Construction <i class="fa-solid fa-helmet-safety"></i></div>
         <div class="hidden w-full grid-cols-7 gap-8 lg:grid">
             <section class="col-span-3 bg-gray-200 dark:bg-gray-900 rounded-3xl">
                 <div class="max-w-3xl px-4 py-4 mx-auto lg:py-4">
@@ -94,16 +95,16 @@
                             </div>
                         </div>
                         <button type="button" id="download-crossword" class="mt-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                        <i class="fa-solid fa-download"></i> Download
+                        <i class="fa-solid fa-download"></i>
                         </button>
                         <button type="button" id="print-crossword" class="mt-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                            <i class="fa-solid fa-print"></i> Print
+                            <i class="fa-solid fa-print"></i>
                         </button>
                         <button type="button" id="preview-crossword-button" class="mt-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                            <i class="fa-solid fa-eye"></i> Preview
+                            <i class="fa-solid fa-dice"></i>
                         </button>
                         <button id="open-preset-crossword" data-modal-target="save-preset-modal" data-modal-toggle="save-preset-modal" class="mt-5 text-white bg-blue-400 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-800 dark:hover:bg-blue-900 focus:outline-none dark:focus:ring-blue-900" type="button">
-                            <i class="fa-solid fa-floppy-disk"></i> Save Preset
+                            <i class="fa-solid fa-floppy-disk"></i>
                         </button> 
                         <select class="border-2 border-dashed border-blue-800 text-white bg-blue-200 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-950 dark:hover:bg-blue-700 dark:focus:ring-blue-800 w-40" id="presets-dropdown-crossword">
                         </select>
@@ -113,10 +114,18 @@
                     </form>
                 </div>
             </section>
-            <div id="crossword-worksheet" class="flex flex-row col-span-4 gap-2 p-4 text-black align-middle bg-white border-gray-400 w-fit h-fit">
-                <div id="preview-crossword" class="grid grid-cols-7 gap-1 p-4 font-bold border-2 border-gray-700 rounded-lg w-fit h-fit">
+            <div id="worksheet">
+                <div id="crossword-worksheet" class="flex flex-col self-start col-span-4 gap-2 p-4 text-black align-top bg-white w-fit h-fit" style="width: 580px; height: 850px; transform: scale(0.70); -webkit-transform-origin: left top; -moz-transform-origin: left top;">
+                    <div class="grid w-full grid-cols-2">
+                        <div id="current-date" class="text-xs opacity-40 self-left">2023/12/5</div>
+                        <div class="self-end mb-1 text-base font-bold text-right align-middle opacity-50">Name: _______________</div>
+                    </div>
+                    <div id="worksheet-title" class="self-center mb-5 text-3xl font-bold text-center align-middle">Untitled</div>
+                    <div id="crossword-puzzle" class="self-center align-middle">
+                        <div id="crossword-preview" class="grid self-center justify-center grid-cols-7 p-4 text-xs font-bold text-center align-middle border-2 border-black rounded-lg w-fit h-fit"> </div>
+                    </div>
+                    <div id="crossword-clues" class="mt-5 flex flex-col flex-wrap gap-2 gap-x-8 max-h-[300px] text-2xs text-center"></div>
                 </div>
-                <div id="crossword-clues" class="flex flex-col flex-wrap gap-2"></div>
             </div>
         </div>
 
@@ -212,4 +221,14 @@
     <div class="hidden p-px bg-gray-200 text-7xl"></div>
     <div class="hidden w-5 h-5"></div>
 </body>
+<script src="../js/js-extensions/stringMethods.js"></script>
+<script src="../js/js-extensions/arrayMethods.js"></script>
+<script src="../js/helpers.js"></script>
+<script src="../js/numberInputs.js"></script>
+<script src="../js/math.js"></script>
+<script src="../js/app.js"></script>
+<script src="../js/toasts.js"></script>
+
+<script src="../js/crossword/crossword.js"></script>
+<script src="../js/crossword/crosswordTippy.js"></script>
 </html>

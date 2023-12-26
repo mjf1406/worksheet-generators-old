@@ -19,7 +19,7 @@
             <a class="px-3 py-2 text-sm font-medium text-center rounded-md hover:bg-cyan-500 dark:hover:bg-cyan-900" name="nav-item" href="../index.html" id="nav-item-introduction"><i class="fa-regular fa-id-card"></i> Introduction</a>
             <a class="px-3 py-2 text-sm font-medium text-center rounded-md hover:bg-cyan-500 dark:hover:bg-cyan-900" name="nav-item" href="word-search.html" id="nav-item-word-search"><i class="fa-solid fa-w"></i> Word Search</a>
             <a class="px-3 py-2 text-sm font-medium text-center rounded-md hover:bg-cyan-500 dark:hover:bg-cyan-900" name="nav-item" href="crossword.html" id="nav-item-crossword-puzzle"><i class="fa-regular fa-square"></i> Crossword Puzzle</a>
-            <a class="px-3 py-2 text-sm font-medium text-center rounded-md active hover:bg-cyan-500 dark:hover:bg-cyan-900" name="nav-item" href="#" id="nav-item-bit-maze"><i class="fa-solid fa-robot"></i> Bit Maze</a>
+            <a class="px-3 py-2 text-sm font-medium text-center rounded-md active hover:bg-cyan-500 dark:hover:bg-cyan-900" name="nav-item" href="#" id="nav-item-bit-maze"><i class="fa-solid fa-robot"></i> Ozobot Maze</a>
         </div>
         <div class="flex flex-row items-center justify-start h-full pl-5 space-x-4 sm:hidden">
             <a class="px-3 py-2 text-sm font-medium text-center rounded-md" name="nav-item" href="#../index.html" id="nav-item-introduction"><i class="fa-regular fa-id-card"></i></a>
@@ -30,10 +30,162 @@
     </nav>
 </header>
 <body>
-    <div class="flex flex-col items-center justify-center gap-5 m-5 mt-24">
-        <div class="pb-4 text-4xl scroll-m-24" id="nav-bit-maze">Bit Maze</div>
-        <div class="pb-10 text-2xl scroll-m-24" id="nav-bit-maze"><i class="fa-solid fa-helmet-safety"></i> Under Construction <i class="fa-solid fa-helmet-safety"></i></div>
+    <div class="flex flex-col items-center justify-center gap-5 mt-24 ml-5 mr-5 h-fit">
+        <div class="mb-4 text-4xl scroll-m-24" id="nav-bit-maze">Ozobot Maze</div>
+        <div class="mb-10 text-2xl scroll-m-24" id="nav-bit-maze"><i class="fa-solid fa-helmet-safety"></i> Under Construction <i class="fa-solid fa-helmet-safety"></i></div>
     
+        <div class="w-full grid-cols-7 gap-8 lg:grid h-fit">
+            <section class="col-span-3 bg-gray-200 dark:bg-gray-900 rounded-3xl h-fit w-fit">
+                <div class="max-w-3xl px-4 py-4 mx-auto lg:py-4">
+                    <form id="word-search-form" action="#">
+                        <div class="grid grid-cols-2 gap-4 min-[1860px]:grid-cols-4">
+                            <div class="col-span-2">
+                                <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
+                                <input type="text" name="title" id="title" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Input the maze's title" required="">
+                            </div>
+                            <div class="col-span-1">
+                                <label for="item-weight" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Page Size</label>
+                                <div class="inline-flex rounded-md shadow-sm" role="group">
+                                    <label for="letter" id="label-letter" class="">
+                                        <input type="radio" name="page-size" class="hidden peer" id="letter" value="letter"/>
+                                        <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border border-gray-200 rounded-l-lg peer-checked:bg-blue-600 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
+                                            US Letter
+                                        </div>
+                                    </label>
+                                    <label for="a4" id="label-a4" class="">
+                                        <input type="radio" name="page-size" class="hidden peer" id="a4" value="a4" checked/>
+                                        <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border border-gray-200 peer-checked:bg-blue-600 rounded-r-md hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
+                                            A4
+                                        </div>
+                                    </label>
+                                </div>
+                            </div> 
+                            <div class="col-span-1">
+                                <label for="item-weight" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Answer Key</label>
+                                <label class="relative inline-flex items-center mb-4 cursor-pointer">
+                                    <input id="key" type="checkbox" value="" class="sr-only peer" checked>
+                                    <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                                    <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">Print Answer Key</span>
+                                </label>
+                            </div> 
+                            <div class="col-span-1">
+                                <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    Difficulty 
+                                    <i id="difficulty-help" data-modal-target="difficulty-explanation-modal" data-modal-toggle="difficulty-explanation-modal" class="cursor-pointer fa-regular fa-circle-question"></i>
+                                </label>
+                                <div class="inline-flex rounded-md shadow-sm" role="group">
+                                    <label for="custom-difficulty" id="label-custom-difficulty" class="">
+                                        <input type="radio" name="difficulty" class="hidden peer" id="custom-difficulty" value="custom-difficulty"/>
+                                        <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border border-gray-200 rounded-l-lg peer-checked:bg-blue-600 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">C</div>
+                                    </label>
+                                    <label for="easy-difficulty" id="label-easy-difficulty" class="">
+                                        <input type="radio" name="difficulty" class="hidden peer" id="easy-difficulty" value="easy-difficulty" checked/>
+                                        <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border-t border-b border-gray-200 peer-checked:bg-blue-600 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">E</div>
+                                    </label>
+                                    <label for="medium-difficulty" id="label-medium-difficulty" class="">
+                                        <input type="radio" name="difficulty" class="hidden peer" id="medium-difficulty" value="medium-difficulty"/>
+                                        <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border-t border-b border-gray-200 peer-checked:bg-blue-600 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">M</div>
+                                    </label>
+                                    <label for="hard-difficulty" id="label-hard-difficulty" class="">
+                                        <input type="radio" name="difficulty" class="hidden peer" id="hard-difficulty" value="hard-difficulty"/>
+                                        <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border border-gray-200 peer-checked:bg-blue-600 rounded-r-md hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">H</div>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-span-1">
+                                <label for="item-weight" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"></label>
+                                
+                            </div>
+                            <div id="total-commands-input" class="hidden col-span-1">
+                                <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    Total Commands
+                                </label>
+                                <div class="flex flex-row" name="number-input-group">
+                                    <button name="total-commands" data-action="decrement" class="rotations-input-button text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-l-lg text-sm px-4 py-2.5 dark:bg-blue-400 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                                        <i class="fa-solid fa-minus"></i>
+                                    </button>
+                                    <input type="number" name="total-commands" id="total-commands" class="w-12 bg-gray-50 border border-gray-300 text-center text-gray-900 text-sm focus:ring-primary-600 focus:border-primary-600 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" value="10" required="">
+                                    <button name="total-commands" data-action="increment" class="rotations-input-button text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-r-lg text-sm px-4 py-2.5 dark:bg-blue-400 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                                        <i class="fa-solid fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="commands-variety-input" class="hidden col-span-1">
+                                <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    Different Commands
+                                </label>
+                                <div class="flex flex-row" name="number-input-group">
+                                    <button name="total-commands" data-action="decrement" class="rotations-input-button text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-l-lg text-sm px-4 py-2.5 dark:bg-blue-400 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                                        <i class="fa-solid fa-minus"></i>
+                                    </button>
+                                    <input type="number" name="total-commands" id="total-commands" class="w-12 bg-gray-50 border border-gray-300 text-center text-gray-900 text-sm focus:ring-primary-600 focus:border-primary-600 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" value="5" required="">
+                                    <button name="total-commands" data-action="increment" class="rotations-input-button text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-r-lg text-sm px-4 py-2.5 dark:bg-blue-400 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                                        <i class="fa-solid fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-span-1">
+                                <label for="item-weight" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Reveal Hints</label>
+                                <label class="relative inline-flex items-center mb-4">
+                                    <input id="reveal-command-code" type="checkbox" value="" class="sr-only peer">
+                                    <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                                    <span class="ml-3 mr-1 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                        Color Codes
+                                    </span>
+                                    <i id="reveal-command-code-help" class="fa-regular fa-circle-question"></i>
+                                </label>
+                                <label class="relative inline-flex items-center mb-4">
+                                    <input id="reveal-quantities" type="checkbox" value="" class="sr-only peer">
+                                    <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                                    <span class="ml-3 mr-1 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                        Quantities 
+                                    </span>
+                                    <i id="reveal-quantities-help" class="fa-regular fa-circle-question"></i>
+                                </label>
+                                <label class="relative inline-flex items-center mb-4">
+                                    <input id="reveal-commands" type="checkbox" value="" class="sr-only peer">
+                                    <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                                    <span class="ml-3 mr-1 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                        Commands
+                                    </span>
+                                    <i id="reveal-commands-help" class="fa-regular fa-circle-question"></i>
+                                </label>
+                            </div> 
+                        </div>
+                        <button type="button" id="download" class="mt-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                            <i class="fa-solid fa-download"></i>
+                        </button>
+                        <button type="button" disabled id="print" class="disabled:cursor-not-allowed disabled:bg-blue-800 disabled:text-gray-500 mt-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                            <i class="fa-solid fa-print"></i>
+                        </button>
+                        <button type="button" id="preview" class="mt-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                            <i class="fa-solid fa-dice"></i>
+                        </button>
+                        <button id="open-preset" data-modal-target="save-preset-modal" data-modal-toggle="save-preset-modal" class="mt-5 text-white bg-blue-400 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-800 dark:hover:bg-blue-900 focus:outline-none dark:focus:ring-blue-900" type="button">
+                            <i class="fa-solid fa-floppy-disk"></i>
+                        </button> 
+                        <select class="border-2 border-dashed border-blue-800 text-white bg-blue-200 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-950 dark:hover:bg-blue-700 dark:focus:ring-blue-800 w-40" id="presets-dropdown">
+                        </select>
+                        <button id="delete-preset" data-modal-target="delete-preset-modal" data-modal-toggle="delete-preset-modal" class="mt-5 text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-700 dark:hover:bg-red-900 focus:outline-none dark:focus:ring-blue-900 overflow-hidden" type="button">
+                            <i class="fa-solid fa-trash"></i>
+                        </button> 
+                    </form>
+                </div>
+            </section>
+            <div id="worksheet">
+                <div id="word-search-worksheet" class="flex flex-col self-start col-span-4 gap-2 p-4 text-black align-top bg-white w-fit h-fit" style="width: 580px; height: 850px; transform: scale(0.70); -webkit-transform-origin: left top; -moz-transform-origin: left top;">
+                    <div class="grid w-full grid-cols-2">
+                        <div id="current-date" class="text-xs opacity-40 self-left">2023/12/5</div>
+                        <div class="self-end mb-1 text-base font-bold text-right align-middle opacity-50">Name: _______________</div>
+                    </div>
+                    <div id="word-search-title" class="self-center mb-5 text-3xl font-bold text-center align-middle">Untitled</div>
+                    <div id="word-search-puzzle" class="self-center align-middle">
+                        <div id="preview-word-search" class="grid self-center justify-center grid-cols-7 p-4 text-xs font-bold text-center align-middle border-2 border-black rounded-lg w-fit h-fit"> </div>
+                    </div>
+                    <div id="word-bank" class="mt-5 flex flex-col flex-wrap gap-2 gap-x-8 max-h-[300px] text-2xs text-center"></div>
+                </div>
+            </div>
+        </div>
 
 
 
@@ -43,6 +195,70 @@
             <div class="hidden p-4 text-xl text-center bg-red-500 sm:block md:block lg:hidden xl:hidden 2xl:hidden rounded-xl dark:bg-red-600">My deepest apologies, but I must regretfully inform you that my capabilities do not extend to the accommodation of mobile devices at this time. <br><br> If you are using a tablet, please switch to landscape. If you are on a computer, try hitting <i>Ctrl + -</i> (the control key and the hyphen key) to zoom out.<br><br> I extend my sincerest apology for causing you immeasurable disappointment and ruining your day.</div>
         </span>
     </div>
-</body>
 
+
+
+    <!-- Modals -->
+    <div name="modal" id="difficulty-explanation-modal" tabindex="-1" aria-hidden="true" class="flex items-center justify-center hidden backdrop-blur-sm fixed top-0 left-0 right-0 z-30 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div class="relative w-full max-w-xl max-h-full">
+            <!-- Modal content -->
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="difficulty-explanation-modal">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                    </svg>
+                    <span class="sr-only">Close modal</span>
+                </button>
+                <div class="px-6 py-6 lg:px-8">
+                    <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">
+                        Difficulty Explanation
+                    </h3>
+                    <form id="difficulty-explanation-form" class="space-y-3" action="#">
+                        <div id="timer-settings-edits" class="flex flex-col gap-3">
+                            <div>
+                                Each difficulty comes with two constraints. The first is the number of commands required to solve the maze and the second is the number of different commands required to solve the maze.
+                            </div>
+                            <label class="block text-lg font-medium text-gray-900 dark:text-white">Easy</label>
+                            <div id="easy-explanation" name="difficulty-explanation">
+                                Easy mazes are solved with a total of 5 to 10 commands, utilizing a variety of 2 to 5 different types of commands.
+                            </div>
+
+                            <label class="block text-lg font-medium text-gray-900 dark:text-white">Medium</label>
+                            <div id="medium-explanation" name="difficulty-explanation">
+                                Easy mazes are solved with a total of 5 to 10 commands, utilizing a variety of 2 to 5 different types of commands.
+                            </div>
+
+                            <label class="block text-lg font-medium text-gray-900 dark:text-white">Hard</label>
+                            <div id="hard-explanation" name="difficulty-explanation">
+                                Easy mazes are solved with a total of 5 to 10 commands, utilizing a variety of 2 to 5 different types of commands.
+                            </div>
+                        </div>
+                        
+
+                        <div class="flex flex-row gap-2">
+                            <button type="submit" id="cancel-difficulty-explanation" class="w-full text-white bg-red-500 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800" data-modal-hide="difficulty-explanation-modal">Close</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="../js/js-extensions/stringMethods.js"></script>
+<script src="../js/js-extensions/arrayMethods.js"></script>
+<script src="../js/helpers.js"></script>
+<script src="../js/numberInputs.js"></script>
+<script src="../js/math.js"></script>
+<script src="../js/app.js"></script>
+<script src="../js/toasts.js"></script>
+
+<script src="../js/ozobot-maze/bitMazeTippy.js"></script>
+<script src="../js/ozobot-maze/modals.js"></script>
+<script src="../js/ozobot-maze/generateMaze.js"></script>
+<script src="../js/ozobot-maze/setUpModals.js"></script>
+<script src="../js/ozobot-maze/listeners..js"></script>
+
+<script>
+    
+</script>
 </html>
