@@ -182,6 +182,19 @@ function setupGrid(width, height){
     }
     return grid
 }
+function switchDirection(direction){
+    if (direction == 'left-to-right') return 'top-to-bottom'
+    else if (direction == 'top-to-bottom') return 'left-to-right'
+}
+function computeStartingCoords(word, direction, mutualLetter, mutualLetterX, mutualLetterY){
+    const indexOfLetter = word.indexOf(mutualLetter)
+    if (direction == 'left-to-right') {
+        return {x: mutualLetterX - indexOfLetter, y: mutualLetterY - 1}
+    }
+    else if (direction == 'top-to-bottom') {
+        return {x: mutualLetterX - 1, y: mutualLetterY - indexOfLetter}
+    }
+}
 function placeFirstWord(firstWordData, params){
     const width = params.width
     const height = params.height
@@ -209,6 +222,7 @@ function placeFirstWord(firstWordData, params){
 
     params.words[0].isPlaced = true
     params.words[0].coords = coords
+    params.words[0].direction = direction
     params.grid = grid
     return params
 }
@@ -235,7 +249,6 @@ function generateCrossword(params){
     params.grid = grid
 
     let wordData = determineWordsWithMutualLetters(wordsFiltered)
-    console.log("🚀 ~ file: crossword.js:182 ~ generateCrossword ~ wordData:", wordData)
 
     // Place the first word
     const firstWord = wordData[0]
@@ -249,17 +262,52 @@ function generateCrossword(params){
         const element = wordData[index]
         const word = element.word // This is the word that we're trying to place on the grid
         const wordsWithMutualLetters = element.wordsWithMutualLetters
+        let wordDirection
         let coords = []
         let isPlaced = element.isPlaced
         if (isPlaced == true) continue // Skip 'word' because it is already on the grid
-        for (let idx = 0; idx < wordsWithMutualLetters.length; idx++) {
+        mutualWordsLoop: for (let idx = 0; idx < wordsWithMutualLetters.length; idx++) {
+            if (isPlaced == true) break mutualWordsLoop
             const element = wordsWithMutualLetters[idx]
             const mutualWord = element.word // This is the word that we're looking for on the grid
             const wordWithMutualLettersData = wordData.find(x => x.word == mutualWord)
+            const mutualWordDirection = wordWithMutualLettersData.direction
+            if (!mutualWordDirection) continue
             const mutualWordLetters = element.letters 
-            const isPlaced = wordWithMutualLettersData.isPlaced
-            if (isPlaced == false) continue // Skip 'mutualWordWithLetters' because it's not on the grid, therefore cannot place 'word'
-            console.log("We can place the word!")
+            const mutualWordIsPlaced = wordWithMutualLettersData.isPlaced
+            wordDirection = switchDirection(mutualWordDirection)
+            if (mutualWordIsPlaced == false) continue // Skip 'mutualWordWithLetters' because it's not on the grid, therefore cannot place 'word'
+            console.log(`~~~ Placing word : ${word} on ${mutualWord}`)
+            mutualLettersLoop: for (let index = 0; index < mutualWordLetters.length; index++) {
+                if (isPlaced == true) break mutualLettersLoop
+                const mutualLetter = mutualWordLetters[index];
+                const mutualLetterData = wordWithMutualLettersData.coords.find(i => i.letter == mutualLetter)
+                const mutualLetterX = mutualLetterData.x
+                const mutualLetterY = mutualLetterData.y
+                const startingCoords = computeStartingCoords(word, wordDirection, mutualLetter, mutualLetterX, mutualLetterY)
+                let x = startingCoords.x
+                let y = startingCoords.y
+                const deltas = DELTAS[wordDirection]
+                wordLetterLoop: for (let index = 0; index < word.length; index++) {
+                    const letter = word[index];
+                    y = y + deltas[1]
+                    x = x + deltas[0]
+                    if (x < 0 || y < 0) break wordLetterLoop
+                    if (x >= width || y >= height) break wordLetterLoop
+                    const cell = grid[y][x]
+                    if (cell != undefined && cell != mutualLetter) break wordLetterLoop
+                    coords.push({
+                        letter: letter,
+                        x: x,
+                        y: y
+                    })
+                    grid[y][x] = letter
+                    if (index == word.length - 1) {
+                        isPlaced = true
+                        console.log(`~!~ Successfully placed ${word} on ${mutualWord}`)
+                    }
+                }
+            }
             /*
                 FIGURE OUT WHAT TO DO HERE
                     Need to make this recursive because if no mutualWord is on the grid, then the word will not get placed. The loop
@@ -268,7 +316,9 @@ function generateCrossword(params){
         }
         element.coords = coords
         element.isPlaced = isPlaced
+        element.direction = wordDirection
     }
+
     // Blank out the remaining cells
     for (let y = 0; y < grid.length; y++) {
         const column = grid[y];
