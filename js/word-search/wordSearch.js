@@ -80,7 +80,7 @@ if (JSON.parse(localStorage.getItem('word-search-presets'))) {
 }
 
 
-
+const wordSearchCanvas = document.getElementById('canvas-output')
 
 let title = document.getElementById('title')
 let height = document.getElementById('height')
@@ -184,9 +184,9 @@ wordsInput.addEventListener('input', function(){
 })
 downloadButton.addEventListener('click', function(){
     const wordSearchData = JSON.parse(localStorage.getItem('word-search-data'))
-    const title = document.getElementById('title').value ? document.getElementById('title').value : "No Title"
-    const worksheet = document.getElementById('worksheet').cloneNode(true)
     const opt = getPdfOptions(wordSearchData)
+    const worksheet = document.getElementById('worksheet').cloneNode(true)
+    const title = document.getElementById('title').value ? document.getElementById('title').value : "No Title"
     html2pdf().set(opt).from(worksheet).save(`[Word Search] ${title}.pdf`)
     updateWordStats()
 })
@@ -319,7 +319,7 @@ revealDirection.addEventListener('change', function(){
 })
 title.addEventListener('input', function(){
     const wordSearchData = JSON.parse(localStorage.getItem('word-search-data'))
-    const wordSearchTitle = document.getElementById('word-search-title')
+    const wordSearchTitle = document.getElementById('worksheet-title')
     wordSearchData.title = wordSearchTitle
     wordSearchTitle.innerText = this.value
     paintSections(wordSearchData.sections)
@@ -510,33 +510,55 @@ function paintSections(sections, color){
     const wordSearchPreview = document.getElementById('preview-word-search')
     const sectionNumberDisplay = wordSearchPreview.cloneNode(true)
 
-    if (!color) {
-        // worksheet.appendChild(sectionNumberDisplay);
-        document.body.appendChild(sectionNumberDisplay);
-        const rect = wordSearchPreview.getBoundingClientRect();
+    // if (!color) {
+    //     worksheet.appendChild(sectionNumberDisplay);
+    //     // document.body.appendChild(sectionNumberDisplay);
+    //     const rect = wordSearchPreview.getBoundingClientRect();
     
-        sectionNumberDisplay.id = 'section-number-display'
-        sectionNumberDisplay.innerHTML = ''
-        sectionNumberDisplay.style.position = 'fixed';
-        sectionNumberDisplay.style.top = `${rect.top}px`;
-        sectionNumberDisplay.style.left = `${rect.left}px`;
-        sectionNumberDisplay.style.width = `${rect.width}px`;  // Optional: to maintain the same width
-        sectionNumberDisplay.style.height = `${rect.height}px`; // Optional: to maintain the same height
+    //     sectionNumberDisplay.id = 'section-number-display'
+    //     sectionNumberDisplay.setAttribute('name', 'canvas-output')
+    //     sectionNumberDisplay.innerHTML = ''
+    //     sectionNumberDisplay.style.position = 'fixed';
+    //     sectionNumberDisplay.style.top = `${rect.top}px`;
+    //     sectionNumberDisplay.style.left = `${rect.left}px`;
+    //     sectionNumberDisplay.style.width = `${rect.width}px`;  // Optional: to maintain the same width
+    //     sectionNumberDisplay.style.height = `${rect.height}px`; // Optional: to maintain the same height
+    
+    //     sectionNumberDisplay.className = ''
+    //     sectionNumberDisplay.classList.add('grid')
+    //     // sectionNumberDisplay.classList.add('gap-1')
+    //     sectionNumberDisplay.style.fontSize = `${height * sectionData.fontSize}px`
+    //     sectionNumberDisplay.classList.add('justify-center','align-middle','text-black','p-4','border-2','rounded-lg','z-10')
+    //     sectionNumberDisplay.style.opacity = sectionData.fontOpacity
+    //     // p-4 text-xs font-bold align-middle border-4 border-black rounded-lg w-fit h-fit
+    
+    //     sectionNumberDisplay.style.gridTemplateColumns = `repeat(${sectionData.cols}, minmax(0, 1fr))`
+    // }
+
+    if (!color) {
+        worksheet.style.position = 'relative';
+    
+        worksheet.appendChild(sectionNumberDisplay);
+        const rect = wordSearchPreview.getBoundingClientRect();
+        const worksheetRect = worksheet.getBoundingClientRect();
+    
+        const topOffset = rect.top - worksheetRect.top;
+        const leftOffset = rect.left - worksheetRect.left;
+    
+        sectionNumberDisplay.id = 'section-number-display';
+        sectionNumberDisplay.setAttribute('name', 'canvas-output');
+        sectionNumberDisplay.innerHTML = '';
+        sectionNumberDisplay.style.position = 'absolute'; // Use absolute for positioning within relative parent
+        sectionNumberDisplay.style.top = `${topOffset}px`;
+        sectionNumberDisplay.style.left = `${leftOffset}px`;
+        sectionNumberDisplay.style.width = `${rect.width}px`;  
+        sectionNumberDisplay.style.height = `${rect.height}px`;
     
         sectionNumberDisplay.className = ''
         sectionNumberDisplay.classList.add('grid')
-        // sectionNumberDisplay.classList.add('gap-1')
         sectionNumberDisplay.style.fontSize = `${height * sectionData.fontSize}px`
-        sectionNumberDisplay.classList.add('justify-center')
-        sectionNumberDisplay.classList.add('align-middle')
-        sectionNumberDisplay.classList.add('text-black')
+        sectionNumberDisplay.classList.add('justify-center','align-middle','text-black','p-4','border-2','rounded-lg','z-10')
         sectionNumberDisplay.style.opacity = sectionData.fontOpacity
-        sectionNumberDisplay.classList.add('p-4')
-        sectionNumberDisplay.classList.add('border-2')
-        sectionNumberDisplay.classList.add('rounded-lg')
-        // sectionNumberDisplay.classList.add()
-        // sectionNumberDisplay.classList.add()
-        // p-4 text-xs font-bold align-middle border-4 border-black rounded-lg w-fit h-fit
     
         sectionNumberDisplay.style.gridTemplateColumns = `repeat(${sectionData.cols}, minmax(0, 1fr))`
     }

@@ -180,3 +180,11 @@ function updatePreview(data, previewElementId){
         }
     }
 }
+function setDate(elementId){
+    const date = new Date()
+    const dateString = date.toLocaleDateString()
+    // const timeString = date.toLocaleTimeString()
+    const element = document.getElementById(elementId)
+    // element.innerText = `${dateString} ${timeString}`
+    element.innerText = `${dateString}`
+}

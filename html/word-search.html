@@ -29,7 +29,7 @@
         </div>
     </nav>
 </header>
-<body>
+<body class="overflow-hidden">
     <div class="flex flex-col items-center justify-center gap-5 m-5 mt-24">
         <div class="pb-4 text-4xl scroll-m-8" id="nav-word-search">Word Search</div>
         <div class="hidden w-full grid-cols-7 gap-8 lg:grid">
@@ -286,8 +286,6 @@
 
 
 
-
-
     <!-- Modals -->
     <div id="delete-preset-modal" tabindex="-1" class="flex items-center backdrop-blur-sm justify-center fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
         <div class="relative w-full max-w-md max-h-full">
@@ -364,7 +362,7 @@
     <div class="hidden w-4 h-4 bg-gray-300"></div>
     <div class="hidden text-5xl bg-gray-400"></div>
     <div class="hidden bg-transparent text-7xl"></div>
-    <div class="hidden p-px bg-gray-200 text-7xl"></div>
+    <div class="absolute hidden p-px bg-gray-200 text-7xl"></div>
     <div class="hidden w-5 h-5"></div>
 </body>
 <script src="../js/js-extensions/stringMethods.js"></script>
@@ -374,8 +372,13 @@
 <script src="../js/math.js"></script>
 <script src="../js/app.js"></script>
 <script src="../js/toasts.js"></script>
+<script src="../js/libraries/html2canvas.min.js"></script>
+
 
 <script src="../js/word-search/wordSearch.js"></script>
 <script src="../js/word-search/wordSearchTippy.js"></script>
 
+<script>
+    setDate('current-date')
+</script>
 </html>

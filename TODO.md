@@ -12,10 +12,13 @@
     - [ ] (Word Search) Fixed: US Letter now has properly scaled PDF output. Before it was too small.
     - [ ] (Word Search) Fixed: Section numbers now are properly displayed in the output PDF.
     - [ ] (Word Search) Fixed: made Light Theme colors better, less 'jarring'/contrasting
+- 2024/1/20
+    - fixed title not updating on input
+    - fixed section labels not appearing in the output PDF
+    - fixed date not being updated
 - 2023/12/29
     - made some progress on the crossword puzzle generator
 - 2023/12/26
-    - [ ] added `<script>` tags to all the new HTML files to ensure they load the proper JS files
     - reorganized the file structure, now each generator is its own page
     - crossword is not dismayed correctly in the preview so that I can visualize the output of the algo
     - `updatePreview()` now works for both crosswords and word searches
