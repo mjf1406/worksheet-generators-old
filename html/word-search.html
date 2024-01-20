@@ -30,6 +30,7 @@
     </nav>
 </header>
 <body class="overflow-hidden">
+<!-- <body> -->
     <div class="flex flex-col items-center justify-center gap-5 m-5 mt-24">
         <div class="pb-4 text-4xl scroll-m-8" id="nav-word-search">Word Search</div>
         <div class="hidden w-full grid-cols-7 gap-8 lg:grid">
@@ -213,9 +214,14 @@
                         <button type="button" id="download" class="mt-5 text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
                             <i class="fa-solid fa-download"></i>
                         </button>
-                        <button type="button" disabled id="print" class="disabled:cursor-not-allowed disabled:bg-blue-800 disabled:text-gray-500 mt-5 text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                            <i class="fa-solid fa-print"></i>
+                        <button 
+                            type="button" id="download-answer-key" 
+                            class="mt-5 text-white bg-green-300 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-800 dark:hover:bg-green-700 focus:outline-none dark:focus:ring-green-800">
+                            <i class="fa-solid fa-download"></i>
                         </button>
+                        <!-- <button type="button" disabled id="print" class="disabled:cursor-not-allowed disabled:bg-blue-800 disabled:text-gray-500 mt-5 text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                            <i class="fa-solid fa-print"></i>
+                        </button> -->
                         <button type="button" id="preview" class="mt-5 text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
                             <i class="fa-solid fa-dice"></i>
                         </button>
@@ -366,8 +372,8 @@
     <div class="hidden w-4 h-4 bg-gray-300"></div>
     <div class="hidden text-5xl bg-gray-400"></div>
     <div class="hidden bg-transparent text-7xl bg-[#111827]"></div>
-    <div class="absolute hidden p-px bg-gray-200 text-7xl"></div>
-    <div class="hidden w-5 h-5 bg-[#263657]"></div>
+    <div class="absolute hidden p-px bg-gray-200 text-7xl opacity-20"></div>
+    <div class="hidden w-5 h-5 bg-[#263657] opacity-25"></div>
 </body>
 <script src="../js/js-extensions/stringMethods.js"></script>
 <script src="../js/js-extensions/arrayMethods.js"></script>

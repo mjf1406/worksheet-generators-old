@@ -8,8 +8,8 @@
             - (Word Search) (?) a step-by-step guide with no arithmetic required
         - (Word Search) that reveals Directions
         - (Word Search) that reveals Sections and Directions
-    - (Word Search) Answer Page
 - 2024/1/20
+    - (Word Search) can now download the answer key
     - (Word Search) preview now supports light and dark themes
     - (Word Search) fixed US Letter page size not scaling correctly in output PDF
     - (Word Search) made Light Theme colors better, less 'jarring'/contrasting

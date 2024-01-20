@@ -32,10 +32,14 @@ tippy('#download', {
     content: `Download as PDF`,
     allowHTML: true
 })
-tippy('#print', {
-    content: `Print the word search`,
+tippy('#download-answer-key', {
+    content: `Download answer key as PDF`,
     allowHTML: true
 })
+// tippy('#print', {
+//     content: `Print the word search`,
+//     allowHTML: true
+// })
 tippy('#preview', {
     content: `Generate word search`,
     allowHTML: true

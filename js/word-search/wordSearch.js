@@ -147,6 +147,7 @@ let presetsDropdown = document.getElementById('presets-dropdown')
 let updatePreset = document.getElementById('update-preset')
 let wordBank = document.getElementById('word-bank')
 const downloadButton = document.getElementById('download')
+const downloadAnswerKeyButton = document.getElementById('download-answer-key')
 const printButton = document.getElementById('print')
 const radios = document.querySelectorAll(`input[type="radio"]`)
 
@@ -246,38 +247,73 @@ downloadButton.addEventListener('click', function(){
     html2pdf().set(opt).from(worksheet).save(`[Word Search] ${title}.pdf`)
     updateWordStats()
 })
-printButton.addEventListener('click', function(){
-    const wordSearchData = JSON.parse(localStorage.getItem('word-search-data'));
-    const title = document.getElementById('title').value ? document.getElementById('title').value : "No Title";
-    const worksheet = document.getElementById('word-search-worksheet');
-    const opt = getPdfOptions(wordSearchData);
+downloadAnswerKeyButton.addEventListener('click', function(){
+    const wordSearchData = JSON.parse(localStorage.getItem('word-search-data'))
+    console.log("🚀 ~ downloadAnswerKeyButton.addEventListener ~ wordSearchData:", wordSearchData)
+    const key = wordSearchData.key
+    wordSearchData.page = getSelectedValueFromRadioGroup('page-size')
+    const opt = getPdfOptions(wordSearchData)
+    const worksheet = document.getElementById('worksheet').cloneNode(true)
+    const wordSearch = worksheet.childNodes[1]
+    const sectionLabels = worksheet.childNodes[3]
+    const wordSearchLetters = wordSearch.childNodes[5].childNodes[1].childNodes
+    for (let index = 0; index < wordSearchLetters.length; index++) {
+        const element = wordSearchLetters[index]
+        const coords = element.id.split('-')
+        const x = coords[0]
+        const y = coords[1]
+        const classes = element.classList
 
-    html2pdf().from(worksheet).toPdf().get('pdf').then(function (doc) {
-        doc.autoPrint();
+        classes.remove(BG_DARK)
+        classes.remove(BG_DARK_2)
+        classes.remove(BG_WHITE)
+        classes.remove(BG_GRAY)
 
-        const hiddenFrame = document.createElement('iframe');
-        hiddenFrame.style.position = 'fixed';
-        // "visibility: hidden" would trigger safety rules in some browsers like safari，
-        // in which the iframe display in a pretty small size instead of hidden.
-        // here is some little hack ~
-        hiddenFrame.style.width = '1px';
-        hiddenFrame.style.height = '1px';
-        hiddenFrame.style.opacity = '0.01';
-        const isSafari = /^((?!chrome|android).)*safari/i.test(window.navigator.userAgent);
-        if (isSafari) {
-        // fallback in safari
-        hiddenFrame.onload = () => {
-            try {
-            hiddenFrame.contentWindow.document.execCommand('print', false, null);
-            } catch (e) {
-            hiddenFrame.contentWindow.print();
-            }
-        };
+        if (key[x][y] == null) {
+            element.classList.add(`opacity-20`)
         }
-        hiddenFrame.src = doc.output('bloburl');
-        document.body.appendChild(hiddenFrame);
-    });
-});
+    }
+    document.body.appendChild(worksheet)
+    wordSearch.style.backgroundColor = '#ffffff'
+    wordSearch.style.color = '#000000'
+    sectionLabels.classList.add('hidden')
+
+    const title = document.getElementById('title').value ? document.getElementById('title').value : "No Title"
+    html2pdf().set(opt).from(worksheet).save(`[Word Search] ${title} (Answer Key).pdf`)
+    updateWordStats()
+})
+// printButton.addEventListener('click', function(){
+//     const wordSearchData = JSON.parse(localStorage.getItem('word-search-data'));
+//     const title = document.getElementById('title').value ? document.getElementById('title').value : "No Title";
+//     const worksheet = document.getElementById('word-search-worksheet');
+//     const opt = getPdfOptions(wordSearchData);
+
+//     html2pdf().from(worksheet).toPdf().get('pdf').then(function (doc) {
+//         doc.autoPrint();
+
+//         const hiddenFrame = document.createElement('iframe');
+//         hiddenFrame.style.position = 'fixed';
+//         // "visibility: hidden" would trigger safety rules in some browsers like safari，
+//         // in which the iframe display in a pretty small size instead of hidden.
+//         // here is some little hack ~
+//         hiddenFrame.style.width = '1px';
+//         hiddenFrame.style.height = '1px';
+//         hiddenFrame.style.opacity = '0.01';
+//         const isSafari = /^((?!chrome|android).)*safari/i.test(window.navigator.userAgent);
+//         if (isSafari) {
+//         // fallback in safari
+//         hiddenFrame.onload = () => {
+//             try {
+//             hiddenFrame.contentWindow.document.execCommand('print', false, null);
+//             } catch (e) {
+//             hiddenFrame.contentWindow.print();
+//             }
+//         };
+//         }
+//         hiddenFrame.src = doc.output('bloburl');
+//         document.body.appendChild(hiddenFrame);
+//     });
+// });
 
 
 
