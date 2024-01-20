@@ -16,6 +16,7 @@ function computeWordStatistics(wordsArray){
     const longestWord = findLongestElement(cleanedWordsArray)
     const shortestWord = findShortestElement(cleanedWordsArray)
     const wordCount = wordsArray.length
+    if (wordCount > 32) makeToast(`The maximum number of words is <b>${WORD_SEARCH_MAX_WORDS}</b>, you have <b>${wordCount}</b>`,'warning')
     return {avgLength: avgLength, longestWord: longestWord, wordCount: wordCount, shortestWord: shortestWord}
 }
 function computeAverageLength(array) {

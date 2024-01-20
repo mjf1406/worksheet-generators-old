@@ -2,10 +2,26 @@ const LETTERS = 'abcdefghijklmnopqrstuvwxyz'
 const WORD_RE = /^[a-z]+$/
 const PREVIEW_SCALE = 0.7
 const COLORS = ['#f87171','#fde047','#4ade80','#60a5fa','#c084fc','#f472b6','#f43f5e','#0d9488','#fb923c']
-const WORD_SEARCH_MAX_ROW_SIZE = 24
+const WORD_SEARCH_MAX_ROW_SIZE = 25
 const WORD_SEARCH_MIN_ROW_SIZE = 4
-const WORD_SEARCH_MAX_COL_SIZE = 32
+const WORD_SEARCH_MAX_COL_SIZE = 30
 const WORD_SEARCH_MIN_COL_SIZE = 4
+const WORD_SEARCH_MAX_WORDS = 32
+const THEME = (window.matchMedia('(prefers-color-scheme: dark)')) ? "DARK" : "LIGHT"
+// const THEME = 'LIGHT'
+console.log("🚀 ~ THEME:", THEME)
+
+const paperSizes = {
+    a4: {
+        width: 595,
+        height: 842
+    },
+    letter: {
+        width: 612,
+        height: 792
+    }
+}
+
 const DIRECTION_ICONS = {
     'left-to-right': '<i class="fa-solid fa-arrow-right"></i>',
     'right-to-left': '<i class="fa-solid fa-arrow-left"></i>',
@@ -41,20 +57,39 @@ const SECTIONS = {
 }
 const BG_GRAY = 'bg-gray-200'
 const BG_WHITE = 'bg-white'
-const SECTION_COLORS_FOUR = [
+const BG_DARK = 'bg-[#111827]'
+const BG_DARK_2 = 'bg-[#263657]'
+
+const SECTION_COLORS_FOUR_LIGHT = [
     BG_GRAY,BG_WHITE,
     BG_WHITE,BG_GRAY
 ]
-const SECTION_COLORS_NINE = [
+const SECTION_COLORS_NINE_LIGHT = [
     BG_GRAY,BG_WHITE,BG_GRAY, 
     BG_WHITE,BG_GRAY,BG_WHITE, 
     BG_GRAY,BG_WHITE,BG_GRAY
 ]
-const SECTION_COLORS_SIXTEEN = [
+const SECTION_COLORS_SIXTEEN_LIGHT = [
     BG_GRAY,BG_WHITE,BG_GRAY,BG_WHITE, 
     BG_WHITE,BG_GRAY,BG_WHITE,BG_GRAY, 
     BG_GRAY,BG_WHITE,BG_GRAY,BG_WHITE, 
     BG_WHITE,BG_GRAY,BG_WHITE,BG_GRAY
+]
+
+const SECTION_COLORS_FOUR_DARK = [
+    BG_DARK_2,BG_DARK,
+    BG_DARK,BG_DARK_2
+]
+const SECTION_COLORS_NINE_DARK = [
+    BG_DARK_2,BG_DARK,BG_DARK_2, 
+    BG_DARK,BG_DARK_2,BG_DARK, 
+    BG_DARK_2,BG_DARK,BG_DARK_2
+]
+const SECTION_COLORS_SIXTEEN_DARK = [
+    BG_DARK_2,BG_DARK,BG_DARK_2,BG_DARK, 
+    BG_DARK,BG_DARK_2,BG_DARK,BG_DARK_2, 
+    BG_DARK_2,BG_DARK,BG_DARK_2,BG_DARK, 
+    BG_DARK,BG_DARK_2,BG_DARK,BG_DARK_2
 ]
 if(!localStorage.getItem('word-search-data')) {
     const params = {
@@ -81,6 +116,7 @@ if (JSON.parse(localStorage.getItem('word-search-presets'))) {
 
 
 const wordSearchCanvas = document.getElementById('canvas-output')
+const wordSearchWorksheet = document.getElementById('word-search-worksheet')
 
 let title = document.getElementById('title')
 let height = document.getElementById('height')
@@ -101,6 +137,7 @@ for (let index = 0; index < wordDirections.length; index++) {
 let revealDirection = document.getElementById('reveal-direction')
 let directionsRadios = document.getElementsByName('word-direction')
 let page = getSelectedValueFromRadioGroup('page-size')
+const pageSizes = document.getElementsByName('page-size')
 let key = document.getElementById('key')
 let words = document.getElementById('words')
 let previewButton = document.getElementById('preview')
@@ -112,9 +149,6 @@ let wordBank = document.getElementById('word-bank')
 const downloadButton = document.getElementById('download')
 const printButton = document.getElementById('print')
 const radios = document.querySelectorAll(`input[type="radio"]`)
-
-
-
 
 wordDirectionAllButton.addEventListener('click', function(event){
     const wordSearchForm = document.getElementById('word-search-form')
@@ -142,6 +176,7 @@ previewButton.addEventListener('click', function(){
         if (revealSections) paintSections(wordSearchData.sections)
         let end = new Date().getTime(); 
         makeToast(`Word Search generated in ${formatMillisecondsToReadable(end - start)}`, 'success')
+        setPreviewSize()
         const wordsNotPlaced = wordSearchData.wordsNotPlaced
         if (wordsNotPlaced.length > 0) makeToast(`Failed to placed ${wordsNotPlaced.length} word(s): ${wordsNotPlaced.join(", ").toLowerCase()}`, 'error')
     }
@@ -184,8 +219,29 @@ wordsInput.addEventListener('input', function(){
 })
 downloadButton.addEventListener('click', function(){
     const wordSearchData = JSON.parse(localStorage.getItem('word-search-data'))
+    wordSearchData.page = getSelectedValueFromRadioGroup('page-size')
+    console.log("🚀 ~ downloadButton.addEventListener ~ wordSearchData.page:", wordSearchData.page)
     const opt = getPdfOptions(wordSearchData)
     const worksheet = document.getElementById('worksheet').cloneNode(true)
+    const wordSearch = worksheet.childNodes[1]
+    if (THEME === 'DARK') {
+        const wordSearchLetters = wordSearch.childNodes[5].childNodes[1].childNodes
+        for (let i = 0; i < wordSearchLetters.length; i++) {
+            const element = wordSearchLetters[i]
+            const classes = element.classList
+            if (classes.contains(BG_DARK)) {
+                classes.remove(BG_DARK)
+                classes.add(BG_WHITE)
+            } else {
+                classes.remove(BG_DARK_2)
+                classes.add(BG_GRAY)
+            } 
+        }
+    }
+    document.body.appendChild(worksheet)
+    wordSearch.style.backgroundColor = '#ffffff'
+    wordSearch.style.color = '#000000'
+
     const title = document.getElementById('title').value ? document.getElementById('title').value : "No Title"
     html2pdf().set(opt).from(worksheet).save(`[Word Search] ${title}.pdf`)
     updateWordStats()
@@ -236,7 +292,7 @@ sectionsRadios.forEach(element => {
         wordSearchData = computeSectionDimensions(wordSearchData)
         if (revealSections === true) {
             wordSearchData = determineWordSections(wordSearchData)
-            paintSections(wordSearchData.sections, null)
+            paintSections(wordSearchData.sections, null, null)
             updateWordBank(wordSearchData)
         }
         localStorage.setItem('word-search-data', JSON.stringify(wordSearchData))
@@ -296,7 +352,8 @@ revealSections.addEventListener('change', function(){
     wordSearchData.numberOfSections = numberOfSections
     
     if (revealSections == false) { 
-        paintSections(wordSearchData.sections, 'BG_WHITE')
+        const color = (THEME === 'LIGHT') ? 'BG_WHITE' : 'BG_DARK'
+        paintSections(wordSearchData.sections, color)
     } else if (revealSections == true) {
         if (wordSearchData.sections.length < 1) {
             wordSearchData = computeSectionDimensions(wordSearchData)
@@ -325,7 +382,14 @@ title.addEventListener('input', function(){
     paintSections(wordSearchData.sections)
     localStorage.setItem('word-search-data', JSON.stringify(wordSearchData))
 })
+pageSizes.forEach(element => {
+    element.addEventListener('change', function(){
+        setPreviewSize()
 
+        const wordSearchData = JSON.parse(localStorage.getItem('word-search-data'))
+        updateWordBank(wordSearchData)
+    })
+});
 
 
 
@@ -341,7 +405,7 @@ function updateWordStats(){
 }
 function getPdfOptions(wordSearchData){
     const page = wordSearchData.page
-    const unit = (page === 'a4') ? 'mm' : 'in' 
+    const unit = (page === 'a4') ? 'mm' : 'mm' 
     let width = (page === 'a4') ? 595 : 612 // DPI = 72
     let height = (page === 'a4') ? 842 : 792 // DPI = 72
     width = width * PREVIEW_SCALE
@@ -499,7 +563,9 @@ function computeSectionDimensions(params){
     params.sections = sections
     return params
 }
-function paintSections(sections, color){
+function paintSections(sections, color, theme){
+    console.log("🚀 ~ paintSections ~ color:", color)
+    if (!theme) theme = THEME
     sections.sort(function(a, b) { return a.id - b.id })
     const sectionDigit = sections.length
     const height = document.getElementById('word-search-puzzle').offsetHeight 
@@ -509,31 +575,6 @@ function paintSections(sections, color){
     if (sectionNumbersOld) document.getElementById('section-number-display').remove()
     const wordSearchPreview = document.getElementById('preview-word-search')
     const sectionNumberDisplay = wordSearchPreview.cloneNode(true)
-
-    // if (!color) {
-    //     worksheet.appendChild(sectionNumberDisplay);
-    //     // document.body.appendChild(sectionNumberDisplay);
-    //     const rect = wordSearchPreview.getBoundingClientRect();
-    
-    //     sectionNumberDisplay.id = 'section-number-display'
-    //     sectionNumberDisplay.setAttribute('name', 'canvas-output')
-    //     sectionNumberDisplay.innerHTML = ''
-    //     sectionNumberDisplay.style.position = 'fixed';
-    //     sectionNumberDisplay.style.top = `${rect.top}px`;
-    //     sectionNumberDisplay.style.left = `${rect.left}px`;
-    //     sectionNumberDisplay.style.width = `${rect.width}px`;  // Optional: to maintain the same width
-    //     sectionNumberDisplay.style.height = `${rect.height}px`; // Optional: to maintain the same height
-    
-    //     sectionNumberDisplay.className = ''
-    //     sectionNumberDisplay.classList.add('grid')
-    //     // sectionNumberDisplay.classList.add('gap-1')
-    //     sectionNumberDisplay.style.fontSize = `${height * sectionData.fontSize}px`
-    //     sectionNumberDisplay.classList.add('justify-center','align-middle','text-black','p-4','border-2','rounded-lg','z-10')
-    //     sectionNumberDisplay.style.opacity = sectionData.fontOpacity
-    //     // p-4 text-xs font-bold align-middle border-4 border-black rounded-lg w-fit h-fit
-    
-    //     sectionNumberDisplay.style.gridTemplateColumns = `repeat(${sectionData.cols}, minmax(0, 1fr))`
-    // }
 
     if (!color) {
         worksheet.style.position = 'relative';
@@ -586,11 +627,15 @@ function paintSections(sections, color){
                     if (color) { 
                         letter.classList.remove(BG_WHITE)
                         letter.classList.remove(BG_GRAY)
+                        letter.classList.remove(BG_DARK)
+                        letter.classList.remove(BG_DARK_2)
                         letter.classList.add(eval(color))
                     } else { 
                         letter.classList.remove(BG_WHITE)
                         letter.classList.remove(BG_GRAY)
-                        letter.classList.add(eval(`SECTION_COLORS_${sectionWord}`)[id])
+                        letter.classList.remove(BG_DARK)
+                        letter.classList.remove(BG_DARK_2)
+                        letter.classList.add(eval(`SECTION_COLORS_${sectionWord}_${theme}`)[id])
                     }
                 }
             if (!color){
@@ -779,7 +824,7 @@ function updateWordBank(wordSearchData){
     const worksheetHeight = worksheet.clientHeight * PREVIEW_SCALE
     const otherElementsHeight = wordSearchPuzzle.offsetHeight * PREVIEW_SCALE; // Add the offsetHeight of other elements if they exist
     const wordBankHeight = worksheetHeight - otherElementsHeight;
-    wordBank.style.height = wordBankHeight - (wordBankHeight * 0.3) + 'px';
+    wordBank.style.height = wordBankHeight - (wordBankHeight * 0.2) + 'px';
 
     wordBank.innerHTML = ''
     let wordData = wordSearchData.wordData
@@ -812,4 +857,9 @@ function updateWordBank(wordSearchData){
         if(revealSections) div.appendChild(sectionDiv)
         wordBank.appendChild(div)
     }
+}
+function setPreviewSize(){
+    const selectedPage = getSelectedValueFromRadioGroup('page-size')
+    wordSearchWorksheet.style.height = `${paperSizes[selectedPage].height}px`
+    wordSearchWorksheet.style.width = `${paperSizes[selectedPage].width}px`
 }

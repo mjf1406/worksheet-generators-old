@@ -46,13 +46,13 @@
                                 <div class="inline-flex rounded-md shadow-sm" role="group">
                                     <label for="letter" id="label-letter" class="">
                                         <input type="radio" name="page-size" class="hidden peer" id="letter" value="letter"/>
-                                        <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border border-gray-200 rounded-l-lg peer-checked:bg-blue-600 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
+                                        <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border border-gray-200 rounded-l-lg peer-checked:bg-blue-400 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
                                             US Letter
                                         </div>
                                     </label>
                                     <label for="a4" id="label-a4" class="">
                                         <input type="radio" name="page-size" class="hidden peer" id="a4" value="a4" checked/>
-                                        <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border border-gray-200 peer-checked:bg-blue-600 rounded-r-md hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
+                                        <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border border-gray-200 peer-checked:bg-blue-400 rounded-r-md hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
                                             A4
                                         </div>
                                     </label>
@@ -62,30 +62,30 @@
                                 <label for="item-weight" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Answer Key</label>
                                 <label class="relative inline-flex items-center mb-4 cursor-pointer">
                                     <input id="key" type="checkbox" value="" class="sr-only peer" checked>
-                                    <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                                    <div class="w-11 h-6 bg-gray-400 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-400"></div>
                                     <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">Print Answer Key</span>
                                 </label>
                             </div> 
                             <div class="col-span-1">
-                                <label for="height" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Rows <i id="rows-warning" class="fa-solid fa-triangle-exclamation"></i></label>
+                                <label for="height" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Height <i id="rows-warning" class="fa-solid fa-triangle-exclamation"></i></label>
                                 <div class="flex flex-row" name="number-input-group">
-                                    <button name="height" data-action="decrement" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-l-lg text-sm px-4 py-2.5 dark:bg-blue-400 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                                    <button name="height" data-action="decrement" class="text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-l-lg text-sm px-4 py-2.5 dark:bg-blue-400 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
                                         <i class="fa-solid fa-minus"></i>
                                     </button>
                                     <input type="number" name="height" id="height" class="w-11 bg-gray-50 border border-gray-300 text-center text-gray-900 text-sm focus:ring-primary-600 focus:border-primary-600 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" min="4" max="24" value="10" required="">
-                                    <button name="height" data-action="increment" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-r-lg text-sm px-4 py-2.5 dark:bg-blue-400 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                                    <button name="height" data-action="increment" class="text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-r-lg text-sm px-4 py-2.5 dark:bg-blue-400 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
                                         <i class="fa-solid fa-plus"></i>
                                     </button>
                                 </div>
                             </div>
                             <div class="col-span-1">
-                                <label for="width" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Columns <i id="cols-warning" class="fa-solid fa-triangle-exclamation"></i></label>
+                                <label for="width" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Width <i id="cols-warning" class="fa-solid fa-triangle-exclamation"></i></label>
                                 <div class="flex flex-row" name="number-input-group">
-                                    <button name="width" data-action="decrement" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-l-lg text-sm px-4 py-2.5 dark:bg-blue-400 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                                    <button name="width" data-action="decrement" class="text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-l-lg text-sm px-4 py-2.5 dark:bg-blue-400 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
                                         <i class="fa-solid fa-minus"></i>
                                     </button>
                                     <input type="number" name="width" id="width" class="w-11 bg-gray-50 border text-center border-gray-300 text-gray-900 text-sm focus:ring-primary-600 focus:border-primary-600 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" min="4" max="32" value="10" required="">
-                                    <button name="width" data-action="increment" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-r-lg text-sm px-4 py-2.5 dark:bg-blue-400 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                                    <button name="width" data-action="increment" class="text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-r-lg text-sm px-4 py-2.5 dark:bg-blue-400 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
                                         <i class="fa-solid fa-plus"></i>
                                     </button>
                                 </div>
@@ -95,15 +95,15 @@
                                 <div class="inline-flex rounded-md shadow-sm" role="group">
                                     <label for="four" id="label-four" class="">
                                         <input type="radio" name="sections" class="hidden peer" id="four" value="four" checked/>
-                                        <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border border-gray-200 rounded-l-lg peer-checked:bg-blue-600 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">4</div>
+                                        <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border border-gray-200 rounded-l-lg peer-checked:bg-blue-400 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">4</div>
                                     </label>
                                     <label for="nine" id="label-nine" class="">
                                         <input type="radio" name="sections" class="hidden peer" id="nine" value="nine"/>
-                                        <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border-t border-b border-gray-200 peer-checked:bg-blue-600 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">9</div>
+                                        <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border-t border-b border-gray-200 peer-checked:bg-blue-400 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">9</div>
                                     </label>
                                     <label for="sixteen" id="label-sixteen" class="">
                                         <input type="radio" name="sections" class="hidden peer" id="sixteen" value="sixteen"/>
-                                        <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border border-gray-200 peer-checked:bg-blue-600 rounded-r-md hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">16</div>
+                                        <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border border-gray-200 peer-checked:bg-blue-400 rounded-r-md hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">16</div>
                                     </label>
                                 </div>
                             </div>
@@ -111,62 +111,62 @@
                                 <label for="item-weight" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Reveal Sections <i id="reveal-sections-help" class="fa-regular fa-circle-question"></i></label>
                                 <label class="relative inline-flex items-center mb-4 cursor-pointer">
                                     <input id="reveal-section" type="checkbox" value="" class="sr-only peer">
-                                    <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                                    <div class="w-11 h-6 bg-gray-400 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-400"></div>
                                     <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">Reveal Sections</span>
                                 </label>
                             </div> 
                             <div class="col-span-2">
                                 <label for="item-weight" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Word Direction <i id="direction-warning" class="fa-solid fa-triangle-exclamation"></i>
                                     <span>
-                                        <button id="select-all-directions" class="px-3 py-1 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-800 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">All</button>
+                                        <button id="select-all-directions" class="px-3 py-1 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-800 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">All</button>
                                     </span>
                                 </label>
                                 <div class="inline-flex rounded-md shadow-sm" role="group">
                                     <label for="left-to-right" id="label-left-to-right" class="">
                                         <input type="checkbox" name="word-direction" class="hidden peer" id="left-to-right" value="left-to-right" checked/>
-                                        <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border border-gray-200 rounded-l-lg peer-checked:bg-blue-600 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
+                                        <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border border-gray-200 rounded-l-lg peer-checked:bg-blue-400 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
                                             <i class="fa-solid fa-arrow-right"></i>
                                         </div>
                                     </label>
                                     <label for="right-to-left" id="label-right-to-left" class="">
                                         <input type="checkbox" name="word-direction" class="hidden peer" id="right-to-left" value="right-to-left"/>
-                                        <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border-t border-b border-gray-200 peer-checked:bg-blue-600 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
+                                        <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border-t border-b border-gray-200 peer-checked:bg-blue-400 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
                                             <i class="fa-solid fa-arrow-left"></i>
                                         </div>
                                     </label>
                                     <label for="bottom-to-top" id="label-bottom-to-top" class="">
                                         <input type="checkbox" name="word-direction" class="hidden peer" id="bottom-to-top" value="bottom-to-top"/>
-                                        <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border-t border-b border-gray-200 peer-checked:bg-blue-600 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
+                                        <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border-t border-b border-gray-200 peer-checked:bg-blue-400 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
                                             <i class="fa-solid fa-arrow-up"></i>
                                         </div>
                                     </label>
                                     <label for="top-to-bottom" id="label-top-to-bottom" class="">
                                         <input type="checkbox" name="word-direction" class="hidden peer" id="top-to-bottom" value="top-to-bottom"/>
-                                        <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border-t border-b border-gray-200 peer-checked:bg-blue-600 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
+                                        <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border-t border-b border-gray-200 peer-checked:bg-blue-400 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
                                             <i class="fa-solid fa-arrow-down"></i>
                                         </div>
                                     </label>
                                     <label for="diagonal-down-left" id="label-diagonal-down-left" class="">
                                         <input type="checkbox" name="word-direction" class="hidden peer" id="diagonal-down-left" value="diagonal-down-left"/>
-                                        <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border-t border-b border-gray-200 peer-checked:bg-blue-600 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
+                                        <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border-t border-b border-gray-200 peer-checked:bg-blue-400 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
                                             <i class="rotate-45 fa-solid fa-arrow-down"></i>
                                         </div>
                                     </label>
                                     <label for="diagonal-down-right" id="label-diagonal-down-right" class="">
                                         <input type="checkbox" name="word-direction" class="hidden peer" id="diagonal-down-right" value="diagonal-down-right"/>
-                                        <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border-t border-b border-gray-200 peer-checked:bg-blue-600 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
+                                        <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border-t border-b border-gray-200 peer-checked:bg-blue-400 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
                                             <i class="rotate-45 fa-solid fa-arrow-right"></i>
                                         </div>
                                     </label>
                                     <label for="diagonal-up-right" id="label-diagonal-up-right" class="">
                                         <input type="checkbox" name="word-direction" class="hidden peer" id="diagonal-up-right" value="diagonal-up-right"/>
-                                        <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border-t border-b border-gray-200 peer-checked:bg-blue-600 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
+                                        <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border-t border-b border-gray-200 peer-checked:bg-blue-400 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
                                             <i class="rotate-45 fa-solid fa-arrow-up"></i>
                                         </div>
                                     </label>
                                     <label for="diagonal-up-left" id="label-diagonal-up-left" class="">
                                         <input type="checkbox" name="word-direction" class="hidden peer" id="diagonal-up-left" value="diagonal-up-left"/>
-                                        <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border border-gray-200 peer-checked:bg-blue-600 rounded-r-md hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
+                                        <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border border-gray-200 peer-checked:bg-blue-400 rounded-r-md hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
                                             <i class="rotate-45 fa-solid fa-arrow-left"></i>
                                         </div>
                                     </label>
@@ -176,7 +176,7 @@
                                 <label for="item-weight" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Reveal Direction <i id="reveal-direction-help" class="fa-regular fa-circle-question"></i></label>
                                 <label class="relative inline-flex items-center mb-4 cursor-pointer">
                                     <input id="reveal-direction" type="checkbox" value="" class="sr-only peer">
-                                    <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                                    <div class="w-11 h-6 bg-gray-400 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-400"></div>
                                     <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">Reveal Direction</span>
                                 </label>
                             </div>
@@ -185,22 +185,22 @@
                                 <div class="inline-flex rounded-md shadow-sm" role="group">
                                     <label for="uppercase" id="label-uppercase" class="">
                                         <input type="radio" name="letter-case" class="hidden peer" id="uppercase" value="uppercase" checked/>
-                                        <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border border-gray-200 rounded-l-lg peer-checked:bg-blue-600 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">A</div>
+                                        <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border border-gray-200 rounded-l-lg peer-checked:bg-blue-400 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">A</div>
                                     </label>
                                     <label for="lowercase" id="label-lowercase" class="">
                                         <input type="radio" name="letter-case" class="hidden peer" id="lowercase" value="lowercase"/>
-                                        <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border-t border-b border-gray-200 peer-checked:bg-blue-600 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">a</div>
+                                        <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border-t border-b border-gray-200 peer-checked:bg-blue-400 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">a</div>
                                     </label>
                                     <label for="random-case" id="label-random-case" class="">
                                         <input type="radio" name="letter-case" class="hidden peer" id="random-case" value="random-case"/>
-                                        <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border border-gray-200 peer-checked:bg-blue-600 rounded-r-md hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">Aa</div>
+                                        <div class="px-4 py-2 text-sm font-bold text-gray-900 bg-white border border-gray-200 peer-checked:bg-blue-400 rounded-r-md hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">Aa</div>
                                     </label>
                                 </div>
                             </div>
                             <div class="col-span-1 2xl:col-span-3">
                                 <label for="words" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Words <i id="words-warning" class="fa-solid fa-triangle-exclamation"></i></label>
                                 <!-- <div class="block mb-2 ml-4 text-sm font-medium text-gray-900 text-opacity-50 dark:text-white dark:text-opacity-50">Each word must be separated by a comma and a space (, ), or put each word on a new line.</div> -->
-                                <textarea id="words" rows="8" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 h-24" placeholder="Each word must be separated by a comma and a space (, ), or put each word on a new line. Max 24 words."></textarea>
+                                <textarea id="words" rows="8" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 h-24" placeholder="Each word must be separated by a comma and a space (, ), or put each word on a new line. Max 32 words."></textarea>
                             </div>
                             <div class="col-span-1 2xl:col-span-1">
                                 <label for="words" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Word Stats</label>
@@ -210,13 +210,13 @@
                                 <div class="text-xs">Avg. Length: <span id="avg-word-length" class="font-bold"></span></div>
                             </div>
                         </div>
-                        <button type="button" id="download" class="mt-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                        <button type="button" id="download" class="mt-5 text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
                             <i class="fa-solid fa-download"></i>
                         </button>
-                        <button type="button" disabled id="print" class="disabled:cursor-not-allowed disabled:bg-blue-800 disabled:text-gray-500 mt-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                        <button type="button" disabled id="print" class="disabled:cursor-not-allowed disabled:bg-blue-800 disabled:text-gray-500 mt-5 text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
                             <i class="fa-solid fa-print"></i>
                         </button>
-                        <button type="button" id="preview" class="mt-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                        <button type="button" id="preview" class="mt-5 text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
                             <i class="fa-solid fa-dice"></i>
                         </button>
                         <button id="open-preset" data-modal-target="save-preset-modal" data-modal-toggle="save-preset-modal" class="mt-5 text-white bg-blue-400 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-800 dark:hover:bg-blue-900 focus:outline-none dark:focus:ring-blue-900" type="button">
@@ -231,14 +231,18 @@
                 </div>
             </section>
             <div id="worksheet">
-                <div id="word-search-worksheet" class="flex flex-col self-start col-span-4 gap-2 p-4 text-black align-top bg-white w-fit h-fit" style="width: 580px; height: 850px; transform: scale(0.70); -webkit-transform-origin: left top; -moz-transform-origin: left top;">
+                <div 
+                    id="word-search-worksheet" 
+                    class="flex flex-col self-start col-span-4 gap-2 p-4 text-black dark:text-white align-top bg-gray-100 dark:bg-[#111827] w-fit h-fit" 
+                    style="width: 580px; height: 850px; transform: scale(0.70); -webkit-transform-origin: left top; -moz-transform-origin: left top;"
+                >
                     <div class="grid w-full grid-cols-2">
                         <div id="current-date" class="text-xs opacity-40 self-left">2023/12/5</div>
                         <div class="self-end mb-1 text-base font-bold text-right align-middle opacity-50">Name: _______________</div>
                     </div>
-                    <div id="worksheet-title" class="self-center mb-5 text-3xl font-bold text-center align-middle">Untitled</div>
+                    <div id="worksheet-title" class="self-center text-3xl font-bold text-center align-middle">Untitled</div>
                     <div id="word-search-puzzle" class="self-center align-middle">
-                        <div id="preview-word-search" class="grid self-center justify-center grid-cols-7 p-4 text-xs font-bold text-center align-middle border-2 border-black rounded-lg w-fit h-fit">
+                        <div id="preview-word-search" class="grid self-center justify-center grid-cols-7 p-2 text-xs font-bold text-center align-middle border-2 border-black rounded-lg w-fit h-fit">
                             <div>P</div>
                             <div>R</div>
                             <div>E</div>
@@ -269,7 +273,7 @@
                             <div>W</div>
                         </div>
                     </div>
-                    <div id="word-bank" class="mt-5 flex flex-col flex-wrap gap-2 gap-x-8 max-h-[300px] text-2xs text-center"></div>
+                    <div id="word-bank" class="flex flex-col flex-wrap gap-1.5 gap-x-1 max-h-[300px] text-2xs text-center"></div>
                 </div>
             </div>
         </div>
@@ -361,9 +365,9 @@
     <!-- Tailwind CSS stuff -->
     <div class="hidden w-4 h-4 bg-gray-300"></div>
     <div class="hidden text-5xl bg-gray-400"></div>
-    <div class="hidden bg-transparent text-7xl"></div>
+    <div class="hidden bg-transparent text-7xl bg-[#111827]"></div>
     <div class="absolute hidden p-px bg-gray-200 text-7xl"></div>
-    <div class="hidden w-5 h-5"></div>
+    <div class="hidden w-5 h-5 bg-[#263657]"></div>
 </body>
 <script src="../js/js-extensions/stringMethods.js"></script>
 <script src="../js/js-extensions/arrayMethods.js"></script>
@@ -380,5 +384,6 @@
 
 <script>
     setDate('current-date')
+    setPreviewSize()
 </script>
 </html>

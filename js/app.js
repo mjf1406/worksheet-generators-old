@@ -158,27 +158,26 @@ function updatePreview(data, previewElementId){
             div.classList.add('w-5')
             div.classList.add('h-5')
             if (isWordCoord) { 
-                div.classList.add('text-black')
                 div.innerText = answerKey[x][y]
             }
             preview.appendChild(div)
         }
     }
     if (previewElementId.includes('crossword')) return
-    // Reveal Answers
-    for (let index = 0; index < wordData.length; index++) {
-        const element = wordData[index]
-        let coords = element.coords
-        let color = COLORS[Math.floor(Math.random() * COLORS.length)]
-        if (coords) {
-            for (let index = 0; index < coords.length; index++) {
-                const element = coords[index];
-                let div = document.getElementById(`${element.x}-${element.y}`)
-                // div.style.background = color
-                // div.classList.add(`bg-[${color}]`)
-            }
-        }
-    }
+    // // Reveal Answers
+    // for (let index = 0; index < wordData.length; index++) {
+    //     const element = wordData[index]
+    //     let coords = element.coords
+    //     let color = COLORS[Math.floor(Math.random() * COLORS.length)]
+    //     if (coords) {
+    //         for (let index = 0; index < coords.length; index++) {
+    //             const element = coords[index];
+    //             let div = document.getElementById(`${element.x}-${element.y}`)
+    //             // div.style.background = color
+    //             // div.classList.add(`bg-[${color}]`)
+    //         }
+    //     }
+    // }
 }
 function setDate(elementId){
     const date = new Date()
