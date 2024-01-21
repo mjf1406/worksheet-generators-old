@@ -46,3 +46,22 @@ input[type=number] {
 .active {
     @apply dark:bg-gray-600 bg-gray-400
 }
+
+.cell-xs {
+    @apply text-xs w-4 h-4
+}
+.cell-sm {
+    @apply text-sm w-4 h-4
+}
+.cell-base {
+    @apply text-base w-5 h-5
+}
+.cell-lg {
+    @apply text-lg w-6 h-6
+}
+.cell-xl {
+    @apply text-xl w-7 h-7
+}
+.cell-2xl {
+    @apply text-2xl w-9 h-9
+}

@@ -153,10 +153,9 @@ function updatePreview(data, previewElementId){
             div.id = `${x}-${y}`
             div.setAttribute('name', 'letter')
             div.classList.add('text-center')
-            div.classList.add('text-sm')
             div.classList.add('p-px')
-            div.classList.add('w-5')
-            div.classList.add('h-5')
+            div.classList.add('bg-transparent')
+            div.classList.add('cell-sm')
             if (isWordCoord) { 
                 div.innerText = answerKey[x][y]
             }

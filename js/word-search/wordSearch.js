@@ -221,7 +221,6 @@ wordsInput.addEventListener('input', function(){
 downloadButton.addEventListener('click', function(){
     const wordSearchData = JSON.parse(localStorage.getItem('word-search-data'))
     wordSearchData.page = getSelectedValueFromRadioGroup('page-size')
-    console.log("🚀 ~ downloadButton.addEventListener ~ wordSearchData.page:", wordSearchData.page)
     const opt = getPdfOptions(wordSearchData)
     const worksheet = document.getElementById('worksheet').cloneNode(true)
     const wordSearch = worksheet.childNodes[1]
@@ -239,7 +238,7 @@ downloadButton.addEventListener('click', function(){
             } 
         }
     }
-    document.body.appendChild(worksheet)
+    // document.body.appendChild(worksheet)
     wordSearch.style.backgroundColor = '#ffffff'
     wordSearch.style.color = '#000000'
 
@@ -249,7 +248,6 @@ downloadButton.addEventListener('click', function(){
 })
 downloadAnswerKeyButton.addEventListener('click', function(){
     const wordSearchData = JSON.parse(localStorage.getItem('word-search-data'))
-    console.log("🚀 ~ downloadAnswerKeyButton.addEventListener ~ wordSearchData:", wordSearchData)
     const key = wordSearchData.key
     wordSearchData.page = getSelectedValueFromRadioGroup('page-size')
     const opt = getPdfOptions(wordSearchData)
@@ -273,10 +271,10 @@ downloadAnswerKeyButton.addEventListener('click', function(){
             element.classList.add(`opacity-20`)
         }
     }
-    document.body.appendChild(worksheet)
+    // document.body.appendChild(worksheet)
     wordSearch.style.backgroundColor = '#ffffff'
     wordSearch.style.color = '#000000'
-    sectionLabels.classList.add('hidden')
+    if (sectionLabels) sectionLabels.classList.add('hidden')
 
     const title = document.getElementById('title').value ? document.getElementById('title').value : "No Title"
     html2pdf().set(opt).from(worksheet).save(`[Word Search] ${title} (Answer Key).pdf`)
