@@ -48,23 +48,23 @@ input[type=number] {
 }
 
 .cell-2xs {
-    @apply text-2xs w-4 h-4
+    @apply text-2xs w-3.5 h-3.5
 }
 .cell-xs {
     @apply text-xs w-4 h-4
 }
 .cell-sm {
-    @apply text-sm w-4 h-4
+    @apply text-sm w-5 h-5
 }
 .cell-base {
-    @apply text-base w-5 h-5
+    @apply text-base w-6 h-6
 }
 .cell-lg {
-    @apply text-lg w-6 h-6
+    @apply text-lg w-7 h-7
 }
 .cell-xl {
     @apply text-xl w-7 h-7
 }
 .cell-2xl {
-    @apply text-2xl w-9 h-9
+    @apply text-2xl w-7 h-7
 }

@@ -8,9 +8,9 @@
             - (Word Search) (?) a step-by-step guide with no arithmetic required
         - (Word Search) that reveals Directions
         - (Word Search) that reveals Sections and Directions
-- [ ] 2024/1/xx
+- 2024/1/21
     - (Word Search) font size now adjusts based on the word search dimensions
-        - Why does paintSections change the font?
+    - Added error toast if a word search with a height or width exceeds 40
 - 2024/1/20
     - (Word Search) can now download the answer key
     - (Word Search) preview now supports light and dark themes

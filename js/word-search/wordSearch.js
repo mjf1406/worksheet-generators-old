@@ -456,6 +456,10 @@ function getWordSearchParams(){
     let title = document.getElementById('title').value
     let height = document.getElementById('height').value
     let width = document.getElementById('width').value
+
+    if (height > 40) return makeToast('<b>Height</b> cannot exceed 40!','error')
+    if (width > 40) return makeToast('<b>Width</b> cannot exceed 40!','error')
+
     let sections = getSelectedValueFromRadioGroup('sections')
     let revealSections = document.getElementById('reveal-section').checked
     let letterCase = getSelectedValueFromRadioGroup('letter-case')
@@ -467,7 +471,7 @@ function getWordSearchParams(){
     }
     let revealDirection = document.getElementById('reveal-direction').checked
     let page = getSelectedValueFromRadioGroup('page-size')
-    let key = document.getElementById('key').checked
+    // let key = document.getElementById('key').checked
     let words = document.getElementById('words').value
     if (words.includes(",")) words = words.split(", ")
     else if (words.includes("\n")) words = words.split("\n")
@@ -599,7 +603,6 @@ function computeSectionDimensions(params){
     return params
 }
 function paintSections(sections, color, theme){
-    console.log("🚀 ~ paintSections ~ color:", color)
     if (!theme) theme = THEME
     sections.sort(function(a, b) { return a.id - b.id })
     const sectionDigit = sections.length
@@ -664,12 +667,14 @@ function paintSections(sections, color, theme){
                         letter.classList.remove(BG_GRAY)
                         letter.classList.remove(BG_DARK)
                         letter.classList.remove(BG_DARK_2)
+                        letter.classList.remove('bg-transparent')
                         letter.classList.add(eval(color))
                     } else { 
                         letter.classList.remove(BG_WHITE)
                         letter.classList.remove(BG_GRAY)
                         letter.classList.remove(BG_DARK)
                         letter.classList.remove(BG_DARK_2)
+                        letter.classList.remove('bg-transparent')
                         letter.classList.add(eval(`SECTION_COLORS_${sectionWord}_${theme}`)[id])
                     }
                 }

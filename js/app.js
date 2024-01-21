@@ -127,7 +127,17 @@ document.addEventListener("DOMContentLoaded", function () {
         makeToast(`${selectedPreset} updated successfully!`, 'success')
     })
 });
-function updatePreview(data, previewElementId, size){
+function computeSize(width, height){
+    const variable = (width > height) ? width : height
+    
+    if (variable <= 10) return 'xl'
+    if (variable <= 15) return 'lg'
+    if (variable <= 20) return 'base'
+    if (variable <= 25) return 'sm'
+    if (variable <= 30) return 'xs'
+    if (variable > 30) return '2xs'
+}
+function updatePreview(data, previewElementId){
     const titleElement = document.getElementById('worksheet-title')
     const preview = document.getElementById(previewElementId)
     preview.innerHTML = ''
@@ -138,6 +148,9 @@ function updatePreview(data, previewElementId, size){
     let answerKey = data.key
     let wordData = data.wordData
     let title = data.title
+    
+    const size = computeSize(width, height)
+    console.log("🚀 ~ updatePreview ~ size:", size)
 
     titleElement.innerText = title
     preview.style.gridTemplateColumns = `repeat(${width}, minmax(0, 1fr))`
