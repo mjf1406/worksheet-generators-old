@@ -264,7 +264,8 @@ function generateCrossword(params){
         const wordsWithMutualLetters = element.wordsWithMutualLetters
         let wordDirection
         let coords = []
-        let isPlaced = element.isPlaced if (isPlaced == true) continue // Skip 'word' because it is already on the grid
+        let isPlaced = element.isPlaced 
+        if (isPlaced == true) continue // Skip 'word' because it is already on the grid
         mutualWordsLoop: for (let idx = 0; idx < wordsWithMutualLetters.length; idx++) {
             if (isPlaced == true) break mutualWordsLoop
             const element = wordsWithMutualLetters[idx]
