@@ -1,13 +1,15 @@
 # Mr. Monkey's Worksheet Generators
 
 ## Change Log
-- 2023/12/xx
+- [ ] 2024/2/xx
     - (Word Search) Hint Pages
         - (Word Search) that reveals Sections and teaches students how to make the sections themselves
             - (Word Search) (?) a step-by-step guide for each arithmetic operation
             - (Word Search) (?) a step-by-step guide with no arithmetic required
         - (Word Search) that reveals Directions
         - (Word Search) that reveals Sections and Directions
+- [ ] 2024/1/xx
+    - (Word Search) font size now adjusts based on the word search dimensions
 - 2024/1/20
     - (Word Search) can now download the answer key
     - (Word Search) preview now supports light and dark themes
