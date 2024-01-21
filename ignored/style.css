@@ -47,6 +47,9 @@ input[type=number] {
     @apply dark:bg-gray-600 bg-gray-400
 }
 
+.cell-2xs {
+    @apply text-2xs w-4 h-4
+}
 .cell-xs {
     @apply text-xs w-4 h-4
 }

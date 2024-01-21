@@ -9,7 +9,6 @@ const WORD_SEARCH_MIN_COL_SIZE = 4
 const WORD_SEARCH_MAX_WORDS = 32
 const THEME = (window.matchMedia('(prefers-color-scheme: dark)')) ? "DARK" : "LIGHT"
 // const THEME = 'LIGHT'
-console.log("🚀 ~ THEME:", THEME)
 
 const paperSizes = {
     a4: {
@@ -172,7 +171,9 @@ previewButton.addEventListener('click', function(){
     localStorage.setItem('word-search-data', JSON.stringify(wordSearchData))
     if (typeof wordSearchData === 'object' || wordSearchData instanceof Object) { 
         updatePreview(wordSearchData, 'preview-word-search')
+        // updatePreview(wordSearchData, 'preview-word-search','sm')
         updateWordBank(wordSearchData)
+        // updateWordBank(wordSearchData,'2xs')
         updateWordStats()
         if (revealSections) paintSections(wordSearchData.sections)
         let end = new Date().getTime(); 
@@ -370,8 +371,10 @@ letterCaseRadios.forEach(element => {
         wordSearchData.grid = grid
 
         updatePreview(wordSearchData, 'preview-word-search')
+        // updatePreview(wordSearchData, 'preview-word-search','sm')
         if (revealSections) paintSections(wordSearchData.sections)
         updateWordBank(wordSearchData)
+        // updateWordBank(wordSearchData,'2xs')
         localStorage.setItem('word-search-data', JSON.stringify(wordSearchData))
     })
 });
@@ -848,7 +851,7 @@ function generateWordSearch(params){
     }
     return params
 }
-function updateWordBank(wordSearchData){
+function updateWordBank(wordSearchData, size){
     const worksheet = document.getElementById('word-search-worksheet')
     const wordSearchPuzzle = document.getElementById('word-search-puzzle')
     const wordBank = document.getElementById('word-bank')
@@ -857,6 +860,7 @@ function updateWordBank(wordSearchData){
     const otherElementsHeight = wordSearchPuzzle.offsetHeight * PREVIEW_SCALE; // Add the offsetHeight of other elements if they exist
     const wordBankHeight = worksheetHeight - otherElementsHeight;
     wordBank.style.height = wordBankHeight - (wordBankHeight * 0.2) + 'px';
+    wordBank.classList.add(`text-${size}`)
 
     wordBank.innerHTML = ''
     let wordData = wordSearchData.wordData

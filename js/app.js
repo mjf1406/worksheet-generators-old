@@ -154,8 +154,8 @@ function updatePreview(data, previewElementId, size){
             div.setAttribute('name', 'letter')
             div.classList.add('text-center')
             div.classList.add('p-px')
-            div.classList.add('bg-transparent')
-            div.classList.add('cell-sm')
+            // div.classList.add('bg-transparent')
+            div.classList.add(`cell-${size}`)
             if (isWordCoord) { 
                 div.innerText = answerKey[x][y]
             }

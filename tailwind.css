@@ -1406,6 +1406,15 @@ input[type=number] {
   }
 }
 
+.cell-2xs {
+  height: 1rem;
+  width: 1rem;
+  font-size: 0.6rem;
+  /* 10px */
+  line-height: 0.9rem;
+  /* 14px */
+}
+
 .cell-xs {
   height: 1rem;
   width: 1rem;

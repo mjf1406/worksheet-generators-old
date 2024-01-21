@@ -10,6 +10,7 @@
         - (Word Search) that reveals Sections and Directions
 - [ ] 2024/1/xx
     - (Word Search) font size now adjusts based on the word search dimensions
+        - Why does paintSections change the font?
 - 2024/1/20
     - (Word Search) can now download the answer key
     - (Word Search) preview now supports light and dark themes
