@@ -316,8 +316,6 @@ downloadAnswerKeyButton.addEventListener('click', function(){
 // });
 
 
-
-
 sectionsRadios.forEach(element => {
     element.addEventListener('change', function(){
         let wordSearchData = JSON.parse(localStorage.getItem('word-search-data'))

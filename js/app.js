@@ -127,7 +127,7 @@ document.addEventListener("DOMContentLoaded", function () {
         makeToast(`${selectedPreset} updated successfully!`, 'success')
     })
 });
-function updatePreview(data, previewElementId){
+function updatePreview(data, previewElementId, size){
     const titleElement = document.getElementById('worksheet-title')
     const preview = document.getElementById(previewElementId)
     preview.innerHTML = ''
