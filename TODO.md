@@ -1,15 +1,10 @@
-# Monkey Teacher's Worksheet Generators
-
-## Generators
-
 ### Word Search
 - Test
     - muntjac, kangaroo, hippopotamus, tenrec, monkey, elk, giraffe, hummingbird, mouse, rat, bat, flamingo, beaver, blackbuck, boar, bear, snake, spider, grasshopper, mantis
-- Inputs
-    - (?) Copies -- Should this be added so it can be printed in one fell swoop?
 
 ### Crossword Puzzle
 - Test
+
 tiger an animal that has stripes, and is orange
 lion an animal with a large main, and live in Africa
 monkey Mr. Michael is really this and not human
