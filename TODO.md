@@ -3,6 +3,10 @@
     - muntjac, kangaroo, hippopotamus, tenrec, monkey, elk, giraffe, hummingbird, mouse, rat, bat, flamingo, beaver, blackbuck, boar, bear, snake, spider, grasshopper, mantis
 
 ### Crossword Puzzle
+- Features
+    - Create crossword and randomized list quiz simultaneously
+    - Checkbox to include spot for part of speech
+    - 
 - Test
 
 tiger an animal that has stripes, and is orange
