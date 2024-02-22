@@ -1,286 +1,359 @@
-const LETTERS = 'abcdefghijklmnopqrstuvwxyz'
-const WORD_RE = /^[a-z]+$/
-const PREVIEW_SCALE = 0.7
-const COLORS = ['#f87171','#fde047','#4ade80','#60a5fa','#c084fc','#f472b6','#f43f5e','#0d9488','#fb923c']
-const WORD_SEARCH_MAX_ROW_SIZE = 25
-const WORD_SEARCH_MIN_ROW_SIZE = 4
-const WORD_SEARCH_MAX_COL_SIZE = 30
-const WORD_SEARCH_MIN_COL_SIZE = 4
-const WORD_SEARCH_MAX_WORDS = 32
-const THEME = (window.matchMedia('(prefers-color-scheme: dark)')) ? "DARK" : "LIGHT"
+const LETTERS = "abcdefghijklmnopqrstuvwxyz";
+const WORD_RE = /^[a-z]+$/;
+const PREVIEW_SCALE = 0.7;
+const COLORS = [
+    "#f87171",
+    "#fde047",
+    "#4ade80",
+    "#60a5fa",
+    "#c084fc",
+    "#f472b6",
+    "#f43f5e",
+    "#0d9488",
+    "#fb923c",
+];
+const WORD_SEARCH_MAX_ROW_SIZE = 25;
+const WORD_SEARCH_MIN_ROW_SIZE = 4;
+const WORD_SEARCH_MAX_COL_SIZE = 30;
+const WORD_SEARCH_MIN_COL_SIZE = 4;
+const WORD_SEARCH_MAX_WORDS = 32;
+const THEME = window.matchMedia("(prefers-color-scheme: dark)").matches
+    ? "DARK"
+    : "LIGHT";
+console.log("🚀 ~ THEME:", THEME);
 // const THEME = 'LIGHT'
 
 const paperSizes = {
     a4: {
         width: 595,
-        height: 842
+        height: 842,
     },
     letter: {
         width: 612,
-        height: 792
-    }
-}
+        height: 792,
+    },
+};
 
 const DIRECTION_ICONS = {
-    'left-to-right': '<i class="fa-solid fa-arrow-right"></i>',
-    'right-to-left': '<i class="fa-solid fa-arrow-left"></i>',
-    'bottom-to-top': '<i class="fa-solid fa-arrow-up"></i>',
-    'top-to-bottom': '<i class="fa-solid fa-arrow-down"></i>',
-    'diagonal-down-left': '<i class="rotate-45 fa-solid fa-arrow-down"></i>',
-    'diagonal-down-right': '<i class="rotate-45 fa-solid fa-arrow-right"></i>',
-    'diagonal-up-right': '<i class="rotate-45 fa-solid fa-arrow-up"></i>',
-    'diagonal-up-left': '<i class="rotate-45 fa-solid fa-arrow-left"></i>'
-}
+    "left-to-right": '<i class="fa-solid fa-arrow-right"></i>',
+    "right-to-left": '<i class="fa-solid fa-arrow-left"></i>',
+    "bottom-to-top": '<i class="fa-solid fa-arrow-up"></i>',
+    "top-to-bottom": '<i class="fa-solid fa-arrow-down"></i>',
+    "diagonal-down-left": '<i class="rotate-45 fa-solid fa-arrow-down"></i>',
+    "diagonal-down-right": '<i class="rotate-45 fa-solid fa-arrow-right"></i>',
+    "diagonal-up-right": '<i class="rotate-45 fa-solid fa-arrow-up"></i>',
+    "diagonal-up-left": '<i class="rotate-45 fa-solid fa-arrow-left"></i>',
+};
 const SECTIONS = {
-    "four": {
+    four: {
         rows: 2,
         cols: 2,
         num: 4,
-        fontOpacity: '0.1',
-        fontSize: 0.18
+        fontOpacity: "0.1",
+        fontSize: 0.18,
     },
-    "nine": {
+    nine: {
         rows: 3,
         cols: 3,
         num: 9,
-        fontOpacity: '0.1',
-        fontSize: 0.12
+        fontOpacity: "0.1",
+        fontSize: 0.12,
     },
-    "sixteen": {
+    sixteen: {
         rows: 4,
         cols: 4,
         num: 16,
-        fontOpacity: '0.1',
-        fontSize: 0.09
-    }
-}
-const BG_GRAY = 'bg-gray-200'
-const BG_WHITE = 'bg-white'
-const BG_DARK = 'bg-[#111827]'
-const BG_DARK_2 = 'bg-[#263657]'
+        fontOpacity: "0.1",
+        fontSize: 0.09,
+    },
+};
+const BG_GRAY = "bg-gray-200";
+const BG_WHITE = "bg-white";
+const BG_DARK = "bg-[#111827]";
+const BG_DARK_2 = "bg-[#263657]";
 
-const SECTION_COLORS_FOUR_LIGHT = [
-    BG_GRAY,BG_WHITE,
-    BG_WHITE,BG_GRAY
-]
+const SECTION_COLORS_FOUR_LIGHT = [BG_GRAY, BG_WHITE, BG_WHITE, BG_GRAY];
 const SECTION_COLORS_NINE_LIGHT = [
-    BG_GRAY,BG_WHITE,BG_GRAY, 
-    BG_WHITE,BG_GRAY,BG_WHITE, 
-    BG_GRAY,BG_WHITE,BG_GRAY
-]
+    BG_GRAY,
+    BG_WHITE,
+    BG_GRAY,
+    BG_WHITE,
+    BG_GRAY,
+    BG_WHITE,
+    BG_GRAY,
+    BG_WHITE,
+    BG_GRAY,
+];
 const SECTION_COLORS_SIXTEEN_LIGHT = [
-    BG_GRAY,BG_WHITE,BG_GRAY,BG_WHITE, 
-    BG_WHITE,BG_GRAY,BG_WHITE,BG_GRAY, 
-    BG_GRAY,BG_WHITE,BG_GRAY,BG_WHITE, 
-    BG_WHITE,BG_GRAY,BG_WHITE,BG_GRAY
-]
+    BG_GRAY,
+    BG_WHITE,
+    BG_GRAY,
+    BG_WHITE,
+    BG_WHITE,
+    BG_GRAY,
+    BG_WHITE,
+    BG_GRAY,
+    BG_GRAY,
+    BG_WHITE,
+    BG_GRAY,
+    BG_WHITE,
+    BG_WHITE,
+    BG_GRAY,
+    BG_WHITE,
+    BG_GRAY,
+];
 
-const SECTION_COLORS_FOUR_DARK = [
-    BG_DARK_2,BG_DARK,
-    BG_DARK,BG_DARK_2
-]
+const SECTION_COLORS_FOUR_DARK = [BG_DARK_2, BG_DARK, BG_DARK, BG_DARK_2];
 const SECTION_COLORS_NINE_DARK = [
-    BG_DARK_2,BG_DARK,BG_DARK_2, 
-    BG_DARK,BG_DARK_2,BG_DARK, 
-    BG_DARK_2,BG_DARK,BG_DARK_2
-]
+    BG_DARK_2,
+    BG_DARK,
+    BG_DARK_2,
+    BG_DARK,
+    BG_DARK_2,
+    BG_DARK,
+    BG_DARK_2,
+    BG_DARK,
+    BG_DARK_2,
+];
 const SECTION_COLORS_SIXTEEN_DARK = [
-    BG_DARK_2,BG_DARK,BG_DARK_2,BG_DARK, 
-    BG_DARK,BG_DARK_2,BG_DARK,BG_DARK_2, 
-    BG_DARK_2,BG_DARK,BG_DARK_2,BG_DARK, 
-    BG_DARK,BG_DARK_2,BG_DARK,BG_DARK_2
-]
-if(!localStorage.getItem('word-search-data')) {
+    BG_DARK_2,
+    BG_DARK,
+    BG_DARK_2,
+    BG_DARK,
+    BG_DARK,
+    BG_DARK_2,
+    BG_DARK,
+    BG_DARK_2,
+    BG_DARK_2,
+    BG_DARK,
+    BG_DARK_2,
+    BG_DARK,
+    BG_DARK,
+    BG_DARK_2,
+    BG_DARK,
+    BG_DARK_2,
+];
+if (!localStorage.getItem("word-search-data")) {
     const params = {
         title: "Title", // Any alphanumeric string
         height: 10, // Any positive integer
-        width: 10,  // Any positive integer
+        width: 10, // Any positive integer
         letterCase: "uppercase", // uppercase, lowercase, upper-lower-case
         orientation: "orthogonal", // orthogonal, diagonal, orthogonal-diagonal
         direction: "forward", // forward, backward, forward-backward
         page: "a4", // a4, letter,
-        key: true // Boolean
-    }
-    localStorage.setItem('word-search-data', JSON.stringify(params))
+        key: true, // Boolean
+    };
+    localStorage.setItem("word-search-data", JSON.stringify(params));
 }
-if (JSON.parse(localStorage.getItem('word-search-presets'))) {
-    refreshPresetDropdown()
+if (JSON.parse(localStorage.getItem("word-search-presets"))) {
+    refreshPresetDropdown();
 } else {
-    let presetsDropdown = document.getElementById('presets-dropdown')
-    let option = document.createElement('option')
-    option.innerText = 'Select preset...'
-    option.value = 'load'
-    presetsDropdown.appendChild(option)
+    let presetsDropdown = document.getElementById("presets-dropdown");
+    let option = document.createElement("option");
+    option.innerText = "Select preset...";
+    option.value = "load";
+    presetsDropdown.appendChild(option);
 }
 
+const wordSearchCanvas = document.getElementById("canvas-output");
+const wordSearchWorksheet = document.getElementById("word-search-worksheet");
 
-const wordSearchCanvas = document.getElementById('canvas-output')
-const wordSearchWorksheet = document.getElementById('word-search-worksheet')
-
-let title = document.getElementById('title')
-let height = document.getElementById('height')
-let width = document.getElementById('width')
-let sectionsRadios = document.getElementsByName('sections')
-let sections = getSelectedValueFromRadioGroup('sections')
-let revealSections = document.getElementById('reveal-section')
-let letterCase = getSelectedValueFromRadioGroup('letter-case')
-let letterCaseRadios = document.getElementsByName('letter-case')
-let wordDirections = document.getElementsByName('word-direction')
-let wordDirectionAllButton = document.getElementById('select-all-directions')
-let wordsInput = document.getElementById('words')
-let directions = []
+let title = document.getElementById("title");
+let height = document.getElementById("height");
+let width = document.getElementById("width");
+let sectionsRadios = document.getElementsByName("sections");
+let sections = getSelectedValueFromRadioGroup("sections");
+let revealSections = document.getElementById("reveal-section");
+let letterCase = getSelectedValueFromRadioGroup("letter-case");
+let letterCaseRadios = document.getElementsByName("letter-case");
+let wordDirections = document.getElementsByName("word-direction");
+let wordDirectionAllButton = document.getElementById("select-all-directions");
+let wordsInput = document.getElementById("words");
+let directions = [];
 for (let index = 0; index < wordDirections.length; index++) {
     const element = wordDirections[index];
-    if (element.checked) directions.push(element.id)
+    if (element.checked) directions.push(element.id);
 }
-let revealDirection = document.getElementById('reveal-direction')
-let directionsRadios = document.getElementsByName('word-direction')
-let page = getSelectedValueFromRadioGroup('page-size')
-const pageSizes = document.getElementsByName('page-size')
-let key = document.getElementById('key')
-let words = document.getElementById('words')
-let previewButton = document.getElementById('preview')
-let savePreset = document.getElementById('open-preset')
-let deletePreset = document.getElementById('delete-preset')
-let presetsDropdown = document.getElementById('presets-dropdown')
-let updatePreset = document.getElementById('update-preset')
-let wordBank = document.getElementById('word-bank')
-const downloadButton = document.getElementById('download')
-const downloadAnswerKeyButton = document.getElementById('download-answer-key')
-const printButton = document.getElementById('print')
-const radios = document.querySelectorAll(`input[type="radio"]`)
+let revealDirection = document.getElementById("reveal-direction");
+let directionsRadios = document.getElementsByName("word-direction");
+let page = getSelectedValueFromRadioGroup("page-size");
+const pageSizes = document.getElementsByName("page-size");
+let key = document.getElementById("key");
+let words = document.getElementById("words");
+let previewButton = document.getElementById("preview");
+let savePreset = document.getElementById("open-preset");
+let deletePreset = document.getElementById("delete-preset");
+let presetsDropdown = document.getElementById("presets-dropdown");
+let updatePreset = document.getElementById("update-preset");
+let wordBank = document.getElementById("word-bank");
+const downloadButton = document.getElementById("download");
+const downloadAnswerKeyButton = document.getElementById("download-answer-key");
+const printButton = document.getElementById("print");
+const radios = document.querySelectorAll(`input[type="radio"]`);
 
-wordDirectionAllButton.addEventListener('click', function(event){
-    const wordSearchForm = document.getElementById('word-search-form')
-    event.preventDefault()
-    const directionButtons = document.getElementsByName('word-direction')
-    let allDirectionsChecked = (localStorage.getItem('all-directions')) ?? false 
-    directionButtons.forEach(element => {
-        if (allDirectionsChecked === 'false') element.checked = true
-        else element.checked = false
-    })
-    if (allDirectionsChecked === 'false') localStorage.setItem('all-directions', true)
-    else localStorage.setItem('all-directions', false)
-})
-previewButton.addEventListener('click', function(){
-    let start = new Date().getTime()
-    let revealSections = document.getElementById('reveal-section').checked
-    let params = getWordSearchParams()
-    if (params.words.length === 0) return makeToast("Please add some words!", 'warning')
-    let wordSearchData = generateWordSearch(params)
-    localStorage.setItem('word-search-data', JSON.stringify(wordSearchData))
-    if (typeof wordSearchData === 'object' || wordSearchData instanceof Object) { 
-        updatePreview(wordSearchData, 'preview-word-search')
+wordDirectionAllButton.addEventListener("click", function (event) {
+    const wordSearchForm = document.getElementById("word-search-form");
+    event.preventDefault();
+    const directionButtons = document.getElementsByName("word-direction");
+    let allDirectionsChecked = localStorage.getItem("all-directions") ?? false;
+    directionButtons.forEach((element) => {
+        if (allDirectionsChecked === "false") element.checked = true;
+        else element.checked = false;
+    });
+    if (allDirectionsChecked === "false")
+        localStorage.setItem("all-directions", true);
+    else localStorage.setItem("all-directions", false);
+});
+previewButton.addEventListener("click", function () {
+    let start = new Date().getTime();
+    let revealSections = document.getElementById("reveal-section").checked;
+    let params = getWordSearchParams();
+    if (params.words.length === 0)
+        return makeToast("Please add some words!", "warning");
+    let wordSearchData = generateWordSearch(params);
+    localStorage.setItem("word-search-data", JSON.stringify(wordSearchData));
+    if (
+        typeof wordSearchData === "object" ||
+        wordSearchData instanceof Object
+    ) {
+        updatePreview(wordSearchData, "preview-word-search");
         // updatePreview(wordSearchData, 'preview-word-search','sm')
-        updateWordBank(wordSearchData)
+        updateWordBank(wordSearchData);
         // updateWordBank(wordSearchData,'2xs')
-        updateWordStats()
-        if (revealSections) paintSections(wordSearchData.sections)
-        let end = new Date().getTime(); 
-        makeToast(`Word Search generated in ${formatMillisecondsToReadable(end - start)}`, 'success')
-        setPreviewSize()
-        const wordsNotPlaced = wordSearchData.wordsNotPlaced
-        if (wordsNotPlaced.length > 0) makeToast(`Failed to placed ${wordsNotPlaced.length} word(s): ${wordsNotPlaced.join(", ").toLowerCase()}`, 'error')
+        updateWordStats();
+        if (revealSections) paintSections(wordSearchData.sections);
+        let end = new Date().getTime();
+        makeToast(
+            `Word Search generated in ${formatMillisecondsToReadable(
+                end - start
+            )}`,
+            "success"
+        );
+        setPreviewSize();
+        const wordsNotPlaced = wordSearchData.wordsNotPlaced;
+        if (wordsNotPlaced.length > 0) {
+            makeToast(
+                `Failed to placed ${
+                    wordsNotPlaced.length
+                } word(s): ${wordsNotPlaced.join(", ").toLowerCase()}`,
+                "warning"
+            );
+            makeToast(
+                `Try increasing the height and/or width to get all words to be placed.`,
+                "info"
+            );
+        }
     }
-})
-savePreset.addEventListener('click', function(){
-    localStorage.setItem('clicked-preset','word-search-presets')
-})
-deletePreset.addEventListener('click', function(){
-    localStorage.setItem('clicked-preset','word-search-presets')
-})
-presetsDropdown.addEventListener('change', function(){
-    let selectedPreset = this.value
-    if (selectedPreset === 'load') return
-    let preset = getPresetData(selectedPreset).params
-    populateOptionsFromPreset(preset)
-    makeToast(`<b>${selectedPreset}</b> loaded successfully!`, 'success')
-})
-wordsInput.addEventListener('input', function(){
-    let words = this.value
-    if (words.includes(",")) words = words.split(", ")
-    else if (words.includes("\n")) words = words.split("\n")
+});
+savePreset.addEventListener("click", function () {
+    localStorage.setItem("clicked-preset", "word-search-presets");
+});
+deletePreset.addEventListener("click", function () {
+    localStorage.setItem("clicked-preset", "word-search-presets");
+});
+presetsDropdown.addEventListener("change", function () {
+    let selectedPreset = this.value;
+    if (selectedPreset === "load") return;
+    let preset = getPresetData(selectedPreset).params;
+    populateOptionsFromPreset(preset);
+    makeToast(`<b>${selectedPreset}</b> loaded successfully!`, "success");
+});
+wordsInput.addEventListener("input", function () {
+    let words = this.value;
+    if (words.includes(",")) words = words.split(", ");
+    else if (words.includes("\n")) words = words.split("\n");
 
-    const duplicates = findDuplicates(words)
-    const rowsInput = document.getElementById('height')
-    const colsInput = document.getElementById('width')
-    const height = parseInt(rowsInput.value)
-    const width = parseInt(colsInput.value)
-    const longestLength = updateWordStats()
+    const duplicates = findDuplicates(words);
+    const rowsInput = document.getElementById("height");
+    const colsInput = document.getElementById("width");
+    const height = parseInt(rowsInput.value);
+    const width = parseInt(colsInput.value);
+    const longestLength = updateWordStats();
     if (rowsInput.value < longestLength) {
-        rowsInput.value = longestLength
-        makeToast(`Rows set to ${longestLength}`, `warning`)
+        rowsInput.value = longestLength;
+        makeToast(`Rows set to ${longestLength}`, `warning`);
     }
     if (colsInput.value < longestLength) {
-        colsInput.value = longestLength
-        makeToast(`Columns set to ${longestLength}`, `warning`)
-
+        colsInput.value = longestLength;
+        makeToast(`Columns set to ${longestLength}`, `warning`);
     }
-    if (duplicates.length > 0) makeToast(`There are ${duplicates.length} duplicate words present!`, `warning`)
-
-})
-downloadButton.addEventListener('click', function(){
-    const wordSearchData = JSON.parse(localStorage.getItem('word-search-data'))
-    wordSearchData.page = getSelectedValueFromRadioGroup('page-size')
-    const opt = getPdfOptions(wordSearchData)
-    const worksheet = document.getElementById('worksheet').cloneNode(true)
-    const wordSearch = worksheet.childNodes[1]
-    if (THEME === 'DARK') {
-        const wordSearchLetters = wordSearch.childNodes[5].childNodes[1].childNodes
+    if (duplicates.length > 0)
+        makeToast(
+            `There are ${duplicates.length} duplicate words present!`,
+            `warning`
+        );
+});
+downloadButton.addEventListener("click", function () {
+    const wordSearchData = JSON.parse(localStorage.getItem("word-search-data"));
+    wordSearchData.page = getSelectedValueFromRadioGroup("page-size");
+    const opt = getPdfOptions(wordSearchData);
+    const worksheet = document.getElementById("worksheet").cloneNode(true);
+    const wordSearch = worksheet.childNodes[1];
+    if (THEME === "DARK") {
+        const wordSearchLetters =
+            wordSearch.childNodes[5].childNodes[1].childNodes;
         for (let i = 0; i < wordSearchLetters.length; i++) {
-            const element = wordSearchLetters[i]
-            const classes = element.classList
+            const element = wordSearchLetters[i];
+            const classes = element.classList;
             if (classes.contains(BG_DARK)) {
-                classes.remove(BG_DARK)
-                classes.add(BG_WHITE)
+                classes.remove(BG_DARK);
+                classes.add(BG_WHITE);
             } else {
-                classes.remove(BG_DARK_2)
-                classes.add(BG_GRAY)
-            } 
+                classes.remove(BG_DARK_2);
+                classes.add(BG_GRAY);
+            }
         }
     }
     // document.body.appendChild(worksheet)
-    wordSearch.style.backgroundColor = '#ffffff'
-    wordSearch.style.color = '#000000'
+    wordSearch.style.backgroundColor = "#ffffff";
+    wordSearch.style.color = "#000000";
 
-    const title = document.getElementById('title').value ? document.getElementById('title').value : "No Title"
-    html2pdf().set(opt).from(worksheet).save(`[Word Search] ${title}.pdf`)
-    updateWordStats()
-})
-downloadAnswerKeyButton.addEventListener('click', function(){
-    const wordSearchData = JSON.parse(localStorage.getItem('word-search-data'))
-    const key = wordSearchData.key
-    wordSearchData.page = getSelectedValueFromRadioGroup('page-size')
-    const opt = getPdfOptions(wordSearchData)
-    const worksheet = document.getElementById('worksheet').cloneNode(true)
-    const wordSearch = worksheet.childNodes[1]
-    const sectionLabels = worksheet.childNodes[3]
-    const wordSearchLetters = wordSearch.childNodes[5].childNodes[1].childNodes
+    const title = document.getElementById("title").value
+        ? document.getElementById("title").value
+        : "No Title";
+    html2pdf().set(opt).from(worksheet).save(`[Word Search] ${title}.pdf`);
+    updateWordStats();
+});
+downloadAnswerKeyButton.addEventListener("click", function () {
+    const wordSearchData = JSON.parse(localStorage.getItem("word-search-data"));
+    const key = wordSearchData.key;
+    wordSearchData.page = getSelectedValueFromRadioGroup("page-size");
+    const opt = getPdfOptions(wordSearchData);
+    const worksheet = document.getElementById("worksheet").cloneNode(true);
+    const wordSearch = worksheet.childNodes[1];
+    const sectionLabels = worksheet.childNodes[3];
+    const wordSearchLetters = wordSearch.childNodes[5].childNodes[1].childNodes;
     for (let index = 0; index < wordSearchLetters.length; index++) {
-        const element = wordSearchLetters[index]
-        const coords = element.id.split('-')
-        const x = coords[0]
-        const y = coords[1]
-        const classes = element.classList
+        const element = wordSearchLetters[index];
+        const coords = element.id.split("-");
+        const x = coords[0];
+        const y = coords[1];
+        const classes = element.classList;
 
-        classes.remove(BG_DARK)
-        classes.remove(BG_DARK_2)
-        classes.remove(BG_WHITE)
-        classes.remove(BG_GRAY)
+        classes.remove(BG_DARK);
+        classes.remove(BG_DARK_2);
+        classes.remove(BG_WHITE);
+        classes.remove(BG_GRAY);
 
         if (key[x][y] == null) {
-            element.classList.add(`opacity-20`)
+            element.classList.add(`opacity-20`);
         }
     }
     // document.body.appendChild(worksheet)
-    wordSearch.style.backgroundColor = '#ffffff'
-    wordSearch.style.color = '#000000'
-    if (sectionLabels) sectionLabels.classList.add('hidden')
+    wordSearch.style.backgroundColor = "#ffffff";
+    wordSearch.style.color = "#000000";
+    if (sectionLabels) sectionLabels.classList.add("hidden");
 
-    const title = document.getElementById('title').value ? document.getElementById('title').value : "No Title"
-    html2pdf().set(opt).from(worksheet).save(`[Word Search] ${title} (Answer Key).pdf`)
-    updateWordStats()
-})
+    const title = document.getElementById("title").value
+        ? document.getElementById("title").value
+        : "No Title";
+    html2pdf()
+        .set(opt)
+        .from(worksheet)
+        .save(`[Word Search] ${title} (Answer Key).pdf`);
+    updateWordStats();
+});
 // printButton.addEventListener('click', function(){
 //     const wordSearchData = JSON.parse(localStorage.getItem('word-search-data'));
 //     const title = document.getElementById('title').value ? document.getElementById('title').value : "No Title";
@@ -314,171 +387,195 @@ downloadAnswerKeyButton.addEventListener('click', function(){
 //     });
 // });
 
-
-sectionsRadios.forEach(element => {
-    element.addEventListener('change', function(){
-        let wordSearchData = JSON.parse(localStorage.getItem('word-search-data'))
-        const revealSections = document.getElementById('reveal-section').checked
-        const numberOfSections = getSelectedValueFromRadioGroup('sections')
-        wordSearchData.revealSections = revealSections
-        wordSearchData.numberOfSections = numberOfSections
-        wordSearchData = computeSectionDimensions(wordSearchData)
+sectionsRadios.forEach((element) => {
+    element.addEventListener("change", function () {
+        let wordSearchData = JSON.parse(
+            localStorage.getItem("word-search-data")
+        );
+        const revealSections =
+            document.getElementById("reveal-section").checked;
+        const numberOfSections = getSelectedValueFromRadioGroup("sections");
+        wordSearchData.revealSections = revealSections;
+        wordSearchData.numberOfSections = numberOfSections;
+        wordSearchData = computeSectionDimensions(wordSearchData);
         if (revealSections === true) {
-            wordSearchData = determineWordSections(wordSearchData)
-            paintSections(wordSearchData.sections, null, null)
-            updateWordBank(wordSearchData)
+            wordSearchData = determineWordSections(wordSearchData);
+            paintSections(wordSearchData.sections, null, null);
+            updateWordBank(wordSearchData);
         }
-        localStorage.setItem('word-search-data', JSON.stringify(wordSearchData))
-    })
+        localStorage.setItem(
+            "word-search-data",
+            JSON.stringify(wordSearchData)
+        );
+    });
 });
-letterCaseRadios.forEach(element => {
-    element.addEventListener('change', function(){
-        let revealSections = document.getElementById('reveal-section').checked
-        const wordSearchData = JSON.parse(localStorage.getItem('word-search-data'))
-        let letterCase = wordSearchData.letterCase
-        const key = wordSearchData.key
-        const grid = wordSearchData.grid
-        const width = wordSearchData.width
-        const height = wordSearchData.height
+letterCaseRadios.forEach((element) => {
+    element.addEventListener("change", function () {
+        let revealSections = document.getElementById("reveal-section").checked;
+        const wordSearchData = JSON.parse(
+            localStorage.getItem("word-search-data")
+        );
+        let letterCase = wordSearchData.letterCase;
+        const key = wordSearchData.key;
+        const grid = wordSearchData.grid;
+        const width = wordSearchData.width;
+        const height = wordSearchData.height;
 
-        letterCase = getSelectedValueFromRadioGroup('letter-case')
-        let wordData = wordSearchData.wordData
-        wordData = adjustCase(wordSearchData.wordData, letterCase)
+        letterCase = getSelectedValueFromRadioGroup("letter-case");
+        let wordData = wordSearchData.wordData;
+        wordData = adjustCase(wordSearchData.wordData, letterCase);
         for (let x = 0; x < width; x++) {
-            for (let y = 0; y < height; y++) {                
-                if (letterCase == 'uppercase') {
-                    grid[y][x] = grid[y][x].toUpperCase()
-                    if (key[y][x] != null) key[y][x] = key[y][x].toUpperCase()
-                } else if (letterCase == 'lowercase') {
-                    grid[y][x] = grid[y][x].toLowerCase()
-                    if (key[y][x] != null) key[y][x] = key[y][x].toLowerCase()
-                } else if (letterCase == 'random-case') {    
-                    let rand = getRndInteger(0, 1)
+            for (let y = 0; y < height; y++) {
+                if (letterCase == "uppercase") {
+                    grid[y][x] = grid[y][x].toUpperCase();
+                    if (key[y][x] != null) key[y][x] = key[y][x].toUpperCase();
+                } else if (letterCase == "lowercase") {
+                    grid[y][x] = grid[y][x].toLowerCase();
+                    if (key[y][x] != null) key[y][x] = key[y][x].toLowerCase();
+                } else if (letterCase == "random-case") {
+                    let rand = getRndInteger(0, 1);
                     if (rand === 0) {
-                        grid[y][x] = grid[y][x].toUpperCase()
-                        if (key[y][x] != null) key[y][x] = key[y][x].toUpperCase()
+                        grid[y][x] = grid[y][x].toUpperCase();
+                        if (key[y][x] != null)
+                            key[y][x] = key[y][x].toUpperCase();
                     } else if (rand === 1) {
-                        grid[y][x] = grid[y][x].toLowerCase()
-                        if (key[y][x] != null) key[y][x] = key[y][x].toLowerCase()
+                        grid[y][x] = grid[y][x].toLowerCase();
+                        if (key[y][x] != null)
+                            key[y][x] = key[y][x].toLowerCase();
                     }
                 }
             }
         }
 
-        wordSearchData.letterCase = letterCase
-        wordSearchData.wordData = wordData
-        wordSearchData.key = key
-        wordSearchData.grid = grid
+        wordSearchData.letterCase = letterCase;
+        wordSearchData.wordData = wordData;
+        wordSearchData.key = key;
+        wordSearchData.grid = grid;
 
-        updatePreview(wordSearchData, 'preview-word-search')
+        updatePreview(wordSearchData, "preview-word-search");
         // updatePreview(wordSearchData, 'preview-word-search','sm')
-        if (revealSections) paintSections(wordSearchData.sections)
-        updateWordBank(wordSearchData)
+        if (revealSections) paintSections(wordSearchData.sections);
+        updateWordBank(wordSearchData);
         // updateWordBank(wordSearchData,'2xs')
-        localStorage.setItem('word-search-data', JSON.stringify(wordSearchData))
-    })
+        localStorage.setItem(
+            "word-search-data",
+            JSON.stringify(wordSearchData)
+        );
+    });
 });
-revealSections.addEventListener('change', function(){
-    let wordSearchData = JSON.parse(localStorage.getItem('word-search-data'))
-    const revealSections = document.getElementById('reveal-section').checked
-    const numberOfSections = getSelectedValueFromRadioGroup('sections')
+revealSections.addEventListener("change", function () {
+    let wordSearchData = JSON.parse(localStorage.getItem("word-search-data"));
+    const revealSections = document.getElementById("reveal-section").checked;
+    const numberOfSections = getSelectedValueFromRadioGroup("sections");
 
-    wordSearchData.revealSections = revealSections
-    wordSearchData.numberOfSections = numberOfSections
-    
-    if (revealSections == false) { 
-        const color = (THEME === 'LIGHT') ? 'BG_WHITE' : 'BG_DARK'
-        paintSections(wordSearchData.sections, color)
+    wordSearchData.revealSections = revealSections;
+    wordSearchData.numberOfSections = numberOfSections;
+
+    if (revealSections == false) {
+        const color = THEME === "LIGHT" ? "BG_WHITE" : "BG_DARK";
+        paintSections(wordSearchData.sections, color);
     } else if (revealSections == true) {
         if (wordSearchData.sections.length < 1) {
-            wordSearchData = computeSectionDimensions(wordSearchData)
-            wordSearchData = determineWordSections(wordSearchData)
+            wordSearchData = computeSectionDimensions(wordSearchData);
+            wordSearchData = determineWordSections(wordSearchData);
         }
-        paintSections(wordSearchData.sections, null)
-    } 
-    updateWordBank(wordSearchData)
-    localStorage.setItem('word-search-data', JSON.stringify(wordSearchData))
-})
-revealDirection.addEventListener('change', function(){
-    let wordSearchData = JSON.parse(localStorage.getItem('word-search-data'))
-    const revealDirection = document.getElementById('reveal-direction').checked
-    const directions = wordSearchData.directions
-    const wordBank = document.getElementById('word-bank')
-    wordSearchData.revealDirection = revealDirection
-    localStorage.setItem('word-search-data', JSON.stringify(wordSearchData))
-    wordBank.innerHTML = ''
-    updateWordBank(wordSearchData)
-})
-title.addEventListener('input', function(){
-    const wordSearchData = JSON.parse(localStorage.getItem('word-search-data'))
-    const wordSearchTitle = document.getElementById('worksheet-title')
-    wordSearchData.title = wordSearchTitle
-    wordSearchTitle.innerText = this.value
-    paintSections(wordSearchData.sections)
-    localStorage.setItem('word-search-data', JSON.stringify(wordSearchData))
-})
-pageSizes.forEach(element => {
-    element.addEventListener('change', function(){
-        setPreviewSize()
+        paintSections(wordSearchData.sections, null);
+    }
+    updateWordBank(wordSearchData);
+    localStorage.setItem("word-search-data", JSON.stringify(wordSearchData));
+});
+revealDirection.addEventListener("change", function () {
+    let wordSearchData = JSON.parse(localStorage.getItem("word-search-data"));
+    const revealDirection = document.getElementById("reveal-direction").checked;
+    const directions = wordSearchData.directions;
+    const wordBank = document.getElementById("word-bank");
+    wordSearchData.revealDirection = revealDirection;
+    localStorage.setItem("word-search-data", JSON.stringify(wordSearchData));
+    wordBank.innerHTML = "";
+    updateWordBank(wordSearchData);
+});
+title.addEventListener("input", function () {
+    const wordSearchData = JSON.parse(localStorage.getItem("word-search-data"));
+    const wordSearchTitle = document.getElementById("worksheet-title");
+    wordSearchData.title = wordSearchTitle;
+    wordSearchTitle.innerText = this.value;
+    paintSections(wordSearchData.sections);
+    localStorage.setItem("word-search-data", JSON.stringify(wordSearchData));
+});
+pageSizes.forEach((element) => {
+    element.addEventListener("change", function () {
+        setPreviewSize();
 
-        const wordSearchData = JSON.parse(localStorage.getItem('word-search-data'))
-        updateWordBank(wordSearchData)
-    })
+        const wordSearchData = JSON.parse(
+            localStorage.getItem("word-search-data")
+        );
+        updateWordBank(wordSearchData);
+    });
 });
 
-
-
-function updateWordStats(){
-    const text = document.getElementById('words').value
-    const words = (text.includes(", ")) ? text.split(", ") : text.split("\n")
-    const stats = computeWordStatistics(words)
-    document.getElementById('longest-word').innerText = `${stats.longestWord.length} - ${stats.longestWord.element}`
-    document.getElementById('shortest-word').innerText = `${stats.shortestWord.length} - ${stats.shortestWord.element}`
-    document.getElementById('word-count').innerText = stats.wordCount
-    document.getElementById('avg-word-length').innerText = stats.avgLength
-    return stats.longestWord.length
+function updateWordStats() {
+    const text = document.getElementById("words").value;
+    const words = text.includes(", ") ? text.split(", ") : text.split("\n");
+    const stats = computeWordStatistics(words);
+    document.getElementById(
+        "longest-word"
+    ).innerText = `${stats.longestWord.length} - ${stats.longestWord.element}`;
+    document.getElementById(
+        "shortest-word"
+    ).innerText = `${stats.shortestWord.length} - ${stats.shortestWord.element}`;
+    document.getElementById("word-count").innerText = stats.wordCount;
+    document.getElementById("avg-word-length").innerText = stats.avgLength;
+    return stats.longestWord.length;
 }
-function getPdfOptions(wordSearchData){
-    const page = wordSearchData.page
-    const unit = (page === 'a4') ? 'mm' : 'mm' 
-    let width = (page === 'a4') ? 595 : 612 // DPI = 72
-    let height = (page === 'a4') ? 842 : 792 // DPI = 72
-    width = width * PREVIEW_SCALE
-    height = height * PREVIEW_SCALE
+function getPdfOptions(wordSearchData) {
+    const page = wordSearchData.page;
+    const unit = page === "a4" ? "mm" : "mm";
+    let width = page === "a4" ? 595 : 612; // DPI = 72
+    let height = page === "a4" ? 842 : 792; // DPI = 72
+    width = width * PREVIEW_SCALE;
+    height = height * PREVIEW_SCALE;
     return {
-        margin:       [1, 1, 1, 1], // top, right, bottom, left
-        image:        { type: 'jpeg', quality: 1 },
-        html2canvas:  { scale: 8, scrollX: 0, scrollY: 0, width: width, height: height, logging: false },
-        jsPDF:        { unit: unit, format: page, orientation: 'portrait' }
+        margin: [1, 1, 1, 1], // top, right, bottom, left
+        image: { type: "jpeg", quality: 1 },
+        html2canvas: {
+            scale: 8,
+            scrollX: 0,
+            scrollY: 0,
+            width: width,
+            height: height,
+            logging: false,
+        },
+        jsPDF: { unit: unit, format: page, orientation: "portrait" },
     };
 }
-function getWordSearchParams(){
-    let title = document.getElementById('title').value
-    let height = document.getElementById('height').value
-    let width = document.getElementById('width').value
+function getWordSearchParams() {
+    let title = document.getElementById("title").value;
+    let height = document.getElementById("height").value;
+    let width = document.getElementById("width").value;
 
-    if (height > 40) return makeToast('<b>Height</b> cannot exceed 40!','error')
-    if (width > 40) return makeToast('<b>Width</b> cannot exceed 40!','error')
+    if (height > 40)
+        return makeToast("<b>Height</b> cannot exceed 40!", "error");
+    if (width > 40) return makeToast("<b>Width</b> cannot exceed 40!", "error");
 
-    let sections = getSelectedValueFromRadioGroup('sections')
-    let revealSections = document.getElementById('reveal-section').checked
-    let letterCase = getSelectedValueFromRadioGroup('letter-case')
-    let wordDirections = document.getElementsByName('word-direction')
-    let directions = []
+    let sections = getSelectedValueFromRadioGroup("sections");
+    let revealSections = document.getElementById("reveal-section").checked;
+    let letterCase = getSelectedValueFromRadioGroup("letter-case");
+    let wordDirections = document.getElementsByName("word-direction");
+    let directions = [];
     for (let index = 0; index < wordDirections.length; index++) {
         const element = wordDirections[index];
-        if (element.checked) directions.push(element.id)
+        if (element.checked) directions.push(element.id);
     }
-    let revealDirection = document.getElementById('reveal-direction').checked
-    let page = getSelectedValueFromRadioGroup('page-size')
+    let revealDirection = document.getElementById("reveal-direction").checked;
+    let page = getSelectedValueFromRadioGroup("page-size");
     // let key = document.getElementById('key').checked
-    let words = document.getElementById('words').value
-    if (words.includes(",")) words = words.split(", ")
-    else if (words.includes("\n")) words = words.split("\n")
+    let words = document.getElementById("words").value;
+    if (words.includes(",")) words = words.split(", ");
+    else if (words.includes("\n")) words = words.split("\n");
     const params = {
         title: title, // Any alphanumeric string
         height: height, // Any positive integer
-        width: width,  // Any positive integer
+        width: width, // Any positive integer
         letterCase: letterCase, // uppercase, lowercase, upper-lower-case
         directions: directions, // orthogonal, diagonal, orthogonal-diagonal
         page: page, // a4, letter,
@@ -486,421 +583,485 @@ function getWordSearchParams(){
         numberOfSections: sections,
         sections: [],
         revealSections: revealSections,
-        revealDirection, revealDirection,
-        words: words
-    }
-    return params
+        revealDirection,
+        revealDirection,
+        words: words,
+    };
+    return params;
 }
-function refreshPresetDropdown(){
-    let presets = JSON.parse(localStorage.getItem('word-search-presets'))
-    let presetsDropdown = document.getElementById('presets-dropdown')
-    presetsDropdown.innerHTML = ''
-    let option = document.createElement('option')
-    option.innerText = 'Select preset...'
-    option.value = 'load'
-    presetsDropdown.appendChild(option)
+function refreshPresetDropdown() {
+    let presets = JSON.parse(localStorage.getItem("word-search-presets"));
+    let presetsDropdown = document.getElementById("presets-dropdown");
+    presetsDropdown.innerHTML = "";
+    let option = document.createElement("option");
+    option.innerText = "Select preset...";
+    option.value = "load";
+    presetsDropdown.appendChild(option);
     for (let index = 0; index < presets.length; index++) {
-        let presetName = presets[index].name
+        let presetName = presets[index].name;
         // let li = document.createElement('li')
         // let a = document.createElement('a')
-        let a = document.createElement('option')
-        a.classList.add('block')
-        a.classList.add('px-4')
-        a.classList.add('py-2')
-        a.classList.add('hover-bg-gray-100')
-        a.classList.add('dark:hover:bg-gray-600')
-        a.classList.add('dark:hover:text-white')
-        a.innerText = presetName
+        let a = document.createElement("option");
+        a.classList.add("block");
+        a.classList.add("px-4");
+        a.classList.add("py-2");
+        a.classList.add("hover-bg-gray-100");
+        a.classList.add("dark:hover:bg-gray-600");
+        a.classList.add("dark:hover:text-white");
+        a.innerText = presetName;
         // li.appendChild(a)
         // presetsDropdown.appendChild(li)
-        presetsDropdown.appendChild(a)
+        presetsDropdown.appendChild(a);
     }
 }
-function getPresetData(presetName){
-    let presets = JSON.parse(localStorage.getItem('word-search-presets'))
-    return presets.find(item => item.name === presetName)
+function getPresetData(presetName) {
+    let presets = JSON.parse(localStorage.getItem("word-search-presets"));
+    return presets.find((item) => item.name === presetName);
 }
-function populateOptionsFromPreset(presetOptions){
-    title.value = presetOptions.title
-    height.value = presetOptions.height
-    width.value = presetOptions.width
-    sections.value = presetOptions.sections
-    if (presetOptions.revealSections) revealSections.checked = true
-    else revealSections.checked = false
-    checkSelectedRadioButtonsInGroup('letter-case', [presetOptions.letterCase])
-    checkSelectedRadioButtonsInGroup('word-direction', presetOptions.directions)
-    if (presetOptions.revealDirection) revealDirection.checked = true
-    else revealDirection.checked = false
-    checkSelectedRadioButtonsInGroup('page-size', [presetOptions.page])
-    if (presetOptions.key) key.checked = true
-    else key.checked = false
+function populateOptionsFromPreset(presetOptions) {
+    title.value = presetOptions.title;
+    height.value = presetOptions.height;
+    width.value = presetOptions.width;
+    sections.value = presetOptions.sections;
+    if (presetOptions.revealSections) revealSections.checked = true;
+    else revealSections.checked = false;
+    checkSelectedRadioButtonsInGroup("letter-case", [presetOptions.letterCase]);
+    checkSelectedRadioButtonsInGroup(
+        "word-direction",
+        presetOptions.directions
+    );
+    if (presetOptions.revealDirection) revealDirection.checked = true;
+    else revealDirection.checked = false;
+    checkSelectedRadioButtonsInGroup("page-size", [presetOptions.page]);
+    if (presetOptions.key) key.checked = true;
+    else key.checked = false;
 }
-function adjustCase(wordData, letterCase){
+function adjustCase(wordData, letterCase) {
     if (letterCase === "lowercase") {
         for (let index = 0; index < wordData.length; index++) {
             let word = wordData[index].word;
-            wordData[index].word = word.toLowerCase()
+            wordData[index].word = word.toLowerCase();
         }
     } else if (letterCase === "uppercase") {
         for (let index = 0; index < wordData.length; index++) {
             let word = wordData[index].word;
-            wordData[index].word = word.toUpperCase()
+            wordData[index].word = word.toUpperCase();
         }
     } else if (letterCase === "random-case") {
         for (let index = 0; index < wordData.length; index++) {
-            let newWord = []
+            let newWord = [];
             let word = wordData[index].word;
-            word = word.split("")
+            word = word.split("");
             for (let index = 0; index < word.length; index++) {
                 let letter = word[index];
-                let randCase = getRndInteger(0 ,1)
-                if (randCase == 0) letter = letter.toUpperCase()
-                else letter = letter.toLowerCase()
-                newWord.push(letter)
+                let randCase = getRndInteger(0, 1);
+                if (randCase == 0) letter = letter.toUpperCase();
+                else letter = letter.toLowerCase();
+                newWord.push(letter);
             }
-            wordData[index].word = newWord.join("")
+            wordData[index].word = newWord.join("");
         }
     }
-    return wordData
+    return wordData;
 }
-function computeSectionDimensions(params){
-    const height = params.height
-    const width = params.width
-    const wordData = params.wordData
+function computeSectionDimensions(params) {
+    const height = params.height;
+    const width = params.width;
+    const wordData = params.wordData;
     // const sections = params.sections
-    const sections = []
-    const numberOfSectionsWord = params.numberOfSections
-    const cols = SECTIONS[numberOfSectionsWord].cols
-    const rows = SECTIONS[numberOfSectionsWord].rows
-    const numberOfSections = SECTIONS[numberOfSectionsWord].num
-    const sectionWidth = Math.floor(width / cols)
-    const sectionHeight = Math.floor(height / rows)
-    let sectionId = 0
+    const sections = [];
+    const numberOfSectionsWord = params.numberOfSections;
+    const cols = SECTIONS[numberOfSectionsWord].cols;
+    const rows = SECTIONS[numberOfSectionsWord].rows;
+    const numberOfSections = SECTIONS[numberOfSectionsWord].num;
+    const sectionWidth = Math.floor(width / cols);
+    const sectionHeight = Math.floor(height / rows);
+    let sectionId = 0;
     // Section Dimensions
     for (let colIdx = 0; colIdx < cols; colIdx++) {
         for (let rowIdx = 0; rowIdx < rows; rowIdx++) {
-            let xStart = sectionHeight * colIdx
-            let xEnd = xStart + (sectionHeight - 1)
-            let yStart = sectionWidth * rowIdx
-            let yEnd = yStart + (sectionWidth - 1) 
+            let xStart = sectionHeight * colIdx;
+            let xEnd = xStart + (sectionHeight - 1);
+            let yStart = sectionWidth * rowIdx;
+            let yEnd = yStart + (sectionWidth - 1);
             // The last column
-            if (colIdx === cols - 1){
-                xEnd = height - 1
+            if (colIdx === cols - 1) {
+                xEnd = height - 1;
             }
             // The last row
-            if (rowIdx === rows - 1){
-                yEnd = width - 1
+            if (rowIdx === rows - 1) {
+                yEnd = width - 1;
             }
             sections.push({
                 id: sectionId,
                 start: `${xStart}-${yStart}`,
                 end: `${xEnd}-${yEnd}`,
-            })
-            sectionId++
-        }        
+            });
+            sectionId++;
+        }
     }
-    params.sections = sections
-    return params
+    params.sections = sections;
+    return params;
 }
-function paintSections(sections, color, theme){
-    if (!theme) theme = THEME
-    sections.sort(function(a, b) { return a.id - b.id })
-    const sectionDigit = sections.length
-    const height = document.getElementById('word-search-puzzle').offsetHeight 
-    if (!color) var sectionWord = sectionDigitToSectionWord(sectionDigit).toUpperCase()
-    if (!color) var sectionData = SECTIONS[sectionWord.toLowerCase()]
-    const sectionNumbersOld = document.getElementById('section-number-display')
-    if (sectionNumbersOld) document.getElementById('section-number-display').remove()
-    const wordSearchPreview = document.getElementById('preview-word-search')
-    const sectionNumberDisplay = wordSearchPreview.cloneNode(true)
+function paintSections(sections, color, theme) {
+    if (!theme) theme = THEME;
+    sections.sort(function (a, b) {
+        return a.id - b.id;
+    });
+    const sectionDigit = sections.length;
+    const height = document.getElementById("word-search-puzzle").offsetHeight;
+    if (!color)
+        var sectionWord = sectionDigitToSectionWord(sectionDigit).toUpperCase();
+    if (!color) var sectionData = SECTIONS[sectionWord.toLowerCase()];
+    const sectionNumbersOld = document.getElementById("section-number-display");
+    if (sectionNumbersOld)
+        document.getElementById("section-number-display").remove();
+    const wordSearchPreview = document.getElementById("preview-word-search");
+    const sectionNumberDisplay = wordSearchPreview.cloneNode(true);
 
     if (!color) {
-        worksheet.style.position = 'relative';
-    
+        worksheet.style.position = "relative";
+
         worksheet.appendChild(sectionNumberDisplay);
         const rect = wordSearchPreview.getBoundingClientRect();
         const worksheetRect = worksheet.getBoundingClientRect();
-    
+
         const topOffset = rect.top - worksheetRect.top;
         const leftOffset = rect.left - worksheetRect.left;
-    
-        sectionNumberDisplay.id = 'section-number-display';
-        sectionNumberDisplay.setAttribute('name', 'canvas-output');
-        sectionNumberDisplay.innerHTML = '';
-        sectionNumberDisplay.style.position = 'absolute'; // Use absolute for positioning within relative parent
+
+        sectionNumberDisplay.id = "section-number-display";
+        sectionNumberDisplay.setAttribute("name", "canvas-output");
+        sectionNumberDisplay.innerHTML = "";
+        sectionNumberDisplay.style.position = "absolute"; // Use absolute for positioning within relative parent
         sectionNumberDisplay.style.top = `${topOffset}px`;
         sectionNumberDisplay.style.left = `${leftOffset}px`;
-        sectionNumberDisplay.style.width = `${rect.width}px`;  
+        sectionNumberDisplay.style.width = `${rect.width}px`;
         sectionNumberDisplay.style.height = `${rect.height}px`;
-    
-        sectionNumberDisplay.className = ''
-        sectionNumberDisplay.classList.add('grid')
-        sectionNumberDisplay.style.fontSize = `${height * sectionData.fontSize}px`
-        sectionNumberDisplay.classList.add('justify-center','align-middle','text-black','p-4','border-2','rounded-lg','z-10')
-        sectionNumberDisplay.style.opacity = sectionData.fontOpacity
-    
-        sectionNumberDisplay.style.gridTemplateColumns = `repeat(${sectionData.cols}, minmax(0, 1fr))`
+
+        sectionNumberDisplay.className = "";
+        sectionNumberDisplay.classList.add("grid");
+        sectionNumberDisplay.style.fontSize = `${
+            height * sectionData.fontSize
+        }px`;
+        sectionNumberDisplay.classList.add(
+            "justify-center",
+            "align-middle",
+            "text-black",
+            "p-4",
+            "border-2",
+            "rounded-lg",
+            "z-10"
+        );
+        sectionNumberDisplay.style.opacity = sectionData.fontOpacity;
+
+        sectionNumberDisplay.style.gridTemplateColumns = `repeat(${sectionData.cols}, minmax(0, 1fr))`;
     }
 
-    const letters = document.getElementsByName('letter')
+    const letters = document.getElementsByName("letter");
 
     for (let index = 0; index < letters.length; index++) {
         const letter = letters[index];
-        const coords = letter.id.split("-")
-        const x = parseInt(coords[0])
-        const y = parseInt(coords[1])
+        const coords = letter.id.split("-");
+        const x = parseInt(coords[0]);
+        const y = parseInt(coords[1]);
         for (let sectionIdx = 0; sectionIdx < sections.length; sectionIdx++) {
             const section = sections[sectionIdx];
-            const id = section.id
-            const start = section.start.split("-")
-            const xStart = parseInt(start[0])
-            const yStart = parseInt(start[1])
-            const end = section.end.split("-")
-            const xEnd = parseInt(end[0])
-            const yEnd = parseInt(end[1])
-            if (x >= xStart &&
-                y >= yStart &&
-                x <= xEnd &&
-                y <= yEnd) {
-                    if (color) { 
-                        letter.classList.remove(BG_WHITE)
-                        letter.classList.remove(BG_GRAY)
-                        letter.classList.remove(BG_DARK)
-                        letter.classList.remove(BG_DARK_2)
-                        letter.classList.remove('bg-transparent')
-                        letter.classList.add(eval(color))
-                    } else { 
-                        letter.classList.remove(BG_WHITE)
-                        letter.classList.remove(BG_GRAY)
-                        letter.classList.remove(BG_DARK)
-                        letter.classList.remove(BG_DARK_2)
-                        letter.classList.remove('bg-transparent')
-                        letter.classList.add(eval(`SECTION_COLORS_${sectionWord}_${theme}`)[id])
-                    }
+            const id = section.id;
+            const start = section.start.split("-");
+            const xStart = parseInt(start[0]);
+            const yStart = parseInt(start[1]);
+            const end = section.end.split("-");
+            const xEnd = parseInt(end[0]);
+            const yEnd = parseInt(end[1]);
+            if (x >= xStart && y >= yStart && x <= xEnd && y <= yEnd) {
+                if (color) {
+                    letter.classList.remove(BG_WHITE);
+                    letter.classList.remove(BG_GRAY);
+                    letter.classList.remove(BG_DARK);
+                    letter.classList.remove(BG_DARK_2);
+                    letter.classList.remove("bg-transparent");
+                    letter.classList.add(eval(color));
+                } else {
+                    letter.classList.remove(BG_WHITE);
+                    letter.classList.remove(BG_GRAY);
+                    letter.classList.remove(BG_DARK);
+                    letter.classList.remove(BG_DARK_2);
+                    letter.classList.remove("bg-transparent");
+                    letter.classList.add(
+                        eval(`SECTION_COLORS_${sectionWord}_${theme}`)[id]
+                    );
                 }
-            if (!color){
-                const sectionElement = document.getElementById(`section-${id + 1}`)
-                if (sectionElement) continue
-                const div = document.createElement('div')
-                div.id = `section-${id + 1}`
-                div.classList.add('text-center')
-                div.classList.add('align-middle')
-                div.classList.add('z-10')
-                div.classList.add('bg-transparent')
-                div.innerHTML = `<b>${id + 1}</b>`
-        
-                sectionNumberDisplay.appendChild(div)
+            }
+            if (!color) {
+                const sectionElement = document.getElementById(
+                    `section-${id + 1}`
+                );
+                if (sectionElement) continue;
+                const div = document.createElement("div");
+                div.id = `section-${id + 1}`;
+                div.classList.add("text-center");
+                div.classList.add("align-middle");
+                div.classList.add("z-10");
+                div.classList.add("bg-transparent");
+                div.innerHTML = `<b>${id + 1}</b>`;
+
+                sectionNumberDisplay.appendChild(div);
             }
         }
     }
 }
-function determineWordSections(params){
-    const wordData = params.wordData
-    const sections = params.sections
-    sections.sort(function(a, b) { return a.id - b.id })
-    let placedWords = []
+function determineWordSections(params) {
+    const wordData = params.wordData;
+    const sections = params.sections;
+    sections.sort(function (a, b) {
+        return a.id - b.id;
+    });
+    let placedWords = [];
     for (let wordDataIdx = 0; wordDataIdx < wordData.length; wordDataIdx++) {
         const element = wordData[wordDataIdx];
-        const wordCoords = element.coords
-        element.sections = []
-        if (!wordCoords) continue // Word was not placed
-        if(!placedWords.includes(element.word)) placedWords.push(element.word)
-        for (let wordCoordIdx = 0; wordCoordIdx < wordCoords.length; wordCoordIdx++) {
+        const wordCoords = element.coords;
+        element.sections = [];
+        if (!wordCoords) continue; // Word was not placed
+        if (!placedWords.includes(element.word)) placedWords.push(element.word);
+        for (
+            let wordCoordIdx = 0;
+            wordCoordIdx < wordCoords.length;
+            wordCoordIdx++
+        ) {
             const letterCoords = wordCoords[wordCoordIdx];
-            const letter = element.word[wordCoordIdx]
-            const x = letterCoords.x
-            const y = letterCoords.y
-            for (let sectionIdx = 0; sectionIdx < sections.length; sectionIdx++) {
+            const letter = element.word[wordCoordIdx];
+            const x = letterCoords.x;
+            const y = letterCoords.y;
+            for (
+                let sectionIdx = 0;
+                sectionIdx < sections.length;
+                sectionIdx++
+            ) {
                 const section = sections[sectionIdx];
-                const id = section.id
-                const start = section.start.split("-")
-                const xStart = start[0]
-                const yStart = start[1]
-                const end = section.end.split("-")
-                const xEnd = end[0]
-                const yEnd = end[1]
-                if (x >= xStart && 
-                    y >= yStart &&
-                    x <= xEnd &&
-                    y <= yEnd) {
-                        if(!element.sections.includes(id + 1)) element.sections.push(id + 1)
-                        break // A letter cannot be in more than one section
-                    }
+                const id = section.id;
+                const start = section.start.split("-");
+                const xStart = start[0];
+                const yStart = start[1];
+                const end = section.end.split("-");
+                const xEnd = end[0];
+                const yEnd = end[1];
+                if (x >= xStart && y >= yStart && x <= xEnd && y <= yEnd) {
+                    if (!element.sections.includes(id + 1))
+                        element.sections.push(id + 1);
+                    break; // A letter cannot be in more than one section
+                }
             }
         }
     }
-    return params
+    return params;
 }
-function sectionDigitToSectionWord(digit){
-    if (digit === 4) return "four"
-    if (digit === 9) return "nine"
-    if (digit === 12) return "twelve"
-    if (digit === 16) return "sixteen"
+function sectionDigitToSectionWord(digit) {
+    if (digit === 4) return "four";
+    if (digit === 9) return "nine";
+    if (digit === 12) return "twelve";
+    if (digit === 16) return "sixteen";
 }
-function generateWordSearch(params){
-    const revealSections = document.getElementById('reveal-section').checked
-    let height = parseInt(params.height)
-    let width = parseInt(params.width)
-    const MAX_ATTEMPTS = height * width
-    let letterCase = params.letterCase
-    let directions = params.directions
-    let words = params.words
-    let wordData = words.map(word => { return { word: word } })
-    const wordsNotPlaced = []
+function generateWordSearch(params) {
+    const revealSections = document.getElementById("reveal-section").checked;
+    let height = parseInt(params.height);
+    let width = parseInt(params.width);
+    const MAX_ATTEMPTS = height * width;
+    let letterCase = params.letterCase;
+    let directions = params.directions;
+    let words = params.words;
+    let wordData = words.map((word) => {
+        return { word: word };
+    });
+    const wordsNotPlaced = [];
     // Error Handling
-    let invalidWordLength = false
+    let invalidWordLength = false;
     for (let index = 0; index < words.length; index++) {
         const word = words[index];
         if (word.length > width && word.length > height) {
-            invalidWordLength = true
-            if (invalidWordLength) makeToast("One or more of your words is longer than the word search width and height. Please ensure yours words are shorter than at least one of the dimensions.", 'error')
-            if (invalidWordLength) break
+            invalidWordLength = true;
+            if (invalidWordLength)
+                makeToast(
+                    "One or more of your words is longer than the word search width and height. Please ensure yours words are shorter than at least one of the dimensions.",
+                    "error"
+                );
+            if (invalidWordLength) break;
         }
     }
-    if (invalidWordLength) return "Error: Invalid word length"
+    if (invalidWordLength) return "Error: Invalid word length";
     // Answer Key
-    let answerKey = new Array(height)
+    let answerKey = new Array(height);
     for (let index = 0; index < answerKey.length; index++) {
-        answerKey[index] = new Array(width)        
+        answerKey[index] = new Array(width);
     }
     // Grid
-    let grid = new Array(height)
+    let grid = new Array(height);
     for (let index = 0; index < grid.length; index++) {
-        grid[index] = new Array(width)        
+        grid[index] = new Array(width);
     }
     // Modify Words
-    wordData = adjustCase(wordData, letterCase)
+    wordData = adjustCase(wordData, letterCase);
     // Place words
-    function placeLetter(direction, x1, y1, letterIndex, grid, letterCoords, letter, answerKey) {
+    function placeLetter(
+        direction,
+        x1,
+        y1,
+        letterIndex,
+        grid,
+        letterCoords,
+        letter,
+        answerKey
+    ) {
         const [dx, dy] = DELTAS[direction];
         const x = x1 + dx * letterIndex;
         const y = y1 + dy * letterIndex;
         if (x < 0 || x >= grid.length || y < 0 || y >= grid[0].length) {
-            return false
+            return false;
         }
-        const charAtCoordInGrid = grid[x][y]
-        const charAtCoordInAnswerKey = answerKey[x][y]
+        const charAtCoordInGrid = grid[x][y];
+        const charAtCoordInAnswerKey = answerKey[x][y];
         // Empty grid tile
-        if (charAtCoordInGrid === undefined && charAtCoordInAnswerKey === undefined) {
-            grid[x][y] = letter
-            letterCoords.push( { x, y } )
-            return true
+        if (
+            charAtCoordInGrid === undefined &&
+            charAtCoordInAnswerKey === undefined
+        ) {
+            grid[x][y] = letter;
+            letterCoords.push({ x, y });
+            return true;
         }
         // Overlapping letters
-        else if (charAtCoordInGrid === letter && charAtCoordInAnswerKey === letter) {
-            letterCoords.push({ x, y })
-            return true
+        else if (
+            charAtCoordInGrid === letter &&
+            charAtCoordInAnswerKey === letter
+        ) {
+            letterCoords.push({ x, y });
+            return true;
         }
-        return false
+        return false;
     }
     for (let wordIndex = 0; wordIndex < wordData.length; wordIndex++) {
-        let word = wordData[wordIndex].word
-        let attempt = 1
-        let wordPlaced = false
+        let word = wordData[wordIndex].word;
+        let attempt = 1;
+        let wordPlaced = false;
         while (attempt <= MAX_ATTEMPTS && wordPlaced === false) {
-            let direction = directions[Math.floor(Math.random() * directions.length)]
-            wordData[wordIndex].direction = direction
-            let letterCoords = []
-            let wordLength = word.length
-            let x1 = getRndInteger(0, width - 1)
-            let y1 = getRndInteger(0, height - 1)
-            let lettersPlaced = 0
+            let direction =
+                directions[Math.floor(Math.random() * directions.length)];
+            wordData[wordIndex].direction = direction;
+            let letterCoords = [];
+            let wordLength = word.length;
+            let x1 = getRndInteger(0, width - 1);
+            let y1 = getRndInteger(0, height - 1);
+            let lettersPlaced = 0;
             for (let letterIndex = 0; letterIndex < wordLength; letterIndex++) {
                 const letter = word[letterIndex];
-                if (!placeLetter(direction, x1, y1, letterIndex, grid, letterCoords, letter, answerKey)) {
-                    break
+                if (
+                    !placeLetter(
+                        direction,
+                        x1,
+                        y1,
+                        letterIndex,
+                        grid,
+                        letterCoords,
+                        letter,
+                        answerKey
+                    )
+                ) {
+                    break;
                 }
-                lettersPlaced += 1
+                lettersPlaced += 1;
             }
-            if (wordLength === lettersPlaced) wordPlaced = true
+            if (wordLength === lettersPlaced) wordPlaced = true;
             if (wordPlaced === true) {
                 for (let index = 0; index < letterCoords.length; index++) {
-                    const element = letterCoords[index];    
-                    answerKey[element.x][element.y] = grid[element.x][element.y]
-                }    
-                wordData[wordIndex].coords = letterCoords            
+                    const element = letterCoords[index];
+                    answerKey[element.x][element.y] =
+                        grid[element.x][element.y];
+                }
+                wordData[wordIndex].coords = letterCoords;
             }
             if (wordPlaced === false) {
                 for (let index = 0; index < letterCoords.length; index++) {
-                    const element = letterCoords[index];    
-                    grid[element.x][element.y] = undefined
+                    const element = letterCoords[index];
+                    grid[element.x][element.y] = undefined;
                 }
             }
-            attempt += 1
+            attempt += 1;
         }
         if (wordPlaced == false) {
-            wordsNotPlaced.push(word)
+            wordsNotPlaced.push(word);
         }
     }
     // Add filler characters
     for (let x = 0; x < width; x++) {
         for (let y = 0; y < height; y++) {
-            let charAtCoord = grid[y][x] != undefined ? true : false // Check to see if there is a character at these coords
-            if (charAtCoord) continue // Skip these coords because there's a character 
-            let randomLetter = LETTERS[Math.floor(Math.random() * LETTERS.length)]
-            if (letterCase === 'uppercase') randomLetter = randomLetter.toUpperCase()
-            else if (letterCase === 'random-case') {
-                let roll = getRndInteger(0,1)
-                if (roll === 0) randomLetter = randomLetter.toUpperCase()
+            let charAtCoord = grid[y][x] != undefined ? true : false; // Check to see if there is a character at these coords
+            if (charAtCoord) continue; // Skip these coords because there's a character
+            let randomLetter =
+                LETTERS[Math.floor(Math.random() * LETTERS.length)];
+            if (letterCase === "uppercase")
+                randomLetter = randomLetter.toUpperCase();
+            else if (letterCase === "random-case") {
+                let roll = getRndInteger(0, 1);
+                if (roll === 0) randomLetter = randomLetter.toUpperCase();
             }
-            grid[y][x] = randomLetter // Get a random letter and place it
+            grid[y][x] = randomLetter; // Get a random letter and place it
         }
     }
-    params.wordData = wordData
-    params.grid = grid
-    params.key = answerKey
-    params.wordsNotPlaced = wordsNotPlaced
-    if (revealSections) { 
-        params = computeSectionDimensions(params)
-        params = determineWordSections(params)
+    params.wordData = wordData;
+    params.grid = grid;
+    params.key = answerKey;
+    params.wordsNotPlaced = wordsNotPlaced;
+    if (revealSections) {
+        params = computeSectionDimensions(params);
+        params = determineWordSections(params);
     }
-    return params
+    return params;
 }
-function updateWordBank(wordSearchData, size){
-    const worksheet = document.getElementById('word-search-worksheet')
-    const wordSearchPuzzle = document.getElementById('word-search-puzzle')
-    const wordBank = document.getElementById('word-bank')
+function updateWordBank(wordSearchData, size) {
+    const worksheet = document.getElementById("word-search-worksheet");
+    const wordSearchPuzzle = document.getElementById("word-search-puzzle");
+    const wordBank = document.getElementById("word-bank");
 
-    const worksheetHeight = worksheet.clientHeight * PREVIEW_SCALE
+    const worksheetHeight = worksheet.clientHeight * PREVIEW_SCALE;
     const otherElementsHeight = wordSearchPuzzle.offsetHeight * PREVIEW_SCALE; // Add the offsetHeight of other elements if they exist
     const wordBankHeight = worksheetHeight - otherElementsHeight;
-    wordBank.style.height = wordBankHeight - (wordBankHeight * 0.2) + 'px';
-    wordBank.classList.add(`text-${size}`)
+    wordBank.style.height = wordBankHeight - wordBankHeight * 0.2 + "px";
+    wordBank.classList.add(`text-${size}`);
 
-    wordBank.innerHTML = ''
-    let wordData = wordSearchData.wordData
+    wordBank.innerHTML = "";
+    let wordData = wordSearchData.wordData;
     wordData = wordData.sort((a, b) => a.word.localeCompare(b.word));
-    let revealDirection = wordSearchData.revealDirection
-    let revealSections = wordSearchData.revealSections
+    let revealDirection = wordSearchData.revealDirection;
+    let revealSections = wordSearchData.revealSections;
     for (let index = 0; index < wordData.length; index++) {
-        let element = wordData[index]
-        if (!element.coords || element.coords.length < 0) continue // Skip words that were not placed
-        let word = element.word
-        let direction = element.direction
-        let sections = element.sections ?? []
+        let element = wordData[index];
+        if (!element.coords || element.coords.length < 0) continue; // Skip words that were not placed
+        let word = element.word;
+        let direction = element.direction;
+        let sections = element.sections ?? [];
 
-        let div = document.createElement('div')
-        let sectionDiv = document.createElement('div')
-        let directionDiv = document.createElement('div')
-        let wordDiv = document.createElement('div')
+        let div = document.createElement("div");
+        let sectionDiv = document.createElement("div");
+        let directionDiv = document.createElement("div");
+        let wordDiv = document.createElement("div");
 
-        div.classList.add('flex')
-        div.classList.add('flex-row')
-        div.classList.add('gap-1')
+        div.classList.add("flex");
+        div.classList.add("flex-row");
+        div.classList.add("gap-1");
 
         // sectionDiv.innerHTML = `<b>${section}</b>`
-        directionDiv.innerHTML = DIRECTION_ICONS[direction]
-        wordDiv.innerHTML = `<b>${word}</b>`
-        sectionDiv.innerHTML = (sections.length > 0) ? `[${sections.join(", ")}]` : ""
+        directionDiv.innerHTML = DIRECTION_ICONS[direction];
+        wordDiv.innerHTML = `<b>${word}</b>`;
+        sectionDiv.innerHTML =
+            sections.length > 0 ? `[${sections.join(", ")}]` : "";
 
-        if(revealDirection) div.appendChild(directionDiv)
-        div.appendChild(wordDiv)
-        if(revealSections) div.appendChild(sectionDiv)
-        wordBank.appendChild(div)
+        if (revealDirection) div.appendChild(directionDiv);
+        div.appendChild(wordDiv);
+        if (revealSections) div.appendChild(sectionDiv);
+        wordBank.appendChild(div);
     }
 }
-function setPreviewSize(){
-    const selectedPage = getSelectedValueFromRadioGroup('page-size')
-    wordSearchWorksheet.style.height = `${paperSizes[selectedPage].height}px`
-    wordSearchWorksheet.style.width = `${paperSizes[selectedPage].width}px`
+function setPreviewSize() {
+    const selectedPage = getSelectedValueFromRadioGroup("page-size");
+    wordSearchWorksheet.style.height = `${paperSizes[selectedPage].height}px`;
+    wordSearchWorksheet.style.width = `${paperSizes[selectedPage].width}px`;
 }

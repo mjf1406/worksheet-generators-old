@@ -1,60 +1,67 @@
 # Mr. Monkey's Worksheet Generators
 
 ## Change Log
-- [ ] 2024/2/xx
-    - (Word Search) Hint Pages
-        - (Word Search) that reveals Sections and teaches students how to make the sections themselves
-            - (Word Search) (?) a step-by-step guide for each arithmetic operation
-            - (Word Search) (?) a step-by-step guide with no arithmetic required
-        - (Word Search) that reveals Directions
-        - (Word Search) that reveals Sections and Directions
-- 2024/1/21
-    - (Word Search) font size now adjusts based on the word search dimensions
-    - Added error toast if a word search with a height or width exceeds 40
-- 2024/1/20
-    - (Word Search) can now download the answer key
-    - (Word Search) preview now supports light and dark themes
-    - (Word Search) fixed US Letter page size not scaling correctly in output PDF
-    - (Word Search) made Light Theme colors better, less 'jarring'/contrasting
-    - (Word Search) fixed title not updating on input
-    - (Word Search) fixed section labels not appearing in the output PDF
-    - (Word Search) fixed date not being updated
-    - (Word Search) added error toast if the height or width are too large
-    - (Word Search) added a warning toast if the number of words exceeds WORD_SEARCH_MAX_WORDS
-- 2023/12/29
-    - made some progress on the crossword puzzle generator
-- 2023/12/26
-    - reorganized the file structure, now each generator is its own page
-    - crossword is not dismayed correctly in the preview so that I can visualize the output of the algo
-    - `updatePreview()` now works for both crosswords and word searches
-    - started organizing Ozobot Maze inputs
-- 2023/12/17
-    - (Word Search) Fixed: Letter Case now updates the Word Search and Word Bank.
-    - (Word Search) Fixed: Reveal Sections no longer removes the Directions in the Word Bank.
-    - (Word Search) Reduced the opacity of the section labels
-- 2023/12/16
-    - (Word Search) implemented debouncing on increment buttons, decrement buttons, and the words input
-    - (Word Search) make the sections pretty
-    - (Word Search) changed section numbers to be relative to height of the word search
-    - (Word Search) Sections breaks down when column and row are not the same
-    - (Word Search) the section number now displays in the word search if revealSections is checked, word bank is updated, too
-    - (Word Search) each word's section is not determined in `determineWordSections()` and properly displayed in the word bank based on revealSections
-    - (Word Search) Larger buttons were added to increment and decrement Rows and Columns
-    - (Word Search) words that were not placed are now tracked and the user is alerted to those words via a toast
-    - (Word Search) word bank height automatically adjusts based on remaining space on sheet now
-    - (Word Search) word search is now redrawn on Letter Case change and reveal Section change
-    - (Word Search) Work bank is now redrawn on reveal Section change, reveal Direction change, and Letter Case change
-    - (Word Search) the title is now redrawn on user input
-    - (Word Search) added warning icons to Rows, Columns, and Word Direction to inform the user that a new word search must be generated for these changes to take effect
-- 2023/12/15
-    - (Word Search) Rows and Columns now are updated to the longest word's length if they are less than the longest word's length
-    - (Word Search) Basic implementation of sections complete
-    - (Word Search) Removed 12 sections as it was all kinds of broken
-- 2023/12/14
-    - (Word Search) Prevented default on form action when `All` button is clicked.
-    - (Word Search) Changed sections from number input to radiogroup: 4, 9, 12, 16. 
-- 2023/12/12
-    - (Word Search) Added select all and deselect all button for Word Directions
-    - (Word Search) Added Word Stats
-    - (Word Search) Disabled Print button, will figure out later
-    - (Word Search) Set scale of preview to 70% and got it downloading correctly
+
+-   [ ] 2024/2/xx
+    -   (Word Search) Hint Pages
+        -   (Word Search) that reveals Sections and teaches students how to make the sections themselves
+            -   (Word Search) (?) a step-by-step guide for each arithmetic operation
+            -   (Word Search) (?) a step-by-step guide with no arithmetic required
+        -   (Word Search) that reveals Directions
+        -   (Word Search) that reveals Sections and Directions
+-   2024/2/22
+    -   fixed warning toast not displaying when words were not able to be placed.
+    -   fixed reveal sections colors by adding .matches to THEME
+    -   fixed gray background on exported PDF, was due to the above THEME bug
+    -   fixed `toastDebounceTimers` being null/undefined
+    -   added different toast message types to the debounce timer. Toasts of different types only affect toasts of the same type for debounce
+-   2024/1/21
+    -   (Word Search) font size now adjusts based on the word search dimensions
+    -   Added error toast if a word search with a height or width exceeds 40
+-   2024/1/20
+    -   (Word Search) can now download the answer key
+    -   (Word Search) preview now supports light and dark themes
+    -   (Word Search) fixed US Letter page size not scaling correctly in output PDF
+    -   (Word Search) made Light Theme colors better, less 'jarring'/contrasting
+    -   (Word Search) fixed title not updating on input
+    -   (Word Search) fixed section labels not appearing in the output PDF
+    -   (Word Search) fixed date not being updated
+    -   (Word Search) added error toast if the height or width are too large
+    -   (Word Search) added a warning toast if the number of words exceeds WORD_SEARCH_MAX_WORDS
+-   2023/12/29
+    -   made some progress on the crossword puzzle generator
+-   2023/12/26
+    -   reorganized the file structure, now each generator is its own page
+    -   crossword is not dismayed correctly in the preview so that I can visualize the output of the algo
+    -   `updatePreview()` now works for both crosswords and word searches
+    -   started organizing Ozobot Maze inputs
+-   2023/12/17
+    -   (Word Search) Fixed: Letter Case now updates the Word Search and Word Bank.
+    -   (Word Search) Fixed: Reveal Sections no longer removes the Directions in the Word Bank.
+    -   (Word Search) Reduced the opacity of the section labels
+-   2023/12/16
+    -   (Word Search) implemented debouncing on increment buttons, decrement buttons, and the words input
+    -   (Word Search) make the sections pretty
+    -   (Word Search) changed section numbers to be relative to height of the word search
+    -   (Word Search) Sections breaks down when column and row are not the same
+    -   (Word Search) the section number now displays in the word search if revealSections is checked, word bank is updated, too
+    -   (Word Search) each word's section is not determined in `determineWordSections()` and properly displayed in the word bank based on revealSections
+    -   (Word Search) Larger buttons were added to increment and decrement Rows and Columns
+    -   (Word Search) words that were not placed are now tracked and the user is alerted to those words via a toast
+    -   (Word Search) word bank height automatically adjusts based on remaining space on sheet now
+    -   (Word Search) word search is now redrawn on Letter Case change and reveal Section change
+    -   (Word Search) Work bank is now redrawn on reveal Section change, reveal Direction change, and Letter Case change
+    -   (Word Search) the title is now redrawn on user input
+    -   (Word Search) added warning icons to Rows, Columns, and Word Direction to inform the user that a new word search must be generated for these changes to take effect
+-   2023/12/15
+    -   (Word Search) Rows and Columns now are updated to the longest word's length if they are less than the longest word's length
+    -   (Word Search) Basic implementation of sections complete
+    -   (Word Search) Removed 12 sections as it was all kinds of broken
+-   2023/12/14
+    -   (Word Search) Prevented default on form action when `All` button is clicked.
+    -   (Word Search) Changed sections from number input to radiogroup: 4, 9, 12, 16.
+-   2023/12/12
+    -   (Word Search) Added select all and deselect all button for Word Directions
+    -   (Word Search) Added Word Stats
+    -   (Word Search) Disabled Print button, will figure out later
+    -   (Word Search) Set scale of preview to 70% and got it downloading correctly
